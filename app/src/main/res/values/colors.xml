@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_toolbar">#006cb7</color>
+    <color name="colorPrimary">#006cb7</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="tag_bg">#006cb7</color>
+    <color name="bottom_selected">#337dbc</color>
+    <color name="bottom_normal">#676767</color>
+    <color name="title_zx">#09090A</color>
+    <color name="tag_hui">#8e8e8e</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="toolbar_bg">#e0CDCBCC</color>
+    <color name="main_bg">#EFEFF1</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="login_bg">#006CB7</color>
+    <color name="text_hint">#A9A9A9</color>
+    <color name="huang_bg">#D95310</color>
+    <color name="juhuang_zi">#DB5F22</color>
+    <color name="title_bar_bg">#80000000</color>
+    <color name="close_bg">#20000000</color>
+    <color name="zb_title_bg">#cacaca</color>
+    <color name="hei">#251815</color>
+    <color name="card_bulue">#0B71B8</color>
+    <color name="jinhuang">#EFDB88</color>
+    <color name="lv_bg">#EFF8FA</color>
+    <color name="line">#DEDEDE</color>
+    <color name="gray_line">#D3D2D6</color>
+    <color name="btn_select">#0A56A9</color>
+    <color name="bottom_tab_bg">#DDDDDD</color>
+    <color name="zb_click">#f0f0f0</color>
+    <color name="_f9f9f9">#F9F9F9</color>
+    <color name="lvse">#4CBC40</color>
+</resources>

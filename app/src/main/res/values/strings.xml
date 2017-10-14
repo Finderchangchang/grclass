@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">冠人教育</string>
+    <string name="audition_class">讲座直播</string>
+    <string name="high_quality_class">精品课</string>
+    <string name="answer_question_class">答疑专栏</string>
+    <string name="error_internet">请检查网络连接</string>
+    <string name="no_pl">暂无任何评论</string>
+    <string name="detail_text">芬撒地方我发斯蒂芬是阿斯蒂芬撒地撒
+        打发阿斯蒂芬撒地方方撒地方芬是打发阿斯蒂芬撒地方我发斯蒂芬是打发阿斯蒂芬撒地方方撒地方芬是打撒
+        发阿斯蒂芬撒地方我发斯蒂芬是打发阿斯蒂芬撒地方方撒地方芬是打发阿斯蒂芬撒地方我发斯蒂芬是打发阿
+        芬撒地方方撒地方芬是打发阿斯蒂芬撒地方我发斯蒂芬是打发阿斯蒂芬撒地方方撒地方我发斯蒂芬是打发阿
+        撒地方芬是打发阿斯蒂芬撒地方我发斯蒂芬是打发阿斯蒂芬撒地方方</string>
+    <string name="share_desc">冠人专接本是多年来专注专接本考试培训的河北冠人教育软件科技有限公司推出的手机APP移动端产品，致力为专接本考生提供便捷、优质的全方位网络学习产品和服务，构建移动学习生态圈，让学生享受更自由的学习方式，让知识触手可及。</string>
+    <string name="share_title">冠人教育</string>
+    <string name="share_url">www.baidu.com</string>
+
+</resources>

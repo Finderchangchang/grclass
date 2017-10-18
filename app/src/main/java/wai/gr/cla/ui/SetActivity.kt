@@ -51,6 +51,10 @@ class SetActivity : BaseActivity() {
         see_tel_rl.setOnClickListener {
             startActivity(Intent(this@SetActivity, SeeTelActivity::class.java))
         }
+        //地址管理
+        address_rl.setOnClickListener {
+            startActivity(Intent(this@SetActivity, AddressManageActivity::class.java))
+        }
         change_school_rl.setOnClickListener {
             var uuid = ""
             var login_type = 0

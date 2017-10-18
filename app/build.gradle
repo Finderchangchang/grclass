@@ -140,6 +140,7 @@ dependencies {
     compile 'com.kaopiz:kprogresshud:1.0.2'
     compile 'org.sufficientlysecure:html-textview:3.4'
     compile 'com.zaaach:toprightmenu:1.0'
+    compile 'liji.library.dev:citypickerview:2.0.1'//省市县三级联动
 }
 repositories {
     mavenCentral()

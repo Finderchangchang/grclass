@@ -161,7 +161,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AddressManageActivity"></activity>
+        <activity android:name=".ui.AddressManageActivity" />
+        <activity android:name=".ui.AddAddressActivity"></activity>
     </application>
 
 </manifest>

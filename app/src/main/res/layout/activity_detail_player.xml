@@ -29,19 +29,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/post_media_height" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/tab_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/top_zw_view">
+                android:layout_below="@+id/top_zw_view"
+                android:orientation="horizontal">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/main_tab"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/line"
+                    android:layout_weight="2"
+
                     app:tabTextAppearance="@style/TabLayoutTextStyle" />
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/new_teacher_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:background="@mipmap/purchasebutton"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/line_view"
@@ -77,6 +93,13 @@
                     android:text="￥20"
                     android:textColor="@color/huang_bg"
                     android:textSize="22sp" />
+
+                <Button
+                    android:id="@+id/car_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/purchasebutton" />
 
                 <Button
                     android:id="@+id/buy_btn"

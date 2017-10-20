@@ -112,8 +112,8 @@ dependencies {
     compile files('libs/open_sdk_r5793_lite.jar')
     //加载动画
     //右上角弹出类似qq
-    compile 'com.tencent.bugly:crashreport:latest.release'
     //省市县三级联动
+    compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'cn.jiguang.sdk:jpush:3.0.3'
     compile 'cn.jiguang.sdk:jcore:1.1.1'

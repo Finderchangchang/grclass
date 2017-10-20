@@ -72,7 +72,19 @@
 
 
             </RelativeLayout>
+            <net.tsz.afinal.view.MenuView
+                android:id="@+id/user_mv_che"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:menu_left_iv="@mipmap/me_kechengicon"
+                app:menu_left_tv="我的书包"
+                app:menu_left_tv_color="@color/peisong_lab" />
 
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:background="@color/white" />
             <net.tsz.afinal.view.MenuView
                 android:id="@+id/user_mv_kecheng"
                 android:layout_width="match_parent"

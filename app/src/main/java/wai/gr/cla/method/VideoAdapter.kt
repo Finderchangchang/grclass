@@ -23,7 +23,7 @@ class VideoAdapter(fm: FragmentManager, kk: TuiJianModel) : FragmentPagerAdapter
     }
 
     override fun getCount(): Int {
-        return 3
+        return 2
     }
 
     override fun getPageTitle(position: Int): CharSequence {

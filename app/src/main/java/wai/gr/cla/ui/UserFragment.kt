@@ -60,6 +60,7 @@ class UserFragment : BaseFragment() {
 
     var main_srl: SwipeRefreshLayout? = null
     var lv_iv: ImageView? = null
+    var user_mv_che: MenuView? = null
     /**
      * 加载页面数据以及处理点击事件
      * */
@@ -78,8 +79,12 @@ class UserFragment : BaseFragment() {
         lv_iv = view.findViewById(R.id.lv_iv) as ImageView
         user_iv_header = view.findViewById(R.id.user_iv_header) as ImageView
         main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
+        user_mv_che = view.findViewById(R.id.user_mv_che) as MenuView
         main_srl!!.setOnRefreshListener {
             loadUser()
+        }
+        user_mv_che!!.setOnClickListener {
+            startActivity(Intent(MainActivity.main, CarListActivity::class.java))
         }
         user_tv_name = view.findViewById(R.id.user_tv_name) as TextView
         //个人中心
@@ -119,7 +124,7 @@ class UserFragment : BaseFragment() {
         user_mv_kecheng.setOnClickListener {
             if (checkLogin()) {
                 startActivity(Intent(MainActivity.main, MyOrderGVListActivity::class.java)
-                        .putExtra("free","")
+                        .putExtra("free", "")
                         .putExtra("which", 4))
             }
         }
@@ -245,7 +250,7 @@ class UserFragment : BaseFragment() {
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
                         main_srl!!.isRefreshing = false//加载个人信息失败说明已经退出登录了
-                        if(!TextUtils.isEmpty(Utils.getCache(key.KEY_USERID))) {
+                        if (!TextUtils.isEmpty(Utils.getCache(key.KEY_USERID))) {
                             Toast.makeText(MainActivity.main, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
                         }
                         Utils.putCache(key.KEY_SCHOOLID, "")
@@ -254,7 +259,7 @@ class UserFragment : BaseFragment() {
                         Utils.putCache(key.KEY_WX, "")
                         Utils.putCache(key.KEY_QQ, "")
                         Utils.putCache(key.KEY_USERID, "")
-                        GlideImgManager.glideLoader(MainActivity.main,"", R.mipmap.defult_user, R.mipmap.defult_user, user_iv_header, 0)
+                        GlideImgManager.glideLoader(MainActivity.main, "", R.mipmap.defult_user, R.mipmap.defult_user, user_iv_header, 0)
                         user_tv_name!!.text = "未登录"
                         //MainActivity.main!!.toast(common().toast_error(e!!))
 

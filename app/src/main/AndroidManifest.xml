@@ -162,7 +162,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AddressManageActivity" />
-        <activity android:name=".ui.AddAddressActivity"></activity>
+        <activity android:name=".ui.AddAddressActivity" />
+        <activity android:name=".ui.CarListActivity"></activity>
     </application>
 
 </manifest>

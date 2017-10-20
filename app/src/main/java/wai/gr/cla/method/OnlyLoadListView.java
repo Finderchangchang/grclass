@@ -61,7 +61,7 @@ public class OnlyLoadListView extends ListView implements AbsListView.OnScrollLi
             closeLoading();
         }
         if (total <= pageIndex * pageSize) {
-            loadComplete();//加载更多操作
+            loadComplete(pageIndex);//加载更多操作
         } else {
             closeLoading();
         }
@@ -81,7 +81,7 @@ public class OnlyLoadListView extends ListView implements AbsListView.OnScrollLi
                 }
             }
         }
-        if (isValid!=null&&this.getChildCount() > 0 && this.getFirstVisiblePosition() == 0
+        if (isValid != null && this.getChildCount() > 0 && this.getFirstVisiblePosition() == 0
                 && this.getChildAt(0).getTop() >= this.getPaddingTop()) {
             //解决滑动冲突，当滑动到第一个item，下拉刷新才起作用
             isValid.setSwipeEnabledTrue();
@@ -110,10 +110,13 @@ public class OnlyLoadListView extends ListView implements AbsListView.OnScrollLi
     public interface IloadListener {
         void onLoad(View view);
     }
-    public interface OnSwipeIsValid{
+
+    public interface OnSwipeIsValid {
         public void setSwipeEnabledTrue();
+
         public void setSwipeEnabledFalse();
     }
+
     public void closeLoading() {
         if (load_tv != null) {
             footer.findViewById(R.id.footer_layout).setVisibility(View.GONE);
@@ -126,9 +129,13 @@ public class OnlyLoadListView extends ListView implements AbsListView.OnScrollLi
     ProgressBar pb;
 
     // 加载完成通知隐藏
-    public void loadComplete() {
+    public void loadComplete(int index) {
         isLoading = false;
-        footer.findViewById(R.id.footer_layout).setVisibility(View.VISIBLE);
+        if (index == 1) {
+            footer.findViewById(R.id.footer_layout).setVisibility(View.GONE);
+        } else {
+            footer.findViewById(R.id.footer_layout).setVisibility(View.VISIBLE);
+        }
         load_tv.setText("------已经到底了------");
         pb.setVisibility(GONE);
     }

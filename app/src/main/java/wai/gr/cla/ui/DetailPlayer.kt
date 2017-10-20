@@ -14,7 +14,9 @@ import android.text.TextUtils
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.lzy.okgo.OkGo
+import com.lzy.okgo.callback.StringCallback
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
@@ -75,7 +77,6 @@ class DetailPlayer : BaseActivity() {
         detail_player!!.backButton.setOnClickListener { finish() }
         main_tab.addTab(main_tab.newTab().setText("概述"))
         main_tab.addTab(main_tab.newTab().setText("目录"))
-        main_tab.addTab(main_tab.newTab().setText("评论"))
         ss = intent.getIntExtra("cid", 0)
         detail_player!!.down_iv.setOnClickListener {
             var user_id = Utils.getCache(key.KEY_USERID)
@@ -166,7 +167,20 @@ class DetailPlayer : BaseActivity() {
         }
         //请求视频数据
         loadData()
+        car_btn.setOnClickListener {
+            OkGo.post(url().auth_api + "add_shopcar")
+                    .params("course_id", model!!.cid)
+                    .execute(object : StringCallback() {
+                        override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            var m = Gson().fromJson(model, LzyResponse::class.java)
+                            toast(m.msg!!)
+                        }
 
+                        override fun onError(call: Call?, response: Response?, e: Exception?) {
+                            toast(common().toast_error(e!!))
+                        }
+                    })
+        }
         /**
          * 购买按钮
          * */
@@ -225,7 +239,7 @@ class DetailPlayer : BaseActivity() {
                             Utils.putCache("last_position", model!!.last_play_num.toString())
                             play_url_position = model!!.last_play_num//设置一下最后播放的位置
                             //if (("0").equals(model!!.price) || model!!.i_can_play) {
-                            if (model!!.videos!!.size > 0&&model!!.videos!![0].free==1) {
+                            if (model!!.videos!!.size > 0 && model!!.videos!![0].free == 1) {
                                 if (model!!.i_can_play) {
                                     if (videos!!.size > model!!.last_play_num) {//解决超出索引的问题
                                         play(url().total + videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
@@ -322,11 +336,11 @@ class DetailPlayer : BaseActivity() {
     }
 
     override fun initEvents() {
-        var width=this.getWindowManager().getDefaultDisplay().getWidth()
+        var width = this.getWindowManager().getDefaultDisplay().getWidth()
         val linearParams = detailPlayer!!.getLayoutParams() as RelativeLayout.LayoutParams //取控件textView当前的布局参数
-        linearParams.height = width/16*9
-        detailPlayer!!.layoutParams=linearParams
-        top_zw_view!!.layoutParams=linearParams
+        linearParams.height = width / 16 * 9
+        detailPlayer!!.layoutParams = linearParams
+        top_zw_view!!.layoutParams = linearParams
     }
 
     //推荐使用StandardGSYVideoPlayer，功能一致

@@ -100,15 +100,14 @@ class VideoFragment() : Fragment() {
         val ml_error_ll = view.findViewById(R.id.ml_error_ll) as LinearLayout
         val pl_btn = view.findViewById(R.id.pl_btn) as ImageButton
         val main_sl = view.findViewById(R.id.main_sl) as ScrollView
-        gs_sl.visibility = View.GONE
         ml_pl_lv!!.visibility = View.VISIBLE
         ml_pl_lv!!.emptyView = ml_error_ll//设置listview为空数据时的显示
         pl_btn.visibility = View.GONE
         when (po) {
             0 -> {
-                gs_sl.visibility = View.VISIBLE
-                ml_pl_lv!!.visibility = View.GONE
-                ml_lv_fl.visibility = View.GONE
+                main_srl.visibility = View.VISIBLE
+                ml_pl_lv!!.visibility = View.VISIBLE
+                ml_lv_fl.visibility = View.VISIBLE
 
                 GlideImgManager.glideLoader(DetailPlayer.main!!, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
 
@@ -137,22 +136,6 @@ class VideoFragment() : Fragment() {
                                 }
                             }
                         })
-            }
-            1 -> {
-                ml_list = mo!!.videos as MutableList<VideoModel>?
-                if (DetailPlayer().model != null) {
-                    ml_list = DetailPlayer().model!!.videos as MutableList<VideoModel>?
-                }
-                if (ml_list!!.size > 0) {
-                    ml_list!![0].check = true
-                }
-                center_lv.visibility = View.VISIBLE
-                center_lv.adapter = ml_adapter
-                ml_adapter!!.refresh(ml_list)
-                ml_lv_fl.visibility = View.GONE
-                ml_pl_lv!!.visibility = View.GONE
-            }
-            2 -> {
                 center_lv.visibility = View.GONE
                 ml_lv_fl.visibility = View.VISIBLE
                 ml_pl_lv!!.visibility = View.VISIBLE
@@ -174,6 +157,23 @@ class VideoFragment() : Fragment() {
                     main_srl!!.isEnabled = main_sl.scrollY === 0
                 }
                 loadPL()
+            }
+            1 -> {
+                ml_list = mo!!.videos as MutableList<VideoModel>?
+                if (DetailPlayer().model != null) {
+                    ml_list = DetailPlayer().model!!.videos as MutableList<VideoModel>?
+                }
+                if (ml_list!!.size > 0) {
+                    ml_list!![0].check = true
+                }
+                center_lv.visibility = View.VISIBLE
+                center_lv.adapter = ml_adapter
+                ml_adapter!!.refresh(ml_list)
+                main_srl.visibility = View.GONE
+                ml_pl_lv!!.visibility = View.GONE
+            }
+            2 -> {
+
             }
         }
         main_srl.setOnRefreshListener {

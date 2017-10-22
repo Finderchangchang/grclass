@@ -1,11 +1,13 @@
 package wai.gr.cla.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Finder丶畅畅 on 2017/10/20 22:48
  * QQ群481606175
  */
 
-public class CarModel {
+public class CarModel implements Serializable {
 
     /**
      * id : 37

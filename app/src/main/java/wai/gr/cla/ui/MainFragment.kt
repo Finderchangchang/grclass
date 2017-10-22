@@ -46,8 +46,8 @@ class MainFragment : BaseFragment() {
     var mf_adapter: CommonAdapter<TuiJianModel>? = null//推荐
     var mf_list: MutableList<TuiJianModel>? = ArrayList()//收费
 
-    var dy_adapter: CommonAdapter<DataBean.TeacherNewsBean>? = null//答疑
-    var dy_list: MutableList<DataBean.TeacherNewsBean>? = ArrayList()
+    var dy_adapter: CommonAdapter<TuiJianModel>? = null//资格证考试
+    var dy_list: MutableList<TuiJianModel>? = ArrayList()//资格证
     var ks_adapter: CommonAdapter<DataBean.ExamsBean>? = null//考试
     var ks_list: MutableList<DataBean.ExamsBean>? = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,7 @@ class MainFragment : BaseFragment() {
             ks_adapter = object : CommonAdapter<DataBean.ExamsBean>(MainActivity.main, ks_list, R.layout.item_zx) {
                 override fun convert(holder: CommonViewHolder, model: DataBean.ExamsBean, position: Int) {
                     holder.setText(R.id.content_tv, model.title)
-                   // holder.setBGColor(R.id.tag_tv, resources.getColor(R.color.tag_hui))
+                    // holder.setBGColor(R.id.tag_tv, resources.getColor(R.color.tag_hui))
                 }
             }
             tj_adapter = object : CommonAdapter<TuiJianModel>(MainActivity.main, tj_list, R.layout.item_sp) {
@@ -93,12 +93,11 @@ class MainFragment : BaseFragment() {
                 }
             }
             //答疑专栏
-            dy_adapter = object : CommonAdapter<DataBean.TeacherNewsBean>(MainActivity.main, dy_list, R.layout.item_zl) {
-                override fun convert(holder: CommonViewHolder, model: DataBean.TeacherNewsBean, position: Int) {
-
-                    holder.setText(R.id.title_tv, model.title)
-                    holder.setText(R.id.time_tv, model.show_time)
-                    holder.setRoundImage(R.id.tag_iv, url().total + model.thumbnail)
+            dy_adapter = object : CommonAdapter<TuiJianModel>(MainActivity.main, dy_list, R.layout.item_sp) {
+                override fun convert(holder: CommonViewHolder, model: TuiJianModel, position: Int) {
+                    holder.setText(R.id.tag_tv, model.title)
+                    holder.setTopRoundImage(R.id.tag_iv, url().total + model.thumbnail)
+                    holder.setText(R.id.price_tv, "￥" + model.price)
                 }
             }
         }
@@ -108,7 +107,8 @@ class MainFragment : BaseFragment() {
         super.onFragmentFirstVisible()
         initData()
     }
-    fun initAdapter(){
+
+    fun initAdapter() {
         zx_adapter = object : CommonAdapter<DataBean.NewsBean>(MainActivity.main, zx_list, R.layout.item_zx) {
             override fun convert(holder: CommonViewHolder, model: DataBean.NewsBean, position: Int) {
                 if (model.cname!!.length == 2) {
@@ -122,6 +122,7 @@ class MainFragment : BaseFragment() {
         }
         zu_lv.adapter = zx_adapter
     }
+
     fun initData() {
         val u = url().public_api + "get_phone_index_data"
         main_ban!!.setImageLoader(GlideImageLoader())
@@ -135,32 +136,32 @@ class MainFragment : BaseFragment() {
                         main_ban!!.setImages(images)
                         main_ban!!.start()
                         zx_list = data!!.news as MutableList<DataBean.NewsBean>?
-                        if(zx_adapter==null){
+                        if (zx_adapter == null) {
                             initAdapter()
                         }
                         zx_adapter!!.refresh(zx_list!!)
                         tj_list = data!!.courses as MutableList<TuiJianModel>?
                         tj_adapter!!.refresh(tj_list)
                         mf_list = data!!.free_courses as MutableList<TuiJianModel>?
-                        if(mf_list!!.size>0){
-                            jz_ll!!.visibility=View.VISIBLE
-                        }else{
-                            jz_ll!!.visibility=View.GONE
+                        if (mf_list!!.size > 0) {
+                            jz_ll!!.visibility = View.VISIBLE
+                        } else {
+                            jz_ll!!.visibility = View.GONE
                         }
                         mf_adapter!!.refresh(mf_list)
-                        dy_list = data!!.teacher_news as MutableList<DataBean.TeacherNewsBean>?
+                        dy_list = data!!.certificate_courses as MutableList<TuiJianModel>?
                         dy_adapter!!.refresh(dy_list)
                         ks_list = data!!.exams as MutableList<DataBean.ExamsBean>?
                         ks_adapter!!.refresh(ks_list)
-                        if(tj_list!!.size>0){
-                            jp_ll!!.visibility=View.VISIBLE
-                        }else{
-                            jp_ll!!.visibility=View.GONE
+                        if (tj_list!!.size > 0) {
+                            jp_ll!!.visibility = View.VISIBLE
+                        } else {
+                            jp_ll!!.visibility = View.GONE
                         }
-                        if(dy_list!!.size>0){
-                            dy_ll!!.visibility=View.VISIBLE
-                        }else{
-                            dy_ll!!.visibility=View.GONE
+                        if (dy_list!!.size > 0) {
+                            dy_ll!!.visibility = View.VISIBLE
+                        } else {
+                            dy_ll!!.visibility = View.GONE
                         }
                         main_sl.fullScroll(ScrollView.FOCUS_UP)
                     }
@@ -182,15 +183,15 @@ class MainFragment : BaseFragment() {
     internal var main_ban: Banner? = null
     internal var main_srl: SwipeRefreshLayout? = null
     internal var images = ArrayList<String>()
-    var jz_ll:LinearLayout?=null
-    var jp_ll:LinearLayout?=null
-    var dy_ll:TextView?=null
+    var jz_ll: LinearLayout? = null
+    var jp_ll: LinearLayout? = null
+    var dy_ll: TextView? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.frag_main, container, false)
         main_ban = view.findViewById(R.id.main_title_ban) as Banner
-        jz_ll=view.findViewById(R.id.jz_ll) as LinearLayout
-        jp_ll=view.findViewById(R.id.jp_ll) as LinearLayout
-        dy_ll=view.findViewById(R.id.dy_ll) as TextView
+        jz_ll = view.findViewById(R.id.jz_ll) as LinearLayout
+        jp_ll = view.findViewById(R.id.jp_ll) as LinearLayout
+        dy_ll = view.findViewById(R.id.dy_ll) as TextView
         main_ban!!.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
@@ -214,11 +215,11 @@ class MainFragment : BaseFragment() {
         var class_gv = view.findViewById(R.id.class_gv) as OnlyMeasureGridView
         var free_gv = view.findViewById(R.id.free_gv) as OnlyMeasureGridView
 
-        var question_lv = view.findViewById(R.id.question_lv) as OnlyMeasureListView
+        var question_lv = view.findViewById(R.id.question_lv) as OnlyMeasureGridView
         var main_sl = view.findViewById(R.id.main_sl) as TotalScrollView
         var tj_more_tv = view.findViewById(R.id.tj_more_tv) as TextView
         var free_more_tv = view.findViewById(R.id.free_more_tv) as TextView
-
+        var dy_tv = view.findViewById(R.id.dy_tv) as TextView
         var ks_more_tv = view.findViewById(R.id.ks_more_tv) as TextView
         zu_lv.adapter = zx_adapter
         text_lv.adapter = ks_adapter
@@ -259,6 +260,13 @@ class MainFragment : BaseFragment() {
             //更多视频列表
             startActivity(Intent(MainActivity.main, MyOrderGVListActivity::class.java).putExtra("which_more", 1).putExtra("which", 4).putExtra("free", "0"))//加载更多视频
         }
+        //更多资质证
+        dy_tv.setOnClickListener {
+            startActivity(Intent(MainActivity.main, MyOrderGVListActivity::class.java)
+                    .putExtra("which_more", 1)
+                    .putExtra("which", 4)
+                    .putExtra("free", "2"))
+        }
         free_more_tv.setOnClickListener {
             //更多视频列表
             startActivity(Intent(MainActivity.main, MyOrderGVListActivity::class.java).putExtra("which_more", 1).putExtra("which", 4).putExtra("free", "1"))//加载更多视频
@@ -283,10 +291,8 @@ class MainFragment : BaseFragment() {
         }
         question_lv.setOnItemClickListener { adapterView, view, i, l ->
             run {
-                val intent = Intent(MainActivity.main, ZiXunDetailActivity::class.java)
-                intent.putExtra("cid", dy_list!![i].id.toString())
-                intent.putExtra("is_dy", false)
-                intent.putExtra("title", "答疑专栏")
+                val intent = Intent(MainActivity.main, DetailPlayer::class.java)
+                intent.putExtra("cid", dy_list!![i].id)
                 startActivity(intent)
             }
         }
@@ -312,7 +318,7 @@ class MainFragment : BaseFragment() {
 
         val height = wm.defaultDisplay.height
         mTopRightMenu
-                .setHeight(height/7)     //默认高度480
+                .setHeight(height / 7)     //默认高度480
                 .setWidth(180)      //默认宽度wrap_content
                 .showIcon(false)     //显示菜单图标，默认为true
                 .dimBackground(true)        //背景变暗，默认为true

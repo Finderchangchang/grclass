@@ -132,28 +132,44 @@
                     android:numColumns="3"
                     android:paddingLeft="5dp"
                     />
-
-
-                <TextView
-                    android:id="@+id/dy_ll"
-                    style="@style/main_tag"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:text="答疑专栏"
-                    android:visibility="gone"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
 
-                <wai.gr.cla.method.OnlyMeasureListView
+                    <TextView
+                        android:id="@+id/dy_ll"
+                        style="@style/main_tag"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="资格证考试"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/dy_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="20dp"
+                        android:text="..."
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <wai.gr.cla.method.OnlyMeasureGridView
                     android:id="@+id/question_lv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/zu_tv"
                     android:layout_marginTop="1dp"
+                    android:numColumns="3"
                     android:background="@android:color/white" />
 
                 <LinearLayout

@@ -35,6 +35,8 @@ class ZBFragment : BaseFragment() {
     var jp_list = ArrayList<TuiJianModel>()//精品
     var js_adapter: CommonAdapter<DataBean.TeacherNewsBean>? = null//答疑专栏
     var js_list = ArrayList<DataBean.TeacherNewsBean>()
+
+    var ks_adapter: CommonAdapter<TuiJianModel>? = null//考试
     var zx_adapter: CommonAdapter<ZiXunModel>? = null//资讯
     var zx_list = ArrayList<ZiXunModel>()
     var zx_adapters: CommonAdapter<ZiXunModel>? = null//资讯
@@ -132,7 +134,13 @@ class ZBFragment : BaseFragment() {
                     holder.setText(R.id.pl_tv, model.comments.toString())
                 }
             }
-
+            ks_adapter = object : CommonAdapter<TuiJianModel>(MainActivity.main!!, ks_list, R.layout.item_sp) {
+                override fun convert(holder: CommonViewHolder, model: TuiJianModel, position: Int) {
+                    holder.setText(R.id.tag_tv, model.title)
+                    holder.setText(R.id.price_tv, "￥" + model.price)
+                    holder.setTopRoundImage(R.id.tag_iv, url().total + model.thumbnail)
+                }
+            }
         }
     }
 
@@ -169,12 +177,13 @@ class ZBFragment : BaseFragment() {
         val main_vp = view.findViewById(R.id.main_vp) as ViewPager
         val st_video_gv = view.findViewById(R.id.st_video_gv) as MyGridView
         val high_video_gv = view.findViewById(R.id.high_video_gv) as MyGridView
+        val ks_gv= view.findViewById(R.id.ks_gv) as MyGridView
         val zb3_ll = view.findViewById(R.id.zb3_ll) as LinearLayout
         val class_manage_ll = view.findViewById(R.id.class_manage_ll) as LinearLayout
         val high_quality_tv = view.findViewById(R.id.high_quality_tv) as TextView
         val audition_tv = view.findViewById(R.id.audition_tv) as TextView
-        val zl_lv = view.findViewById(R.id.zl_lv) as OnlyMeasureListView
-        val zl_ll = view.findViewById(R.id.zl_ll) as LinearLayout
+//        val zl_lv = view.findViewById(R.id.zl_lv) as OnlyMeasureListView
+//        val zl_ll = view.findViewById(R.id.zl_ll) as LinearLayout
         only013_sr = view.findViewById(R.id.only013_sr) as ScrollBottomScrollView
         zls_lv = view.findViewById(R.id.zls_lv) as LoadListView
         main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
@@ -207,6 +216,14 @@ class ZBFragment : BaseFragment() {
             run {
                 val intent = Intent(MainActivity.main!!, DetailPlayer::class.java)
                 intent.putExtra("cid", jp_list[position].id)
+                startActivity(intent)
+            }
+        }
+        ks_gv.adapter = ks_adapter
+        ks_gv.setOnItemClickListener { parent, view, position, id ->
+            run {
+                val intent = Intent(MainActivity.main!!, DetailPlayer::class.java)
+                intent.putExtra("cid", ks_list[position].id)
                 startActivity(intent)
             }
         }
@@ -251,42 +268,32 @@ class ZBFragment : BaseFragment() {
                         public_class_gv.visibility = View.VISIBLE
                         st_ll.visibility = View.VISIBLE
                         tuijian_iv.visibility = View.GONE
-                        zl_ll.visibility = View.GONE
+                        high_video_gv.visibility = View.VISIBLE
+                        ks_gv.visibility = View.GONE
+                        //zl_ll.visibility = View.GONE
                         tab1_tv.setBackgroundColor(resources.getColor(R.color.zb_click))
                         only013_sr!!.viewTreeObserver.addOnScrollChangedListener {
                             only013_srl!!.isEnabled = only013_sr!!.scrollY === 0
                         }
+                        sale_index = 1
+                        load_sp()
                     }
                     1 -> {//答疑专栏
-                        if (public_list.size == 0) {
-                            load_tag()
-                        }
-                        audition_tv.text = "答疑专栏"
-                        tuijian_iv.visibility = View.VISIBLE
-                        zl_ll.visibility = View.VISIBLE
                         only013_sr!!.visibility = View.VISIBLE
                         high_quality_tv.visibility = View.GONE
                         high_video_gv.visibility = View.GONE
-                        st_video_gv.visibility = View.GONE
-                        public_class_gv.visibility = View.VISIBLE
-                        zl_lv.adapter = js_adapter
-                        st_ll.visibility = View.VISIBLE
+                        ks_gv.visibility = View.VISIBLE
+                        public_class_gv.visibility = View.GONE
+                        //zl_lv.adapter = js_adapter
+                        st_ll.visibility = View.GONE
                         only013_srl!!.visibility = View.VISIBLE
                         main_srl!!.visibility = View.VISIBLE
                         refreshTitle()
                         js_list = ArrayList<DataBean.TeacherNewsBean>()
                         load_dy()
+                        ks_index = 1
+                        load_ks()
                         tab2_tv.setBackgroundColor(resources.getColor(R.color.zb_click))
-                        zl_lv.setOnItemClickListener { adapterView, view, i, l ->
-                            run {
-                                //判断是否登录
-                                val intent = Intent(MainActivity.main!!, ZiXunDetailActivity::class.java)
-                                intent.putExtra("cid", js_list!![i].id.toString())
-                                intent.putExtra("title", "答疑专栏")
-                                intent.putExtra("is_dy", false)
-                                startActivity(intent)
-                            }
-                        }
                         only013_srl!!.setOnRefreshListener {
                             only013_srl!!.isRefreshing = false
                         }
@@ -304,7 +311,7 @@ class ZBFragment : BaseFragment() {
                         high_quality_tv.visibility = View.GONE
                         st_video_gv.visibility = View.GONE
                         high_video_gv.visibility = View.GONE
-                        zl_ll.visibility = View.GONE
+                        //zl_ll.visibility = View.GONE
                         main_srl!!.visibility = View.VISIBLE
                         zls_lv!!.adapter = zx_adapters
                         only013_srl!!.visibility = View.GONE
@@ -608,6 +615,35 @@ class ZBFragment : BaseFragment() {
                 super.onError(call, response, e)
             }
         })
+    }
+
+    var ks_index = 1
+    var ks_list = ArrayList<TuiJianModel>()
+    fun load_ks() {
+        if (ks_index == 1) {
+            ks_list = ArrayList()
+            only013_sr!!.fullScroll(ScrollView.FOCUS_UP)
+        }
+        val uu = url().public_api + "get_phone_recommend_course_list"
+        val ok = OkGo.post(uu)     // 请求方式和请求url
+                .params("page", sale_index)
+                .params("free", "2")
+                .execute(object : JsonCallback<LzyResponse<PageModel<TuiJianModel>>>() {
+                    override fun onSuccess(t: LzyResponse<PageModel<TuiJianModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        ks_list= ArrayList()
+                        ks_list.addAll(t.data!!.list!!)
+
+                        ks_adapter!!.refresh(ks_list)
+
+                        if (ks_list!!.size == 0) {
+                            MainActivity.main?.toast("没有更多数据")
+                        }
+                    }
+
+                    override fun onError(call: Call?, response: Response?, e: Exception?) {
+                        super.onError(call, response, e)
+                    }
+                })
     }
 
     /**

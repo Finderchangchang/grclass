@@ -9,6 +9,7 @@ class DataBean {
     var news: List<NewsBean>? = null
     var courses: List<TuiJianModel>? = null
     var free_courses: List<TuiJianModel>? = null
+    var certificate_courses: List<TuiJianModel>? = null
 
     var teacher_news: List<TeacherNewsBean>? = null
     var exams: List<ExamsBean>? = null

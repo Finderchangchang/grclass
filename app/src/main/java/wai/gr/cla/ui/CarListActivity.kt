@@ -1,5 +1,6 @@
 package wai.gr.cla.ui
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -37,16 +38,16 @@ class CarListActivity : BaseActivity() {
                 holder.setText(R.id.price_tv, "￥" + model.price)
                 holder.setGImage(R.id.total_iv, url().total + model.thumbnail)
                 if (model.isChecked) {
-                    holder.setImageResource(R.id.check_iv, R.mipmap.ic_launcher)
+                    holder.setImageResource(R.id.check_iv, R.mipmap.check_s)
                 } else {
-                    holder.setImageResource(R.id.check_iv, R.mipmap.icon_font)
+                    holder.setImageResource(R.id.check_iv, R.mipmap.check_n)
                 }
                 holder.setOnClickListener(R.id.check_iv) {
                     model.isChecked = !model.isChecked
                     if (model.isChecked) {
-                        holder.setImageResource(R.id.check_iv, R.mipmap.ic_launcher)
+                        holder.setImageResource(R.id.check_iv, R.mipmap.check_s)
                     } else {
-                        holder.setImageResource(R.id.check_iv, R.mipmap.icon_font)
+                        holder.setImageResource(R.id.check_iv, R.mipmap.check_n)
                     }
                     refresh_data()
                 }
@@ -67,14 +68,36 @@ class CarListActivity : BaseActivity() {
             }
         }
         load_data()
+        var del_id = ""
         check_all_rb.setOnClickListener {
             check_all = !check_all
             check_all_rb.isChecked = check_all
 
             for (model in kc1_list) {
                 model.isChecked = check_all
+                del_id += model.course_id.toString() + ","
             }
             refresh_data()
+        }
+        pay_tv.setOnClickListener {
+            when (pay_tv.text) {
+                "删除" -> {
+                    for (model in kc1_list) {
+                        if (model.isChecked) {
+                            del_id += model.id.toString() + ","
+                        }
+                    }
+                    del_id(del_id.substring(0, del_id.length - 1))
+                }
+                "去结算" -> {
+                }
+                else -> {
+                    var lzy = LzyResponse<String>()
+                    lzy.car = kc1_list
+                    startActivity(Intent(this@CarListActivity, ConfimOrderActivity::class.java).putExtra("model", lzy))
+
+                }
+            }
         }
     }
 
@@ -82,6 +105,24 @@ class CarListActivity : BaseActivity() {
     var check_all = false//true:选中全部
     var checked_size = 0
     var checked_price = 0.0
+    fun del_id(id: String) {
+        OkGo.post(url().auth_api + "delete_shopcar")
+                .params("id", id)
+                .execute(object : JsonCallback<LzyResponse<String>>() {
+                    override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.code == 0) {
+                            toast("删除成功")
+                            load_data()
+                        }
+                    }
+
+                    override fun onError(call: Call?, response: Response?, e: Exception?) {
+                        toast(common().toast_error(e!!))
+                        main_srl.isRefreshing = false
+                    }
+                })
+    }
+
     //刷新价格
     fun refresh_data() {
         checked_size = 0
@@ -93,13 +134,22 @@ class CarListActivity : BaseActivity() {
                     checked_price += model.price.toDouble()
             }
         }
-        check_all_rb.isChecked = checked_size == kc1_list.size
+        if (kc1_list.size > 0) {
+            check_all = checked_size == kc1_list.size
+            check_all_rb.isChecked = check_all
+        } else {
+            check_all_rb.isChecked = false
+        }
         if (tool_click) {
             pay_tv.text = "删除"
             hj_tv.visibility = View.GONE
             total_price_tv.visibility = View.GONE
         } else {
-            pay_tv.text = "去结算($checked_size)"
+            if (checked_size == 0) {
+                pay_tv.text = "去结算"
+            } else {
+                pay_tv.text = "去结算($checked_size)"
+            }
             hj_tv.visibility = View.VISIBLE
             total_price_tv.visibility = View.VISIBLE
             total_price_tv.text = "￥$checked_price"
@@ -123,6 +173,7 @@ class CarListActivity : BaseActivity() {
                             error_ll.visibility = View.GONE;
                             main_lv.visibility = View.VISIBLE;
                         }
+                        refresh_data()
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {

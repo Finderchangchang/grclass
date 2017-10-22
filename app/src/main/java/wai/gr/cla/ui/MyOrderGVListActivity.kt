@@ -71,6 +71,7 @@ class MyOrderGVListActivity : BaseActivity() {
                     when (free) {
                         "1" -> toolbar.setCentertv("讲座直播")
                         "0" -> toolbar.setCentertv("更多精品课")
+                        "2"->toolbar.setCentertv("更多资格证考试")
                     }
                 } else {
                     toolbar.setCentertv("我的课程")

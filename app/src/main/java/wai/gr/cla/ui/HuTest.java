@@ -42,6 +42,7 @@ public class HuTest extends Activity {
     private float alpha = 1f;
 
     void time(){
+
         CountDownTimer timer = new CountDownTimer(1 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

@@ -87,9 +87,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="4dp"
-                app:tabIconNormal="@mipmap/zhuanjieben_button_zhuanbai"
-                app:tabIconSelected="@mipmap/zhuanjieben_button_zhuanlan_selected"
-                app:tabText="答疑专栏"
+                app:tabIconNormal="@mipmap/zigezheng_n"
+                app:tabIconSelected="@mipmap/zigezheng_s"
+                app:tabText="资格证考试"
                 app:textColorNormal="@color/bottom_normal"
                 app:textColorSelected="@color/bottom_normal" />
 
@@ -343,43 +343,6 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/zl_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <wai.gr.cla.method.OnlyMeasureListView
-                        android:id="@+id/zl_lv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:background="@android:color/white" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="200名教师实时发布"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="随时随地的提问 专业解答 回复及时"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
                 <wai.gr.cla.method.MyGridView
                     android:id="@+id/st_video_gv"
                     android:layout_width="match_parent"
@@ -406,6 +369,13 @@
                     android:id="@+id/high_video_gv"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
+                    android:background="@android:color/white"
+                    android:numColumns="3"
+                    android:padding="5dp" />
+                <wai.gr.cla.method.MyGridView
+                    android:id="@+id/ks_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@android:color/white"
                     android:numColumns="3"
                     android:padding="5dp" />

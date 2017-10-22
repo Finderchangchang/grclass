@@ -32,6 +32,7 @@ class LzyResponse<T> : Serializable {
     var time: String = ""//提交时间
     var content: String = ""//更新内容
     var download: String = ""//下载地址
+    var car:List<CarModel>?=null
 
     companion object {
         const val serialVersionUID = 5213230387175987834L

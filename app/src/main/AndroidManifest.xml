@@ -163,7 +163,8 @@
         </activity>
         <activity android:name=".ui.AddressManageActivity" />
         <activity android:name=".ui.AddAddressActivity" />
-        <activity android:name=".ui.CarListActivity"></activity>
+        <activity android:name=".ui.CarListActivity" />
+        <activity android:name=".ui.ConfimOrderActivity"></activity>
     </application>
 
 </manifest>

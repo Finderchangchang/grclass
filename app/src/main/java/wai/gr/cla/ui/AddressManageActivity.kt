@@ -25,44 +25,84 @@ import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.common
 import wai.gr.cla.model.AddressModel
 import wai.gr.cla.model.LzyResponse
+import wai.gr.cla.model.MyBussinessModel
 import wai.gr.cla.model.url
 
 
 class AddressManageActivity : BaseActivity() {
+    var addressmodel=AddressModel()
     override fun setLayout(): Int {
         return R.layout.activity_address_manage
     }
 
     override fun initViews() {
-        val dialog = BottomDialog(this)
-        dialog.setOnAddressSelectedListener { province, city, county, street ->
-            toast(province.name + city.name + county.name + street.name)
-            dialog.dismiss()
+//        val dialog = BottomDialog(this)
+//        dialog.setOnAddressSelectedListener { province, city, county, street ->
+//            toast(province.name + city.name + county.name + street.name)
+//            dialog.dismiss()
+//        }
+//        dialog.show()
+        del_ll.setOnClickListener{
+            OkGo.post(url().auth_api + "delete_address")
+                    .params("id", addressmodel.id)// 请求方式和请求url
+
+                    .execute(object : JsonCallback<LzyResponse<MyBussinessModel>>() {
+                        override fun onSuccess(t: LzyResponse<MyBussinessModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            if (t.code == 0) {
+                                toast("删除成功")
+                            initEvents()
+                            }else{
+                                toast("删除失败"+t.msg!!)
+                            }
+                        }
+
+                        override fun onError(call: okhttp3.Call?, response: okhttp3.Response?, e: Exception?) {
+                            toast(common().toast_error(e!!))
+                        }
+                    })
         }
-        dialog.show()
     }
 
     override fun initEvents() {
-        OkGo.post(url().auth_api + "get_our_address")
-                .execute(object : StringCallback() {
-                    override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        var m = Gson().fromJson(model, LzyResponse::class.java)
-                        if (m.data != null) {
-                            var data = m as LzyResponse<AddressModel>
-                            name_tv.text = data.data!!.name
-                            tel_tv.text = data.data!!.tel
-                            address_tv.text = data.data!!.address
-                            qq_tv.text = data.data!!.qq
+        edit_ll.setOnClickListener{
+            startActivityForResult(Intent(this@AddressManageActivity, AddAddressActivity::class.java),11)
 
+        }
+
+        add_btn.setOnClickListener{
+            //startActivity(Intent(this@AddressManageActivity, AddAddressActivity::class.java))
+            startActivityForResult(Intent(this@AddressManageActivity, AddAddressActivity::class.java),11)
+        }
+        OkGo.post(url().auth_api + "get_our_address")
+                .execute(object : JsonCallback<LzyResponse<AddressModel>>() {
+                    override fun onSuccess(model: LzyResponse<AddressModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.data != null) {
+                            addressmodel=model.data as AddressModel
+                            name_tv.text = model.data!!.name
+                            tel_tv.text = model.data!!.tel
+                            address_tv.text = model.data!!.address
+                            qq_tv.text = model.data!!.qq
+                            ll_addressview.visibility=View.VISIBLE
                             add_btn.visibility = View.GONE
                         } else {
+                            ll_addressview.visibility=View.GONE
                             add_btn.visibility = View.VISIBLE
                         }
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
+                        ll_addressview.visibility=View.GONE
+                        add_btn.visibility = View.VISIBLE
                         toast(common().toast_error(e!!))
                     }
                 })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==11&&resultCode==12){
+            //刷新
+            initEvents()
+        }
     }
 }

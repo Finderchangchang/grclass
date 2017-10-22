@@ -1,9 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="wai.gr.cla.ui.AddAddressActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <net.tsz.afinal.view.TitleBar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:center_tv="添加地址"
+        app:right_tv="保存" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@color/title_zx"
+            android:text="收件人：" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+           android:textSize="14dp"
+            android:id="@+id/et_address_name"
+            android:hint="收件人姓名" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/toolbar_bg"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@color/title_zx"
+            android:text="QQ号码：" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="14dp"
+            android:id="@+id/et_address_qq"
+            android:hint="联系QQ号码" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/toolbar_bg"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系方式："
+            android:textColor="@color/title_zx"
+            android:textSize="14dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="14dp"
+            android:id="@+id/et_address_tel"
+            android:hint="联系电话" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/toolbar_bg"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@color/title_zx"
+            android:text="所在地区：" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="14dp"
+            android:id="@+id/et_address_city"
+            android:hint="所在省——市——区" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/toolbar_bg"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@color/title_zx"
+            android:text="详细地址：" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="14dp"
+            android:id="@+id/et_address_address"
+            android:hint="街道小区、楼牌号等" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/toolbar_bg"></View>
+</LinearLayout>

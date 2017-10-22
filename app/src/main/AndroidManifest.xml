@@ -82,8 +82,7 @@
         <activity android:name=".ui.QQ_WXActivity" />
         <activity android:name=".ui.PerfaceUserActivity" />
         <activity android:name=".ui.TestListActivity" />
-        <activity android:name=".ui.TestActivity" />
-        <activity android:name=".ui.TestScoreActivity" />
+
         <activity android:name=".ui.GBDetailActivity" />
         <activity android:name=".ui.MyOrderGVListActivity" />
         <activity

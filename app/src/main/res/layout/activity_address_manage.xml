@@ -16,6 +16,7 @@
         app:center_tv="收货地址" />
 
     <LinearLayout
+        android:id="@+id/ll_addressview"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/toolbar"
@@ -82,7 +83,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/edit_bi" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,7 +101,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/delete_xiang" />
 
                 <TextView
                     android:layout_width="wrap_content"

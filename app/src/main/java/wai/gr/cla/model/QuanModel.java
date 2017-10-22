@@ -32,6 +32,35 @@ public class QuanModel {
     private String coupon_code;
     private String expiration_date;
 
+    //满减字段
+    private String price;//当前价格
+    private Double reduce_amount;//减去的价格
+    private Double new_price;//最新价格
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public Double getReduce_amount() {
+        return reduce_amount;
+    }
+
+    public void setReduce_amount(Double reduce_amount) {
+        this.reduce_amount = reduce_amount;
+    }
+
+    public Double getNew_price() {
+        return new_price;
+    }
+
+    public void setNew_price(Double new_price) {
+        this.new_price = new_price;
+    }
+
     public int getId() {
         return id;
     }

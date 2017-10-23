@@ -25,6 +25,10 @@ import android.opengl.ETC1.getHeight
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.ViewTreeObserver
+import android.widget.Toast
+import com.tsy.sdk.pay.alipay.Alipay
+import com.tsy.sdk.pay.weixin.WXPay
+import wai.gr.cla.base.App
 
 
 class ConfimOrderActivity : BaseActivity() {
@@ -35,7 +39,7 @@ class ConfimOrderActivity : BaseActivity() {
     var zfb_click = true//true点击支付宝
     var old_price = 0.0//最开始的价格
     var address: AddressModel? = null
-    var orders=""
+    var orders = ""
     override fun setLayout(): Int {
         return R.layout.activity_confim_order
     }
@@ -47,9 +51,9 @@ class ConfimOrderActivity : BaseActivity() {
 
         for (model in car_list) {
             old_price += model.price.toDouble()
-            orders+=model.course_id.toString()+","
+            orders += model.course_id.toString() + ","
         }
-        orders=orders.substring(0,orders.length-1)
+        orders = orders.substring(0, orders.length - 1)
         total_price_tv.text = old_price.toString()
         kc1_adapter = object : CommonAdapter<CarModel>(this, car_list, R.layout.item_car) {
             override fun convert(holder: CommonViewHolder, model: CarModel, position: Int) {
@@ -132,8 +136,11 @@ class ConfimOrderActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 支付管理
+     * */
     fun pay() {
-        if(address!=null) {
+        if (address != null) {
             OkGo.post(url().auth_api + "create_new_course_order")
                     .params("course_id", orders)
                     .params("coupon_code", code_et.text.toString().trim())
@@ -147,12 +154,9 @@ class ConfimOrderActivity : BaseActivity() {
                     .execute(object : StringCallback() {
                         override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
                             var key = Gson().fromJson(model, LzyResponse::class.java)
-                            if (key.code == 0) {//生成订单成功
-                                if(zfb_click){//吊起支付宝
-
-                                }else{//吊起微信
-
-                                }
+                            if (key.code == 0) {//生成预订单成功
+                                var new_order=key.data as NewOrderModel
+                                save_pay(new_order.trade_no)
                             }
                         }
 
@@ -160,7 +164,7 @@ class ConfimOrderActivity : BaseActivity() {
                             toast(common().toast_error(e!!))
                         }
                     })
-        }else{
+        } else {
             toast("地址不能为空")
         }
     }
@@ -231,7 +235,7 @@ class ConfimOrderActivity : BaseActivity() {
                 .execute(object : JsonCallback<LzyResponse<AddressModel>>() {
                     override fun onSuccess(model: LzyResponse<AddressModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.data != null) {
-                            address=model.data
+                            address = model.data
                             user_tv.text = "收件人：" + model.data!!.name
                             tel_tv.text = "联系方式：" + model.data!!.tel
                             ss_port_tv.text = "所在区域：" + model.data!!.province + model.data!!.city
@@ -247,6 +251,114 @@ class ConfimOrderActivity : BaseActivity() {
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
                         toast(common().toast_error(e!!))
+                    }
+                })
+    }
+
+    /**
+     * 根据订单id生成预订单
+     * */
+    fun save_pay(id: String) {
+        /**
+         * 调起微信支付
+         * */
+        if (!zfb_click) {
+            OkGo.post(url().wx_api + "unifiedorder")
+                    .params("id", id)
+                    .execute(object : JsonCallback<LzyResponse<PayModel>>() {
+                        override fun onSuccess(model: LzyResponse<PayModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            if (model.code == 0) {
+                                val data = Gson().toJson(model.data)
+                                val wx_appid = App.wx_id     //替换为自己的 appid
+                                WXPay.init(this@ConfimOrderActivity, wx_appid)      //要在支付前调用
+                                WXPay.getInstance().doPay(data, object : WXPay.WXPayResultCallBack {
+                                    override fun onSuccess() {
+                                        check_pay_status(id)
+                                    }
+
+                                    override fun onError(error_code: Int) {
+                                        when (error_code) {
+                                            WXPay.NO_OR_LOW_WX -> toast("未安装微信或微信版本过低")
+
+                                            WXPay.ERROR_PAY_PARAM -> toast("参数错误")
+
+                                            WXPay.ERROR_PAY -> toast("支付失败")
+                                        }
+                                    }
+
+                                    override fun onCancel() {
+                                        toast( "支付取消")
+                                    }
+                                })
+                            } else {
+                                toast("生成预订单失败")
+                            }
+                        }
+
+                        override fun onError(call: Call?, response: Response?, e: Exception?) {
+                            toast(common().toast_error(e!!))
+                        }
+                    })
+        } else {
+            /**
+             * 调起支付宝支付
+             * */
+            OkGo.post(url().normal + "alipay/create_response")
+                    .params("id", id)
+                    .execute(object : JsonCallback<LzyResponse<String>>() {
+                        override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            if (model.code == 0) {
+                                Alipay(this@ConfimOrderActivity, model.data, object : Alipay.AlipayResultCallBack {
+                                    override fun onSuccess() {
+                                        check_pay_status(id)
+                                    }
+
+                                    override fun onDealing() {
+                                        toast("支付处理中...")
+                                    }
+
+                                    override fun onError(error_code: Int) {
+                                        when (error_code) {
+                                            Alipay.ERROR_RESULT -> toast( "支付失败:支付结果解析错误")
+
+                                            Alipay.ERROR_NETWORK -> toast( "支付失败:网络连接错误")
+
+                                            Alipay.ERROR_PAY -> toast( "支付错误:支付码支付失败")
+
+                                            else -> toast("支付错误")
+                                        }
+                                    }
+
+                                    override fun onCancel() {
+                                        toast("支付取消")
+                                    }
+                                }).doPay()
+                            } else {
+                                toast("生成预订单失败")
+                            }
+                        }
+
+                        override fun onError(call: Call?, response: Response?, e: Exception?) {
+                            toast(common().toast_error(e!!))
+                        }
+                    })
+        }
+
+    }
+
+    /**
+     * 检测是否支付成功 id：订单状态
+     * */
+    fun check_pay_status(id: String) {
+        OkGo.post(url().normal + "pay/get_pay_status")
+                .params("id", id)
+                .execute(object : JsonCallback<LzyResponse<String>>() {
+                    override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.code == 0) {
+                            toast("支付成功")
+                        } else {
+                            toast(model.msg!!)
+                        }
                     }
                 })
     }

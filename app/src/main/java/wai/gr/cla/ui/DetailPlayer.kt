@@ -195,6 +195,9 @@ class DetailPlayer : BaseActivity() {
                 s!!.showWindow()
             }
         }
+        new_teacher_btn.setOnClickListener { //跳转到单个提问列表
+            startActivity(Intent(this,AskListActivity::class.java))
+        }
     }
 
     var ss: Int = 0

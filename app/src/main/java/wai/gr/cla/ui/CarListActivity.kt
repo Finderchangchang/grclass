@@ -90,6 +90,7 @@ class CarListActivity : BaseActivity() {
                     del_id(del_id.substring(0, del_id.length - 1))
                 }
                 "去结算" -> {
+
                 }
                 else -> {
                     var lzy = LzyResponse<String>()

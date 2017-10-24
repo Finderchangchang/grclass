@@ -1,14 +1,10 @@
 package wai.gr.cla.ui
 
 import android.content.Intent
-import android.graphics.Rect
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
 import com.google.gson.Gson
 import com.lzy.okgo.OkGo
-import com.lzy.okgo.callback.StringCallback
 import kotlinx.android.synthetic.main.activity_confim_order.*
 import okhttp3.Call
 import okhttp3.Response
@@ -21,11 +17,8 @@ import wai.gr.cla.method.CommonViewHolder
 import wai.gr.cla.method.common
 import wai.gr.cla.model.*
 import java.util.*
-import android.opengl.ETC1.getHeight
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.ViewTreeObserver
-import android.widget.Toast
 import com.tsy.sdk.pay.alipay.Alipay
 import com.tsy.sdk.pay.weixin.WXPay
 import wai.gr.cla.base.App
@@ -36,15 +29,22 @@ class ConfimOrderActivity : BaseActivity() {
     var kc1_adapter: CommonAdapter<CarModel>? = null//购买的课程
     var car_list: ArrayList<CarModel> = ArrayList()
     var quan_list: ArrayList<QuanModel> = ArrayList()
-    var zfb_click = true//true点击支付宝
+    var zfb_click = false//true点击支付宝
     var old_price = 0.0//最开始的价格
     var address: AddressModel? = null
     var orders = ""
+
+    companion object {
+        var context: ConfimOrderActivity? = null
+    }
+
     override fun setLayout(): Int {
         return R.layout.activity_confim_order
     }
 
     override fun initViews() {
+        context = this
+        title_bar.setLeftClick { finish() }
         model = intent.getSerializableExtra("model") as LzyResponse<String>
         car_list = model!!.car!! as ArrayList<CarModel>
         total_good_tv.text = "共" + car_list.size + "件商品"
@@ -54,7 +54,7 @@ class ConfimOrderActivity : BaseActivity() {
             orders += model.course_id.toString() + ","
         }
         orders = orders.substring(0, orders.length - 1)
-        total_price_tv.text = old_price.toString()
+        man_jian(old_price)
         kc1_adapter = object : CommonAdapter<CarModel>(this, car_list, R.layout.item_car) {
             override fun convert(holder: CommonViewHolder, model: CarModel, position: Int) {
                 holder.setText(R.id.title_tv, model.course_title)
@@ -92,9 +92,15 @@ class ConfimOrderActivity : BaseActivity() {
     override fun initEvents() {
         load_address()
         load_quan()
-        address_rl.setOnClickListener {
-            startActivityForResult(Intent(this@ConfimOrderActivity, AddAddressActivity::class.java), 0)
+        edit_iv.setOnClickListener {
+            startActivityForResult(Intent(this@ConfimOrderActivity, AddAddressActivity::class.java)
+                    .putExtra("model", address), 0)
         }
+        add_address_ll.setOnClickListener {
+            startActivityForResult(Intent(this@ConfimOrderActivity, AddAddressActivity::class.java)
+                    .putExtra("model", AddressModel()), 0)
+        }
+
         dialog_iv.setOnClickListener {
             if (can_user_quan.size > 0) {
                 var builder = AlertDialog.Builder(this);
@@ -119,7 +125,7 @@ class ConfimOrderActivity : BaseActivity() {
                 if (code.length == 6) {
                     check_quan(code)
                 } else {
-                    yh_tv.visibility = View.GONE
+                    yh_tv.text = "暂无优惠"
                 }
             }
 
@@ -151,12 +157,10 @@ class ConfimOrderActivity : BaseActivity() {
                     .params("user_name", address!!.name)
                     .params("qq", address!!.qq)
 
-                    .execute(object : StringCallback() {
-                        override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            var key = Gson().fromJson(model, LzyResponse::class.java)
-                            if (key.code == 0) {//生成预订单成功
-                                var new_order=key.data as NewOrderModel
-                                save_pay(new_order.trade_no)
+                    .execute(object : JsonCallback<LzyResponse<NewOrderModel>>() {
+                        override fun onSuccess(model: LzyResponse<NewOrderModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            if (model.code == 0) {//生成预订单成功
+                                save_pay(model.data!!.id)
                             }
                         }
 
@@ -173,20 +177,24 @@ class ConfimOrderActivity : BaseActivity() {
     fun man_jian(price: Double) {
         OkGo.post(url().auth_api + "get_subtract_price")
                 .params("price", price)
-                .execute(object : StringCallback() {
-                    override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        var key = Gson().fromJson(model, LzyResponse::class.java)
-                        if (key.code == 0) {
-                            var model = key.data as QuanModel
+                .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
+                    override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.code == 0) {
                             yh_tv.visibility = View.VISIBLE
-                            total_price_tv.text = "￥" + model.new_price
+                            total_price_tv.text = "￥" + convert(model.data!!.new_price)
+                            yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
                         }
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
-                        toast(common().toast_error(e!!))
+                        //toast(common().toast_error(e!!))
                     }
                 })
+    }
+
+    fun convert(value: Double): Double {
+        val l1 = Math.round(value * 100)   //四舍五入
+        return l1 / 100.0
     }
 
     //加载当前优惠券
@@ -197,7 +205,7 @@ class ConfimOrderActivity : BaseActivity() {
                     override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {
                             yh_tv.visibility = View.VISIBLE
-                            yh_tv.text = "优惠：" + model.data!!.coupon_price + "元"
+                            yh_tv.text = "折扣金额" + convert(model.data!!.coupon_price.toDouble())
                             man_jian(old_price - model.data!!.coupon_price.toDouble())
                         }
                     }
@@ -224,7 +232,7 @@ class ConfimOrderActivity : BaseActivity() {
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
-                        toast(common().toast_error(e!!))
+                        //toast(common().toast_error(e!!))
                     }
                 })
     }
@@ -236,11 +244,11 @@ class ConfimOrderActivity : BaseActivity() {
                     override fun onSuccess(model: LzyResponse<AddressModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.data != null) {
                             address = model.data
-                            user_tv.text = "收件人：" + model.data!!.name
-                            tel_tv.text = "联系方式：" + model.data!!.tel
-                            ss_port_tv.text = "所在区域：" + model.data!!.province + model.data!!.city
-                            address_tv.text = "详细地址：" + model.data!!.address
-                            qq_tv.text = "QQ号码：" + model.data!!.qq
+                            user_tv.text = model.data!!.name
+                            tel_tv.text = model.data!!.tel
+                            ss_port_tv.text = model.data!!.province + model.data!!.city
+                            address_tv.text = model.data!!.address
+                            qq_tv.text = "QQ：" + model.data!!.qq
                             add_address_ll.visibility = View.GONE
                             address_ll.visibility = View.VISIBLE
                         } else {
@@ -250,7 +258,9 @@ class ConfimOrderActivity : BaseActivity() {
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
-                        toast(common().toast_error(e!!))
+//                        toast(common().toast_error(e!!))
+                        add_address_ll.visibility = View.VISIBLE
+                        address_ll.visibility = View.GONE
                     }
                 })
     }
@@ -287,7 +297,7 @@ class ConfimOrderActivity : BaseActivity() {
                                     }
 
                                     override fun onCancel() {
-                                        toast( "支付取消")
+                                        toast("支付取消")
                                     }
                                 })
                             } else {
@@ -319,11 +329,11 @@ class ConfimOrderActivity : BaseActivity() {
 
                                     override fun onError(error_code: Int) {
                                         when (error_code) {
-                                            Alipay.ERROR_RESULT -> toast( "支付失败:支付结果解析错误")
+                                            Alipay.ERROR_RESULT -> toast("支付失败:支付结果解析错误")
 
-                                            Alipay.ERROR_NETWORK -> toast( "支付失败:网络连接错误")
+                                            Alipay.ERROR_NETWORK -> toast("支付失败:网络连接错误")
 
-                                            Alipay.ERROR_PAY -> toast( "支付错误:支付码支付失败")
+                                            Alipay.ERROR_PAY -> toast("支付错误:支付码支付失败")
 
                                             else -> toast("支付错误")
                                         }
@@ -356,9 +366,25 @@ class ConfimOrderActivity : BaseActivity() {
                     override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {
                             toast("支付成功")
+                            check_can_draw()
                         } else {
                             toast(model.msg!!)
                         }
+                    }
+                })
+    }
+
+    fun check_can_draw() {
+        OkGo.post(url().auth_api + "i_can_draw")
+                .execute(object : JsonCallback<LzyResponse<String>>() {
+                    override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.code == 0) {//抽奖动画
+                            startActivity(Intent(this@ConfimOrderActivity, WebActivity::class.java)
+                                    .putExtra("title", "抽奖")
+                                    .putExtra("url", url().normal + "course/luckydraw"))
+                        }
+                        CarListActivity.context!!.finish()
+                        finish()
                     }
                 })
     }

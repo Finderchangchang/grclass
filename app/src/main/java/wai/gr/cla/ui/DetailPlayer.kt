@@ -169,7 +169,7 @@ class DetailPlayer : BaseActivity() {
         loadData()
         car_btn.setOnClickListener {
             OkGo.post(url().auth_api + "add_shopcar")
-                    .params("course_id", model!!.cid)
+                    .params("course_id",ss)
                     .execute(object : StringCallback() {
                         override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
                             var m = Gson().fromJson(model, LzyResponse::class.java)
@@ -196,7 +196,10 @@ class DetailPlayer : BaseActivity() {
             }
         }
         new_teacher_btn.setOnClickListener { //跳转到单个提问列表
-            startActivity(Intent(this,AskListActivity::class.java))
+            startActivity(Intent(this,AskListActivity::class.java)
+                    .putExtra("is_one",model!!.id)
+                    .putExtra("id",model!!.teacher_id)
+                    .putExtra("name",model!!.subject))
         }
     }
 

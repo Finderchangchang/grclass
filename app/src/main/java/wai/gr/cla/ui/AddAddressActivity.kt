@@ -2,6 +2,7 @@ package wai.gr.cla.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import chihane.jdaddressselector.BottomDialog
 import com.lzy.okgo.OkGo
@@ -25,17 +26,25 @@ class AddAddressActivity : BaseActivity() {
     }
 
     override fun initViews() {
-
+        toolbar.setLeftClick { finish() }
     }
 
     override fun initEvents() {
+        address = intent.getSerializableExtra("model") as AddressModel
+        if (address.id != 0) {
+            et_address_name.setText(address.name)
+            et_address_qq.setText(address.qq)
+            et_address_tel.setText(address.tel)
+            et_address_city.setText(address.province + address.city)
+            et_address_address.setText(address.address)
+        }
         et_address_city.setOnClickListener {
             val dialog = BottomDialog(this)
             dialog.setOnAddressSelectedListener { province, city, county, street ->
                 //toast(province.name + city.name + county.name + street.name)
-                address.province=province!!.name
-                address.city=city!!.name
-                et_address_city.setText(address.province+address.city)
+                address.province = province!!.name
+                address.city = city!!.name
+                et_address_city.setText(address.province + address.city)
                 dialog.dismiss()
             }
             dialog.show()
@@ -43,21 +52,24 @@ class AddAddressActivity : BaseActivity() {
 
         toolbar.setRightClick {
             //保存
-            if(checkvalue()){
+            if (checkvalue()) {
                 getValue()
                 //向服务器提交
-                OkGo.post(url().auth_api + "save_user_address")
-                        .params("name", address.name)// 请求方式和请求url
+                var ok = OkGo.post(url().auth_api + "save_user_address")
+                if(address.id != 0){
+                    ok.params("id", address.id)
+                }
+                ok.params("name", address.name)// 请求方式和请求url
                         .params("tel", address.tel)// 请求方式和请求url
                         .params("province", address.province)// 请求方式和请求url
-                        .params("address",address.address)
-                        .params("qq",address.qq)
+                        .params("address", address.address)
+                        .params("qq", address.qq)
                         .params("city", address.city)// 请求方式和请求url
                         .execute(object : JsonCallback<LzyResponse<MyBussinessModel>>() {
                             override fun onSuccess(t: LzyResponse<MyBussinessModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                                 if (t.code == 0) {
-                                  toast(t.msg!!)
-                                    setResult(12)
+                                    toast(t.msg!!)
+                                    setResult(77)
                                     finish()
                                 }
                             }
@@ -83,7 +95,7 @@ class AddAddressActivity : BaseActivity() {
         } else if (et_address_tel.text.toString().trim().equals("")) {
             toast("请填写联系方式")
             return false
-        } else if (address.province!!.toString().equals("")||address.city!!.toString().equals("")) {
+        } else if (address.province!!.toString().equals("") || address.city!!.toString().equals("")) {
             toast("请选择所在省份和城市")
             return false
         } else if (et_address_address.text.toString().trim().equals("")) {

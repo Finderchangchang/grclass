@@ -24,5 +24,6 @@ class TradeModel {
     var cdate: String? = null
     var mdate: String? = null
     var teacher: Teacher? = null
+    var i_can_ask:Boolean=false
     var course: CoursesModel? = null
 }

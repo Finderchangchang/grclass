@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <net.tsz.afinal.view.TitleBar
         android:id="@+id/title_bar"
@@ -35,67 +35,82 @@
                     android:id="@+id/address_ll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/user_tv"
-                        style="@style/config_order"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:gravity="center_vertical"
-                        android:text="收件人：" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/line" />
+                        <TextView
+                            android:id="@+id/user_tv"
+                            style="@style/config_order"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical" />
 
-                    <TextView
-                        android:id="@+id/qq_tv"
-                        style="@style/config_order"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:gravity="center_vertical"
-                        android:text="QQ号码：" />
+                        <TextView
+                            android:id="@+id/tel_tv"
+                            style="@style/config_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/juhuang_zi" />
+                    </LinearLayout>
 
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/line" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp">
 
-                    <TextView
-                        android:id="@+id/tel_tv"
-                        style="@style/config_order"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:gravity="center_vertical"
-                        android:text="联系方式：" />
+                        <TextView
+                            android:id="@+id/ss_port_tv"
+                            style="@style/config_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/line" />
+                        <TextView
+                            android:id="@+id/address_tv"
+                            style="@style/config_order"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/ss_port_tv"
-                        style="@style/config_order"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:gravity="center_vertical"
-                        android:text="所在地区：" />
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/line" />
+                        <TextView
+                            android:id="@+id/qq_tv"
+                            style="@style/config_order"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/juhuang_zi" />
+                        <ImageView
+                            android:id="@+id/edit_iv"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/edit_bi"/>
+                        <TextView
+                            android:id="@+id/edit_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="修改"
+                            android:textColor="@color/black"
+                            android:layout_marginRight="10dp"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/address_tv"
-                        style="@style/config_order"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:gravity="center_vertical"
-                        android:text="详细地址：" />
+
                 </LinearLayout>
 
                 <RelativeLayout
@@ -103,7 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:minHeight="100dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,9 +136,9 @@
 
             <wai.gr.cla.method.OnlyMeasureGridView
                 android:id="@+id/class_gvs"
-                android:paddingLeft="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -154,19 +170,18 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="点击可输入优惠码"
+                    android:maxEms="6"
                     android:paddingLeft="5dp"
                     android:textColor="@color/text_hint"
-                    android:textSize="16sp"
-                    android:maxEms="6"/>
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/dialog_iv"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="5dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/san_icon" />
             </LinearLayout>
-
 
 
             <View
@@ -195,53 +210,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/zfb_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@mipmap/purchasecourse_zhifubao" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingLeft="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="支付宝"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="推荐有支付宝账号的用户使用" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/zfb_iv"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@mipmap/chose_s" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/line" />
-
-                <LinearLayout
                     android:id="@+id/wx_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -254,6 +222,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:padding="3dp"
                         android:src="@mipmap/purchasecourse_weixin" />
 
                     <LinearLayout
@@ -280,16 +249,66 @@
                         android:id="@+id/wx_iv"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:src="@mipmap/chose_s" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line" />
+                <LinearLayout
+                    android:id="@+id/zfb_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="3dp"
+                        android:src="@mipmap/purchasecourse_zhifubao" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="支付宝"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="推荐有支付宝账号的用户使用" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/zfb_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@mipmap/chose_n" />
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
     </ScrollView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/text_hint"/>
+        android:background="@color/text_hint" />
+
     <LinearLayout
         android:id="@+id/bottom_ll"
         android:layout_width="match_parent"
@@ -307,35 +326,52 @@
 
             <TextView
                 android:id="@+id/total_good_tv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="共2件商品" />
-            <TextView
-                android:id="@+id/yh_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:paddingLeft="10dp"
-                android:text="优惠：" />
-            <TextView
-                android:id="@+id/hj_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="合计："
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/total_price_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="￥0"
-                android:textColor="@color/red"
-                android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/hj_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="合计："
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/total_price_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="￥0"
+                        android:textColor="@color/red"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/yh_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView

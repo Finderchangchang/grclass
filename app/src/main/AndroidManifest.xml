@@ -51,7 +51,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
+        <activity android:name=".ui.QuansActivity"/>
         <activity
             android:name=".ui.OnlyDetailPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -82,7 +82,6 @@
         <activity android:name=".ui.QQ_WXActivity" />
         <activity android:name=".ui.PerfaceUserActivity" />
         <activity android:name=".ui.TestListActivity" />
-
         <activity android:name=".ui.GBDetailActivity" />
         <activity android:name=".ui.MyOrderGVListActivity" />
         <activity
@@ -163,7 +162,8 @@
         <activity android:name=".ui.AddressManageActivity" />
         <activity android:name=".ui.AddAddressActivity" />
         <activity android:name=".ui.CarListActivity" />
-        <activity android:name=".ui.ConfimOrderActivity"></activity>
+        <activity android:name=".ui.ConfimOrderActivity" />
+        <activity android:name=".ui.PayResultActivity"></activity>
     </application>
 
 </manifest>

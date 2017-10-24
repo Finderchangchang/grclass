@@ -285,6 +285,7 @@ class ZBFragment : BaseFragment() {
                         ks_gv.visibility = View.VISIBLE
                         public_class_gv.visibility = View.GONE
                         //zl_lv.adapter = js_adapter
+                        st_video_gv.visibility = View.GONE
                         st_ll.visibility = View.GONE
                         only013_srl!!.visibility = View.VISIBLE
                         main_srl!!.visibility = View.VISIBLE

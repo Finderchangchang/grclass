@@ -32,6 +32,8 @@ class CarListActivity : BaseActivity() {
     internal var kc1_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
     var kc1_adapter: CommonAdapter<CarModel>? = null//购买的课程
     override fun initViews() {
+        toolbar.setLeftClick { finish() }
+        context=this
         kc1_adapter = object : CommonAdapter<CarModel>(this, kc1_list, R.layout.item_car) {
             override fun convert(holder: CommonViewHolder, model: CarModel, position: Int) {
                 holder.setText(R.id.title_tv, model.course_title)
@@ -94,12 +96,21 @@ class CarListActivity : BaseActivity() {
                 }
                 else -> {
                     var lzy = LzyResponse<String>()
-                    lzy.car = kc1_list
+                    var kk_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
+                    for(model in kc1_list){
+                        if(model.isChecked){
+                            kk_list.add(model)
+                        }
+                    }
+                    lzy.car = kk_list
                     startActivity(Intent(this@CarListActivity, ConfimOrderActivity::class.java).putExtra("model", lzy))
-
                 }
             }
         }
+    }
+
+    companion object {
+        var context: CarListActivity? = null
     }
 
     var tool_click = false//true:点击false：完成
@@ -153,11 +164,15 @@ class CarListActivity : BaseActivity() {
             }
             hj_tv.visibility = View.VISIBLE
             total_price_tv.visibility = View.VISIBLE
-            total_price_tv.text = "￥$checked_price"
+            var price=convert(checked_price)
+            total_price_tv.text = "￥$price"
         }
         kc1_adapter!!.refresh(kc1_list)
     }
-
+    fun convert(value: Double): Double {
+        val l1 = Math.round(value * 100)   //四舍五入
+        return l1 / 100.0
+    }
     fun load_data() {
         OkGo.post(url().auth_api + "get_shopcar_infos")
                 .execute(object : JsonCallback<LzyResponse<ArrayList<CarModel>>>() {

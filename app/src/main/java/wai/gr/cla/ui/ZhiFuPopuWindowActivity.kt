@@ -2,6 +2,7 @@ package wai.gr.cla.ui
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.opengl.Visibility
 import android.os.Handler
@@ -39,7 +40,7 @@ import wai.gr.cla.method.common
  * type-
  */
 class ZhiFuPopuWindowActivity
-(val det: DetailPlayer, val card: CardDetailActivity, cons: Context, var canView: View,
+(val det: DetailPlayer?, val card: CardDetailActivity?, cons: Context, var canView: View,
  type: Boolean, course: String, price_list: List<PriceModel>, cid: Int) : PopupWindow(cons) {
     private var myView: View? = null
     private var alpha = 1f//透明度
@@ -64,16 +65,15 @@ class ZhiFuPopuWindowActivity
         this.cid = cid
         val inflater = cons.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         myView = inflater.inflate(R.layout.zhifu_popuwindow, null)
-        var gbline=myView!!.findViewById(R.id.tv_linejifen) as TextView
-        var gb=myView!!.findViewById(R.id.zhifu_ll_gb) as LinearLayout
+        var gbline = myView!!.findViewById(R.id.tv_linejifen) as TextView
+        var gb = myView!!.findViewById(R.id.zhifu_ll_gb) as LinearLayout
+        conte = cons
         if (Type) {//是否允许冠币支付（允许）
-            conte = card
-            gbline.visibility=View.GONE
-            gb.visibility=View.GONE
+            gbline.visibility = View.GONE
+            gb.visibility = View.GONE
         } else {
-            conte = det
-            gbline.visibility=View.GONE
-            gb.visibility=View.GONE
+            gbline.visibility = View.GONE
+            gb.visibility = View.GONE
         }
 
         contentView = myView
@@ -157,14 +157,16 @@ class ZhiFuPopuWindowActivity
      * @param bgAlpha
      */
     fun backgroundAlpha(bgAlpha: Float) {
-        if (Type) {
-            val lp = card.window.attributes
-            lp.alpha = bgAlpha //0.0-1.0
-            card.window.attributes = lp
-        } else {
-            val lp = det.window.attributes
-            lp.alpha = bgAlpha //0.0-1.0
-            det.window.attributes = lp
+        if (card != null && det != null) {
+            if (Type) {
+                val lp = card!!.window.attributes
+                lp.alpha = bgAlpha //0.0-1.0
+                card!!.window.attributes = lp
+            } else {
+                val lp = det!!.window.attributes
+                lp.alpha = bgAlpha //0.0-1.0
+                det.window.attributes = lp
+            }
         }
         // getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
@@ -192,6 +194,8 @@ class ZhiFuPopuWindowActivity
         val tv_right_top = myView!!.findViewById(R.id.tv_right_top) as TextView
         val tv_right_bottom = myView!!.findViewById(R.id.tv_right_bottom) as TextView
         val price_ll = myView!!.findViewById(R.id.price_ll) as LinearLayout
+        val zhifu_ll_right = myView!!.findViewById(R.id.zhifu_ll_right) as LinearLayout
+
         /**
          * 关闭按钮点击事件
          * */
@@ -199,13 +203,18 @@ class ZhiFuPopuWindowActivity
         /**
          * 页面赋值，选择订阅的月份
          * */
-        if (price_list!!.size == 3) {
-            tvlefttop.text = price_list!![0].months.toString() + "个月"
-            tvleftbottom.text = "￥" + price_list!![0].price.toString()
-            tv_center_top.text = price_list!![1].months.toString() + "个月"
-            tv_center_bottom.text = "￥" + price_list!![1].price.toString()
+        if (price_list!!.size > 2) {
+            zhifu_ll_right.visibility = View.INVISIBLE
             tv_right_top.text = price_list!![2].months.toString() + "个月"
             tv_right_bottom.text = "￥" + price_list!![2].price.toString()
+        }
+        if (price_list!!.size > 1) {
+            tv_center_top.text = price_list!![1].months.toString() + "个月"
+            tv_center_bottom.text = "￥" + price_list!![1].price.toString()
+        }
+        if (price_list!!.size > 0) {
+            tvlefttop.text = price_list!![0].months.toString() + "个月"
+            tvleftbottom.text = "￥" + price_list!![0].price.toString()
         }
         /**
          * 选择微信支付
@@ -298,18 +307,18 @@ class ZhiFuPopuWindowActivity
                         save_pay(model.data!!.id)
                     } else {
                         if (Type) {
-                            Toast.makeText(card, "生成预订单失败", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(conte, "生成预订单失败", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(det, "生成预订单失败", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(conte, "生成预订单失败", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
 
                 override fun onError(call: Call?, response: Response?, e: Exception?) {
                     if (Type) {
-                        Toast.makeText(card, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(conte, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(det, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(conte, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
                     }
                 }
             })
@@ -345,10 +354,12 @@ class ZhiFuPopuWindowActivity
                         .execute(object : JsonCallback<LzyResponse<PayModel>>() {
                             override fun onSuccess(model: LzyResponse<PayModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                                 if (model.code == 0) {
-                                    if (Type) {//不用刷新卡片
-                                        card!!.loadData()//刷新数据
-                                    } else {
-                                        det!!.loadData()//刷新页面数据
+                                    if (card != null && det != null) {
+                                        if (Type) {//不用刷新卡片
+                                            card!!.loadData()//刷新数据
+                                        } else {
+                                            det!!.loadData()//刷新页面数据
+                                        }
                                     }
                                     closePop()//关闭当前popwindow
                                 }
@@ -455,10 +466,13 @@ class ZhiFuPopuWindowActivity
                     override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {
                             Toast.makeText(conte, "支付成功", Toast.LENGTH_SHORT).show()
-                            if(Type){
-                                card!!.loadData()//刷新数据
-                            }else {
-                                det!!.loadData()//刷新页面数据
+                            if (card != null && det != null) {
+                                if (Type) {
+                                    card!!.loadData()//刷新数据
+                                } else {
+                                    det!!.loadData()//刷新页面数据
+                                }
+                                check_can_draw()
                             }
                             //closePop()//关闭当前popwindow
                         } else {
@@ -484,5 +498,19 @@ class ZhiFuPopuWindowActivity
         tv1.setTextColor(conte!!.resources.getColor(R.color.hei))
         tv2.setTextColor(conte!!.resources.getColor(R.color.huang_bg))
         ll.background = conte!!.resources.getDrawable(R.drawable.bg_card_hui)
+    }
+
+    //判断是否能进入抽奖页面
+    fun check_can_draw() {
+        OkGo.post(url().auth_api + "i_can_draw")
+                .execute(object : JsonCallback<LzyResponse<String>>() {
+                    override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.code == 0) {//抽奖动画
+                            conte!!.startActivity(Intent(conte, WebActivity::class.java)
+                                    .putExtra("title","抽奖")
+                                    .putExtra("url", url().normal + "course/luckydraw"))
+                        }
+                    }
+                })
     }
 }

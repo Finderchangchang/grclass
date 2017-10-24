@@ -89,7 +89,6 @@
                 android:id="@+id/user_mv_kecheng"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 app:menu_left_iv="@mipmap/me_kechengicon"
                 app:menu_left_tv="我的课程"
                 app:menu_left_tv_color="@color/peisong_lab" />
@@ -132,7 +131,17 @@
                 app:menu_left_iv="@mipmap/star_user"
                 app:menu_left_tv="我的收藏"
                 app:menu_left_tv_color="@color/peisong_lab" />
-
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:background="@color/white" />
+            <net.tsz.afinal.view.MenuView
+                android:id="@+id/user_mv_quan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu_left_iv="@mipmap/me_kechengicon"
+                app:menu_left_tv="我的优惠券"
+                app:menu_left_tv_color="@color/peisong_lab" />
 
             <net.tsz.afinal.view.MenuView
                 android:id="@+id/user_mv_dd"

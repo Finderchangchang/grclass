@@ -1,11 +1,13 @@
 package wai.gr.cla.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Finder丶畅畅 on 2017/10/20 07:28
  * QQ群481606175
  */
 
-public class AddressModel {
+public class AddressModel implements Serializable{
 
     /**
      * id : 12

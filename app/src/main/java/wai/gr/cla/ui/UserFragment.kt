@@ -74,6 +74,7 @@ class UserFragment : BaseFragment() {
         val user_mv_dy = view.findViewById(R.id.user_mv_dy) as MenuView//我的留言
         val user_mv_youxi = view.findViewById(R.id.user_mv_youxi) as MenuView
         val user_yijian = view.findViewById(R.id.user_mv_yijian) as MenuView;
+        val user_mv_quan = view.findViewById(R.id.user_mv_quan) as MenuView
         val iv_set = view.findViewById(R.id.iv_set) as ImageView//设置按钮
         val user_ll = view.findViewById(R.id.user_ll) as LinearLayout
         lv_iv = view.findViewById(R.id.lv_iv) as ImageView
@@ -84,7 +85,9 @@ class UserFragment : BaseFragment() {
             loadUser()
         }
         user_mv_che!!.setOnClickListener {
-            startActivity(Intent(MainActivity.main, CarListActivity::class.java))
+            if (checkLogin()) {
+                startActivity(Intent(MainActivity.main, CarListActivity::class.java))
+            }
         }
         user_tv_name = view.findViewById(R.id.user_tv_name) as TextView
         //个人中心
@@ -163,7 +166,15 @@ class UserFragment : BaseFragment() {
         }
         //意见反馈
         user_yijian.setOnClickListener {
-            startActivity(Intent(MainActivity.main, AddAskActivity::class.java))
+            if (checkLogin()) {
+                startActivity(Intent(MainActivity.main, AddAskActivity::class.java))
+            }
+        }
+        //优惠券列表
+        user_mv_quan.setOnClickListener {
+            if (checkLogin()) {
+                startActivity(Intent(MainActivity.main, QuansActivity::class.java))
+            }
         }
     }
 

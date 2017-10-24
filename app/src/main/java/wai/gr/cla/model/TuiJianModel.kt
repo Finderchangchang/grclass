@@ -35,5 +35,6 @@ class TuiJianModel {
     var i_can_play: Boolean = false
     var subject: String = ""
     var favorite_id: Int = 0//收藏以后变为1
+    var teacher_id:Int=0//老师id
     var videos: List<VideoModel>? = null
 }

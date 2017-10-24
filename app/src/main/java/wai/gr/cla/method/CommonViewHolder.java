@@ -170,6 +170,7 @@ public class CommonViewHolder {
      */
     public CommonViewHolder setImageResource(int viewId, int drawableId) {
         ImageView view = getView(viewId);
+        view.setVisibility(View.VISIBLE);
         view.setImageResource(drawableId);
         return this;
     }

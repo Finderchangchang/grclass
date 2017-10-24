@@ -104,7 +104,8 @@
             android:background="@drawable/bg_card_hui"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/tv_right_top"

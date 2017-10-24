@@ -52,7 +52,9 @@
                         android:id="@+id/new_teacher_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="28dp"
-                        android:background="@mipmap/purchasebutton"
+                        android:text="名师答疑"
+                        android:background="@drawable/huang_btn_bg"
+                        android:textColor="@color/white"
                         android:layout_gravity="center" />
                 </LinearLayout>
 
@@ -99,7 +101,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_marginRight="5dp"
-                    android:background="@mipmap/purchasebutton" />
+                    android:text="加入书包"
+                    android:background="@drawable/huang_btn_bg"
+                    android:textColor="@color/white"/>
 
                 <Button
                     android:id="@+id/buy_btn"

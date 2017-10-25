@@ -45,7 +45,7 @@ class App : MultiDexApplication() {
         val config = Configuration()
         config.setToDefaults()
         res.updateConfiguration(config, res.displayMetrics)
-        WholeCrashHandler.getInstance().init(this);
+        //WholeCrashHandler.getInstance().init(this);
     }
 
     companion object {

@@ -61,7 +61,8 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="联系QQ号码"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:inputType="number"/>
     </LinearLayout>
 
     <View
@@ -89,7 +90,8 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="联系电话"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:inputType="number"/>
     </LinearLayout>
 
     <View

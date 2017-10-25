@@ -26,12 +26,21 @@ public class AddressModel implements Serializable{
     private int uid;
     private String province;
     private String city;
+    private String area;//区
     private String address;
     private String tel;
     private String name;
     private String qq;
     private String cdate;
     private String mdate;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     public int getId() {
         return id;

@@ -238,7 +238,7 @@ class AskListActivity : BaseActivity() {
                         }
 
                         override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            toast(common().toast_error(e!!))
+                            //toast(common().toast_error(e!!))
                             main_srl.isRefreshing = false
                         }
                     })

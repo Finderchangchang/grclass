@@ -99,9 +99,8 @@ class RegUserActivity : BaseActivity() {
                                                 .putExtra("uuid", "")
                                                 .putExtra("is_login", true), 0)
                                         finish()
-                                    } else {
-                                        toast(t.msg.toString())
                                     }
+                                    toast(t.msg.toString())
                                 }
 
                                 override fun onError(call: Call?, response: Response?, e: Exception?) {

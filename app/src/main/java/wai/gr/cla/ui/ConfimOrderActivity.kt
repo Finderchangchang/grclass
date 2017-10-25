@@ -22,6 +22,7 @@ import android.text.TextWatcher
 import com.tsy.sdk.pay.alipay.Alipay
 import com.tsy.sdk.pay.weixin.WXPay
 import wai.gr.cla.base.App
+import java.math.BigDecimal
 
 
 class ConfimOrderActivity : BaseActivity() {
@@ -87,12 +88,12 @@ class ConfimOrderActivity : BaseActivity() {
         }
     }
 
-    val items = arrayOf<String>()
+
     var can_user_quan = ArrayList<QuanModel>()
     override fun initEvents() {
         load_address()
         load_quan()
-        edit_iv.setOnClickListener {
+        edit_ll.setOnClickListener {
             startActivityForResult(Intent(this@ConfimOrderActivity, AddAddressActivity::class.java)
                     .putExtra("model", address), 0)
         }
@@ -103,12 +104,14 @@ class ConfimOrderActivity : BaseActivity() {
 
         dialog_iv.setOnClickListener {
             if (can_user_quan.size > 0) {
+                val items = arrayOfNulls<String>(can_user_quan.size)
                 var builder = AlertDialog.Builder(this);
                 for (i in 0..can_user_quan.size - 1) {
                     items[i] = can_user_quan[i].type_name
                 }
                 builder.setItems(items) { dialogInterface, i ->
-                    check_quan(can_user_quan[i].coupon_code)
+                    code_et.setText(can_user_quan[i].coupon_code)
+                    //check_quan(can_user_quan[i].coupon_code)
                 }
                 builder.show();
             } else {
@@ -181,20 +184,28 @@ class ConfimOrderActivity : BaseActivity() {
                     override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {
                             yh_tv.visibility = View.VISIBLE
-                            total_price_tv.text = "￥" + convert(model.data!!.new_price)
-                            yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                            if (model.data!!.price.toDouble() <= 0) {
+                                total_price_tv.text = "￥0.01"
+                                yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                            } else {
+                                total_price_tv.text = "￥" + convert(model.data!!.new_price)
+                                yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                            }
+                        } else {
+                            total_price_tv.text = "￥" + convert(price)
                         }
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
-                        //toast(common().toast_error(e!!))
+                        total_price_tv.text = "￥" + convert(price)
                     }
                 })
     }
 
-    fun convert(value: Double): Double {
-        val l1 = Math.round(value * 100)   //四舍五入
-        return l1 / 100.0
+    fun convert(value: Double): String {
+        var bd = BigDecimal(value)
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
+        return bd.toString()
     }
 
     //加载当前优惠券

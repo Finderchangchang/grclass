@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -47,8 +47,8 @@
                             android:id="@+id/user_tv"
                             style="@style/config_order"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="40dp"
+                            android:layout_weight="1"
                             android:gravity="center_vertical" />
 
                         <TextView
@@ -65,8 +65,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp">
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp">
 
                         <TextView
                             android:id="@+id/ss_port_tv"
@@ -92,22 +92,31 @@
                             android:id="@+id/qq_tv"
                             style="@style/config_order"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="40dp"
+                            android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:textColor="@color/juhuang_zi" />
-                        <ImageView
-                            android:id="@+id/edit_iv"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@mipmap/edit_bi"/>
-                        <TextView
-                            android:id="@+id/edit_tv"
+
+                        <LinearLayout
+                            android:id="@+id/edit_ll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="修改"
-                            android:textColor="@color/black"
-                            android:layout_marginRight="10dp"/>
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/edit_iv"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@mipmap/edit_bi" />
+
+                            <TextView
+                                android:id="@+id/edit_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:text="修改"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
                     </LinearLayout>
 
 
@@ -256,6 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/line" />
+
                 <LinearLayout
                     android:id="@+id/zfb_ll"
                     android:layout_width="match_parent"

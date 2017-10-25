@@ -169,7 +169,7 @@ class DetailPlayer : BaseActivity() {
         loadData()
         car_btn.setOnClickListener {
             OkGo.post(url().auth_api + "add_shopcar")
-                    .params("course_id",ss)
+                    .params("course_id", ss)
                     .execute(object : StringCallback() {
                         override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
                             var m = Gson().fromJson(model, LzyResponse::class.java)
@@ -189,17 +189,25 @@ class DetailPlayer : BaseActivity() {
             if (TextUtils.isEmpty(user_id)) {
                 toast("请先登录")
             } else {//验证是否登录
-                if (s == null) {
-                    s = ZhiFuPopuWindowActivity(this@DetailPlayer, CardDetailActivity(), this, down_iv, false, model!!.id.toString(), ArrayList(), ss)
-                }
-                s!!.showWindow()
+//                var lzy = LzyResponse<String>()
+//                var kk_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
+//                var car=CarModel()
+//                car.course_id=model
+//                kk_list.add(model)
+//                lzy.car = kk_list
+//                startActivity(Intent(this@DetailPlayer, ConfimOrderActivity::class.java).putExtra("model", lzy))
+//                if (s == null) {
+//                    s = ZhiFuPopuWindowActivity(this@DetailPlayer, CardDetailActivity(), this, down_iv, false, model!!.id.toString(), ArrayList(), ss)
+//                }
+//                s!!.showWindow()
             }
         }
-        new_teacher_btn.setOnClickListener { //跳转到单个提问列表
-            startActivity(Intent(this,AskListActivity::class.java)
-                    .putExtra("is_one",model!!.id)
-                    .putExtra("id",model!!.teacher_id)
-                    .putExtra("name",model!!.subject))
+        new_teacher_btn.setOnClickListener {
+            //跳转到单个提问列表
+            startActivity(Intent(this, AskListActivity::class.java)
+                    .putExtra("is_one", model!!.id)
+                    .putExtra("id", model!!.teacher_id)
+                    .putExtra("name", model!!.subject))
         }
     }
 

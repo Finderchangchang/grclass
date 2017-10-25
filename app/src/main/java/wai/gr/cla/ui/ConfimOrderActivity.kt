@@ -18,6 +18,7 @@ import wai.gr.cla.method.common
 import wai.gr.cla.model.*
 import java.util.*
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import com.tsy.sdk.pay.alipay.Alipay
 import com.tsy.sdk.pay.weixin.WXPay
@@ -55,7 +56,7 @@ class ConfimOrderActivity : BaseActivity() {
             orders += model.course_id.toString() + ","
         }
         orders = orders.substring(0, orders.length - 1)
-        man_jian(old_price)
+        man_jian(old_price, true)
         kc1_adapter = object : CommonAdapter<CarModel>(this, car_list, R.layout.item_car) {
             override fun convert(holder: CommonViewHolder, model: CarModel, position: Int) {
                 holder.setText(R.id.title_tv, model.course_title)
@@ -128,7 +129,7 @@ class ConfimOrderActivity : BaseActivity() {
                 if (code.length == 6) {
                     check_quan(code)
                 } else {
-                    yh_tv.text = "暂无优惠"
+                    man_jian(old_price, true)
                 }
             }
 
@@ -176,8 +177,12 @@ class ConfimOrderActivity : BaseActivity() {
         }
     }
 
-    //满减以后的最终价格
-    fun man_jian(price: Double) {
+    /**
+     * 满减以后的最终价格
+     * clear true需要清空
+     * */
+    fun man_jian(price: Double, clear: Boolean) {
+
         OkGo.post(url().auth_api + "get_subtract_price")
                 .params("price", price)
                 .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
@@ -186,18 +191,32 @@ class ConfimOrderActivity : BaseActivity() {
                             yh_tv.visibility = View.VISIBLE
                             if (model.data!!.price.toDouble() <= 0) {
                                 total_price_tv.text = "￥0.01"
-                                yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                                if(clear){
+                                    yh_tv.text = "满减优惠" + convert(model.data!!.reduce_amount)
+                                }else{
+                                    yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                                }
                             } else {
                                 total_price_tv.text = "￥" + convert(model.data!!.new_price)
-                                yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                                if(clear){
+                                    yh_tv.text = "满减优惠" + convert(model.data!!.reduce_amount)
+                                }else{
+                                    yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                                }
                             }
                         } else {
                             total_price_tv.text = "￥" + convert(price)
+                            if (TextUtils.isEmpty(yh_tv.text)) {
+                                yh_tv.text = "暂无优惠"
+                            }
                         }
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
                         total_price_tv.text = "￥" + convert(price)
+                        if (TextUtils.isEmpty(yh_tv.text)) {
+                            yh_tv.text = "暂无优惠"
+                        }
                     }
                 })
     }
@@ -217,7 +236,7 @@ class ConfimOrderActivity : BaseActivity() {
                         if (model.code == 0) {
                             yh_tv.visibility = View.VISIBLE
                             yh_tv.text = "折扣金额" + convert(model.data!!.coupon_price.toDouble())
-                            man_jian(old_price - model.data!!.coupon_price.toDouble())
+                            man_jian(old_price - model.data!!.coupon_price.toDouble(), false)
                         }
                     }
 

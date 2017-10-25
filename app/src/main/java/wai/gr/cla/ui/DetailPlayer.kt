@@ -189,13 +189,16 @@ class DetailPlayer : BaseActivity() {
             if (TextUtils.isEmpty(user_id)) {
                 toast("请先登录")
             } else {//验证是否登录
-//                var lzy = LzyResponse<String>()
-//                var kk_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
-//                var car=CarModel()
-//                car.course_id=model
-//                kk_list.add(model)
-//                lzy.car = kk_list
-//                startActivity(Intent(this@DetailPlayer, ConfimOrderActivity::class.java).putExtra("model", lzy))
+                var lzy = LzyResponse<String>()
+                var kk_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
+                var car=CarModel()
+                car.course_id=model!!.id
+                car.course_title=model!!.title
+                car.thumbnail=model!!.thumbnail
+                car.price=model!!.price
+                kk_list.add(car)
+                lzy.car = kk_list
+                startActivity(Intent(this@DetailPlayer, ConfimOrderActivity::class.java).putExtra("model", lzy))
 //                if (s == null) {
 //                    s = ZhiFuPopuWindowActivity(this@DetailPlayer, CardDetailActivity(), this, down_iv, false, model!!.id.toString(), ArrayList(), ss)
 //                }

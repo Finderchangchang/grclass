@@ -134,7 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="添加地址" />
+                        android:text="为方便日后为您邮寄教材资料，请完善您的地址" />
                 </RelativeLayout>
             </RelativeLayout>
 

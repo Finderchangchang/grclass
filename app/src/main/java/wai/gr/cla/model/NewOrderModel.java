@@ -38,7 +38,7 @@ public class NewOrderModel {
     private String auth_md5;
     private int uid;
     private double original_price;
-    private int coupon_price;
+    private double coupon_price;
     private double price;
     private String course_id;
     private String course_all_name;
@@ -121,11 +121,11 @@ public class NewOrderModel {
         this.original_price = original_price;
     }
 
-    public int getCoupon_price() {
+    public double getCoupon_price() {
         return coupon_price;
     }
 
-    public void setCoupon_price(int coupon_price) {
+    public void setCoupon_price(double coupon_price) {
         this.coupon_price = coupon_price;
     }
 

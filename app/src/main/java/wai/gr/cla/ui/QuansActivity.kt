@@ -43,7 +43,8 @@ class QuansActivity : BaseActivity() {
                         holder.setImageResource(R.id.tag_iv, R.mipmap.yiguoqi)
                     }
                     3 -> {//已使用
-                        holder.setVisible(R.id.tag_iv,false)
+                        holder.setImageResource(R.id.tag_iv, R.mipmap.yishiyong)
+
                     }
                 }
                 if(model.coupon_price.toDouble()>=50.0){

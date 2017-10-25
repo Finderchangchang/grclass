@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                app:menu_left_iv="@mipmap/me_kechengicon"
+                app:menu_left_iv="@mipmap/me_shubaoicon"
                 app:menu_left_tv="我的书包"
                 app:menu_left_tv_color="@color/peisong_lab" />
 
@@ -139,7 +139,7 @@
                 android:id="@+id/user_mv_quan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:menu_left_iv="@mipmap/me_kechengicon"
+                app:menu_left_iv="@mipmap/me_youhuiquaniicon"
                 app:menu_left_tv="我的优惠券"
                 app:menu_left_tv_color="@color/peisong_lab" />
 

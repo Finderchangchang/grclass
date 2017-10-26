@@ -56,7 +56,7 @@ class AddAddressActivity : BaseActivity() {
             et_address_city.text = address.province + address.city + address.area
             et_address_address.setText(address.address)
         }
-        et_address_city.setOnClickListener {
+        et_address_city_ll.setOnClickListener {
             /*val dialog = BottomDialog(this)
             dialog.setOnAddressSelectedListener { province, city, county, street ->
                 //toast(province.name + city.name + county.name + street.name)
@@ -123,6 +123,7 @@ class AddAddressActivity : BaseActivity() {
                         .params("tel", address.tel)// 请求方式和请求url
                         .params("province", address.province)// 请求方式和请求url
                         .params("address", address.address)
+                        .params("area", address.area)
                         .params("qq", address.qq)
                         .params("city", address.city)// 请求方式和请求url
                         .execute(object : JsonCallback<LzyResponse<MyBussinessModel>>() {

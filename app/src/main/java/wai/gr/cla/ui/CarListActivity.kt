@@ -33,7 +33,7 @@ class CarListActivity : BaseActivity() {
     var kc1_adapter: CommonAdapter<CarModel>? = null//购买的课程
     override fun initViews() {
         toolbar.setLeftClick { finish() }
-        context=this
+        context = this
         kc1_adapter = object : CommonAdapter<CarModel>(this, kc1_list, R.layout.item_car) {
             override fun convert(holder: CommonViewHolder, model: CarModel, position: Int) {
                 holder.setText(R.id.title_tv, model.course_title)
@@ -43,6 +43,11 @@ class CarListActivity : BaseActivity() {
                     holder.setImageResource(R.id.check_iv, R.mipmap.check_s)
                 } else {
                     holder.setImageResource(R.id.check_iv, R.mipmap.check_n)
+                }
+                if (model.is_full_cut == 1) {
+                    holder.setVisible(R.id.jm_tv, false)
+                }else{
+                    holder.setVisible(R.id.jm_tv, true)
                 }
                 holder.setOnClickListener(R.id.check_iv) {
                     model.isChecked = !model.isChecked
@@ -97,8 +102,8 @@ class CarListActivity : BaseActivity() {
                 else -> {
                     var lzy = LzyResponse<String>()
                     var kk_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
-                    for(model in kc1_list){
-                        if(model.isChecked){
+                    for (model in kc1_list) {
+                        if (model.isChecked) {
                             kk_list.add(model)
                         }
                     }
@@ -164,15 +169,17 @@ class CarListActivity : BaseActivity() {
             }
             hj_tv.visibility = View.VISIBLE
             total_price_tv.visibility = View.VISIBLE
-            var price=convert(checked_price)
+            var price = convert(checked_price)
             total_price_tv.text = "￥$price"
         }
         kc1_adapter!!.refresh(kc1_list)
     }
+
     fun convert(value: Double): Double {
         val l1 = Math.round(value * 100)   //四舍五入
         return l1 / 100.0
     }
+
     fun load_data() {
         OkGo.post(url().auth_api + "get_shopcar_infos")
                 .execute(object : JsonCallback<LzyResponse<ArrayList<CarModel>>>() {

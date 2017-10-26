@@ -85,7 +85,7 @@ class AddressManageActivity : BaseActivity() {
                             addressmodel = model.data as AddressModel
                             name_tv.text = model.data!!.name
                             tel_tv.text = model.data!!.tel
-                            address_tv.text = model.data!!.province + model.data!!.city + model.data!!.address
+                            address_tv.text = model.data!!.province + model.data!!.city + model.data!!.area+model.data!!.address
                             qq_tv.text = "QQ£º" + model.data!!.qq
                             ll_addressview.visibility = View.VISIBLE
                             add_btn.visibility = View.GONE

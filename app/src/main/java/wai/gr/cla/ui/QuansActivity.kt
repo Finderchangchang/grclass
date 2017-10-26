@@ -1,5 +1,6 @@
 package wai.gr.cla.ui
 
+import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -17,6 +18,9 @@ import wai.gr.cla.model.QuanModel
 import wai.gr.cla.model.LzyResponse
 import wai.gr.cla.model.url
 import java.util.*
+import android.content.Context.CLIPBOARD_SERVICE
+import android.text.ClipboardManager
+
 
 class QuansActivity : BaseActivity() {
     override fun setLayout(): Int {
@@ -31,7 +35,8 @@ class QuansActivity : BaseActivity() {
         kc1_adapter = object : CommonAdapter<QuanModel>(this, kc1_list, R.layout.item_coupon) {
             override fun convert(holder: CommonViewHolder, model: QuanModel, position: Int) {
                 holder.setText(R.id.price_tv, "￥" + model.coupon_price)
-                holder.setText(R.id.time_tv, model.expiration_date)
+                holder.setText(R.id.time_tv, "有效时间："+model.expiration_date)
+                holder.setText(R.id.code_tv,model.coupon_code)
                 when (model.expiration_status) {
                     0 -> {//0   未过期
                         holder.setVisible(R.id.tag_iv, false)
@@ -57,6 +62,12 @@ class QuansActivity : BaseActivity() {
         main_lv.adapter = kc1_adapter
         main_srl.setOnRefreshListener {
             load_data()
+        }
+        main_lv.setOnItemClickListener { adapterView, view, i, l ->
+            val cm = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            // 将文本内容放到系统剪贴板里。
+            cm.setText(kc1_list[i].coupon_code)
+            toast("复制成功")
         }
         load_data()
     }

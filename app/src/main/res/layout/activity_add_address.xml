@@ -100,6 +100,7 @@
         android:background="@color/toolbar_bg"></View>
 
     <LinearLayout
+        android:id="@+id/et_address_city_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"

@@ -71,7 +71,7 @@ public class OnlyLoadListView extends ListView implements AbsListView.OnScrollLi
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (totalItemCount == lastVisibieItem && scrollState == SCROLL_STATE_IDLE) {
             LinearLayout foot = (LinearLayout) footer.findViewById(R.id.footer_layout);
-            foot.setVisibility(View.VISIBLE);
+            foot.setVisibility(View.GONE);
 
             if (!load_tv.getText().toString().trim().equals("------已经到底了------")) {
                 if (!isLoading) {

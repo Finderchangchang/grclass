@@ -196,9 +196,12 @@ class DetailPlayer : BaseActivity() {
                 car.course_title=model!!.title
                 car.thumbnail=model!!.thumbnail
                 car.price=model!!.price
+                car.is_full_cut=model!!.is_full_cut
                 kk_list.add(car)
                 lzy.car = kk_list
-                startActivity(Intent(this@DetailPlayer, ConfimOrderActivity::class.java).putExtra("model", lzy))
+                startActivity(Intent(this@DetailPlayer, ConfimOrderActivity::class.java)
+                        .putExtra("model", lzy)
+                        .putExtra("is_one",true))//是当个课程，有提示
 //                if (s == null) {
 //                    s = ZhiFuPopuWindowActivity(this@DetailPlayer, CardDetailActivity(), this, down_iv, false, model!!.id.toString(), ArrayList(), ss)
 //                }

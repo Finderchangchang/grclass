@@ -31,7 +31,9 @@
                 android:id="@+id/main_lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/zb_click" />
+                android:background="@color/zb_click"
+                android:divider="@null"
+                android:dividerHeight="0dp"/>
 
             <LinearLayout
                 android:id="@+id/error_ll"

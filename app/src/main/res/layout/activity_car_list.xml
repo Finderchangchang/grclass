@@ -33,6 +33,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/zb_click" />
+            <TextView
+                android:layout_below="@+id/main_lv"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="如有任何疑问，请咨询客服QQ"
+                android:gravity="center_horizontal"
+                android:textColor="@color/huang_bg"
+                android:background="@color/main_bg"
+                android:paddingTop="10dp"/>
 
             <LinearLayout
                 android:id="@+id/error_ll"

@@ -28,6 +28,16 @@ public class CarModel implements Serializable {
     private String course_title;
     private String price;
     private String thumbnail;
+    private int is_full_cut;
+
+    public int getIs_full_cut() {
+        return is_full_cut;
+    }
+
+    public void setIs_full_cut(int is_full_cut) {
+        this.is_full_cut = is_full_cut;
+    }
+
     private boolean isChecked;//true：点击。false:没点击
 
     public boolean isChecked() {

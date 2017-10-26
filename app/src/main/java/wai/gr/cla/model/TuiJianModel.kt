@@ -33,6 +33,7 @@ class TuiJianModel {
     var price_show: String = ""
     var last_play_num: Int = 0
     var i_can_play: Boolean = false
+    var is_full_cut=0
     var subject: String = ""
     var favorite_id: Int = 0//收藏以后变为1
     var teacher_id:Int=0//老师id

@@ -239,8 +239,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:visibility="gone">
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="25dp"

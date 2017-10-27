@@ -34,11 +34,21 @@ public class QuanModel {
 
     //满减字段
     private String price;//当前价格
+    private Double amount;//满的价格
+
     private Double reduce_amount;//减去的价格
     private Double new_price;//最新价格
 
     public String getPrice() {
         return price;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public void setPrice(String price) {

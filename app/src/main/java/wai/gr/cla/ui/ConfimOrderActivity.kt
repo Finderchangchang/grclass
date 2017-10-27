@@ -20,6 +20,7 @@ import java.util.*
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.widget.EditText
 import com.tsy.sdk.pay.alipay.Alipay
 import com.tsy.sdk.pay.weixin.WXPay
 import wai.gr.cla.base.App
@@ -44,23 +45,24 @@ class ConfimOrderActivity : BaseActivity() {
     override fun setLayout(): Int {
         return R.layout.activity_confim_order
     }
-    var normal_price=0.0//不满减的钱
+
+    var normal_price = 0.0//不满减的钱
     override fun initViews() {
         context = this
-        bottom_qq_tv.text="如有任何疑问，请咨询客服QQ"+Utils.getCache("qq")
+        bottom_qq_tv.text = "如有任何疑问，请咨询客服QQ" + Utils.getCache("qq")
         title_bar.setLeftClick { finish() }
         model = intent.getSerializableExtra("model") as LzyResponse<String>
-        if(intent.getBooleanExtra("is_one",false)){
-            one_tv.visibility=View.VISIBLE
+        if (intent.getBooleanExtra("is_one", false)) {
+            one_tv.visibility = View.VISIBLE
         }
         car_list = model!!.car!! as ArrayList<CarModel>
         total_good_tv.text = "共" + car_list.size + "件商品"
 
         for (model in car_list) {
             //满减
-            if(model.is_full_cut==1){
+            if (model.is_full_cut == 1) {
                 old_price += model.price.toDouble()
-            }else{//不满减
+            } else {//不满减
                 normal_price += model.price.toDouble()
             }
             orders += model.course_id.toString() + ","
@@ -75,7 +77,7 @@ class ConfimOrderActivity : BaseActivity() {
                 holder.setVisible(R.id.check_iv, false)
                 if (model.is_full_cut == 1) {
                     holder.setVisible(R.id.jm_tv, false)
-                }else{
+                } else {
                     holder.setVisible(R.id.jm_tv, true)
                 }
             }
@@ -166,27 +168,28 @@ class ConfimOrderActivity : BaseActivity() {
      * */
     fun pay() {
         //if (address != null) {
-            OkGo.post(url().auth_api + "create_new_course_order")
-                    .params("course_id", orders)
-                    .params("coupon_code", code_et.text.toString().trim())
-                    .params("province", address!!.province)
+        var ok = OkGo.post(url().auth_api + "create_new_course_order")
+                .params("course_id", orders)
+                .params("coupon_code", code_et.text.toString())
+        if (address != null) {
+            ok.params("province", address!!.province)
                     .params("city", address!!.city)
                     .params("address", address!!.address)
                     .params("tel", address!!.tel)
                     .params("user_name", address!!.name)
                     .params("qq", address!!.qq)
+        }
+        ok.execute(object : JsonCallback<LzyResponse<NewOrderModel>>() {
+            override fun onSuccess(model: LzyResponse<NewOrderModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                if (model.code == 0) {//生成预订单成功
+                    save_pay(model.data!!.id)
+                }
+            }
 
-                    .execute(object : JsonCallback<LzyResponse<NewOrderModel>>() {
-                        override fun onSuccess(model: LzyResponse<NewOrderModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            if (model.code == 0) {//生成预订单成功
-                                save_pay(model.data!!.id)
-                            }
-                        }
-
-                        override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            toast(common().toast_error(e!!))
-                        }
-                    })
+            override fun onError(call: Call?, response: Response?, e: Exception?) {
+                toast(common().toast_error(e!!))
+            }
+        })
 //        } else {
 //            toast("地址不能为空")
 //        }
@@ -197,32 +200,32 @@ class ConfimOrderActivity : BaseActivity() {
      * clear true需要清空
      * */
     fun man_jian(price: Double, clear: Boolean) {
-        if(price==0.0) {
-            total_price_tv.text = "￥"+normal_price
-            if(TextUtils.isEmpty(yh_tv.text.toString())){
+        if (price == 0.0) {
+            total_price_tv.text = "￥" + normal_price
+            if (TextUtils.isEmpty(yh_tv.text.toString())) {
                 yh_tv.text = "暂无优惠"
             }
-        }else {
+        } else {
             OkGo.post(url().auth_api + "get_subtract_price")
                     .params("price", price)
                     .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
                         override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                             if (model.code == 0) {
-                                yh_tv.visibility = View.VISIBLE
-                                var normal_price = normal_price + model.data!!.new_price.toDouble()
-                                if (normal_price <= 0) {
+                                //yh_tv.visibility = View.VISIBLE
+                                var n_price = normal_price + model.data!!.new_price.toDouble()
+                                if (n_price <= 0) {
                                     total_price_tv.text = "￥0.01"
                                     if (clear) {
-                                        yh_tv.text = "满减优惠" + convert(model.data!!.reduce_amount)
+                                        yh_tv.text = "优惠：满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
                                     } else {
                                         yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
                                     }
                                 } else {
-                                    total_price_tv.text = "￥" + convert(normal_price)
+                                    total_price_tv.text = "￥" + convert(n_price)
                                     if (clear) {
-                                        yh_tv.text = "满减优惠" + convert(model.data!!.reduce_amount)
+                                        yh_tv.text = "优惠：满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
                                     } else {
-                                        yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+                                        yh_tv.text = yh_tv.text.toString() + " 满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
                                     }
                                 }
                             } else {
@@ -234,7 +237,7 @@ class ConfimOrderActivity : BaseActivity() {
                         }
 
                         override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            total_price_tv.text = "￥" + convert(price)
+                            total_price_tv.text = "￥" + convert(normal_price + price)
                             if (TextUtils.isEmpty(yh_tv.text)) {
                                 yh_tv.text = "暂无优惠"
                             }
@@ -256,9 +259,15 @@ class ConfimOrderActivity : BaseActivity() {
                 .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
                     override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {
-                            yh_tv.visibility = View.VISIBLE
-                            yh_tv.text = "折扣金额" + convert(model.data!!.coupon_price.toDouble())
-                            man_jian(old_price - model.data!!.coupon_price.toDouble(), false)
+                            var yh_price = model.data!!.coupon_price.toDouble()//优惠的价格
+                            yh_tv.text = "优惠：优惠券减" + convert(yh_price)
+                            if (old_price > yh_price) {
+                                var old = old_price - yh_price
+                                man_jian(old, false)
+                            } else {//总价格减去优惠价格
+                                normal_price = normal_price + old_price - yh_price
+                                total_price_tv.text = "￥" + normal_price
+                            }
                         }
                     }
 
@@ -298,7 +307,7 @@ class ConfimOrderActivity : BaseActivity() {
                             address = model.data
                             user_tv.text = model.data!!.name
                             tel_tv.text = model.data!!.tel
-                            ss_port_tv.text = model.data!!.province + model.data!!.city+model.data!!.area
+                            ss_port_tv.text = model.data!!.province + model.data!!.city + model.data!!.area
                             address_tv.text = model.data!!.address
                             qq_tv.text = "QQ：" + model.data!!.qq
                             add_address_ll.visibility = View.GONE

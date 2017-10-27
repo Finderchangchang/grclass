@@ -1,6 +1,7 @@
 package wai.gr.cla.ui
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
@@ -30,7 +31,6 @@ import wai.gr.cla.model.*
 import com.tsy.sdk.pay.weixin.WXPay
 import wai.gr.cla.base.App
 import com.tsy.sdk.pay.alipay.Alipay
-import wai.gr.cla.R.id.zhifu_ll_gb
 import wai.gr.cla.method.common
 
 
@@ -69,11 +69,11 @@ class ZhiFuPopuWindowActivity
         var gb = myView!!.findViewById(R.id.zhifu_ll_gb) as LinearLayout
         conte = cons
         if (Type) {//是否允许冠币支付（允许）
-            gbline.visibility = View.GONE
-            gb.visibility = View.GONE
+            gbline.visibility = View.VISIBLE
+            gb.visibility = View.VISIBLE
         } else {
-            gbline.visibility = View.GONE
-            gb.visibility = View.GONE
+            gbline.visibility = View.VISIBLE
+            gb.visibility = View.VISIBLE
         }
 
         contentView = myView
@@ -190,7 +190,6 @@ class ZhiFuPopuWindowActivity
         val llcenter = myView!!.findViewById(R.id.zhifu_ll_center) as LinearLayout
         val tv_center_top = myView!!.findViewById(R.id.tv_center_top) as TextView
         val tv_center_bottom = myView!!.findViewById(R.id.tv_center_bottom) as TextView
-        val llright = myView!!.findViewById(R.id.zhifu_ll_right) as LinearLayout
         val tv_right_top = myView!!.findViewById(R.id.tv_right_top) as TextView
         val tv_right_bottom = myView!!.findViewById(R.id.tv_right_bottom) as TextView
         val price_ll = myView!!.findViewById(R.id.price_ll) as LinearLayout
@@ -204,7 +203,7 @@ class ZhiFuPopuWindowActivity
          * 页面赋值，选择订阅的月份
          * */
         if (price_list!!.size > 2) {
-            zhifu_ll_right.visibility = View.INVISIBLE
+            zhifu_ll_right.visibility = View.VISIBLE
             tv_right_top.text = price_list!![2].months.toString() + "个月"
             tv_right_bottom.text = "￥" + price_list!![2].price.toString()
         }
@@ -242,6 +241,7 @@ class ZhiFuPopuWindowActivity
             ivbao.setImageResource(R.mipmap.purchasecourse_choice)
             ivwei.setImageResource(R.mipmap.purchasecourse_choice)
             ivgb.setImageResource(R.mipmap.purchasecourse_selected)
+            Toast.makeText(conte, "冠币支付是普通金额的10倍", Toast.LENGTH_SHORT).show()
         }
         /**
          *type为true，显示价格内容。false-直接调起支付
@@ -256,7 +256,7 @@ class ZhiFuPopuWindowActivity
                 changeTextWhite(llleft, tvlefttop, tvleftbottom)
                 when (SelectPosition) {
                     2 -> changeTextCai(llcenter, tv_center_top, tv_center_bottom)
-                    3 -> changeTextCai(llright, tv_right_top, tv_right_bottom)
+                    3 -> changeTextCai(zhifu_ll_right, tv_right_top, tv_right_bottom)
                 }
                 SelectPosition = 1
             }
@@ -268,16 +268,16 @@ class ZhiFuPopuWindowActivity
                 changeTextWhite(llcenter, tv_center_top, tv_center_bottom)
                 when (SelectPosition) {
                     1 -> changeTextCai(llleft, tvlefttop, tvleftbottom)
-                    3 -> changeTextCai(llright, tv_right_top, tv_right_bottom)
+                    3 -> changeTextCai(zhifu_ll_right, tv_right_top, tv_right_bottom)
                 }
                 SelectPosition = 2
             }
             /**
              * 第三个点击事件
              * */
-            llright.setOnClickListener {
+            zhifu_ll_right.setOnClickListener {
                 //切换选中状态
-                changeTextWhite(llright, tv_right_top, tv_right_bottom)
+                changeTextWhite(zhifu_ll_right, tv_right_top, tv_right_bottom)
                 when (SelectPosition) {
                     1 -> changeTextCai(llleft, tvlefttop, tvleftbottom)
                     2 -> changeTextCai(llcenter, tv_center_top, tv_center_bottom)
@@ -294,35 +294,53 @@ class ZhiFuPopuWindowActivity
             /**
              * true:订阅老师，false：购买视频
              * */
-            if (Type) {
-                ok = OkGo.post(url().auth_api + "create_teacher_course_order")
-                        .params("teacher_course_id", courseid)
-                        .params("months", price_list!![SelectPosition - 1].months)
-            } else {
-                ok = OkGo.post(url().auth_api + "create_course_order").params("course_id", courseid)
-            }
-            ok!!.execute(object : JsonCallback<LzyResponse<TradeModel>>() {
-                override fun onSuccess(model: LzyResponse<TradeModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                    if (model.code == 0) {
-                        save_pay(model.data!!.id)
-                    } else {
-                        if (Type) {
-                            Toast.makeText(conte, "生成预订单失败", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(conte, "生成预订单失败", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+            if (check_item == 1) {
+                var dialog = AlertDialog.Builder(conte)
+                dialog.setTitle("提示")
+                dialog.setMessage("确定要支付"+price_list!![SelectPosition - 1].price!!.toDouble()*10+"冠币")
+                dialog.setPositiveButton("取消") { dialog, which ->
 
-                override fun onError(call: Call?, response: Response?, e: Exception?) {
+                }
+                dialog.setNegativeButton("确定") { dialog, which ->
+                    pay()
+                }
+                dialog.show()
+            }else{
+                pay()
+            }
+
+        }
+    }
+
+    fun pay() {
+        if (Type) {
+            ok = OkGo.post(url().auth_api + "create_teacher_course_order")
+                    .params("teacher_course_id", courseid)
+                    .params("months", price_list!![SelectPosition - 1].months)
+        } else {
+            ok = OkGo.post(url().auth_api + "create_course_order").params("course_id", courseid)
+        }
+        ok!!.execute(object : JsonCallback<LzyResponse<TradeModel>>() {
+            override fun onSuccess(model: LzyResponse<TradeModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                if (model.code == 0) {
+                    save_pay(model.data!!.id)
+                } else {
                     if (Type) {
-                        Toast.makeText(conte, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(conte, "生成预订单失败", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(conte, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(conte, "生成预订单失败", Toast.LENGTH_SHORT).show()
                     }
                 }
-            })
-        }
+            }
+
+            override fun onError(call: Call?, response: Response?, e: Exception?) {
+                if (Type) {
+                    Toast.makeText(conte, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(conte, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     /**
@@ -507,7 +525,7 @@ class ZhiFuPopuWindowActivity
                     override fun onSuccess(model: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {//抽奖动画
                             conte!!.startActivity(Intent(conte, WebActivity::class.java)
-                                    .putExtra("title","抽奖")
+                                    .putExtra("title", "抽奖")
                                     .putExtra("url", url().normal + "course/luckydraw"))
                         }
                     }

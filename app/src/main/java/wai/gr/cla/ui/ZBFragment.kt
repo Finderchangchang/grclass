@@ -148,10 +148,11 @@ class ZBFragment : BaseFragment() {
         zx_adapters = object : CommonAdapter<ZiXunModel>(MainActivity.main!!, zx_lists, R.layout.item_zixun) {
             override fun convert(holder: CommonViewHolder, model: ZiXunModel, position: Int) {
                 holder.setRoundImage(R.id.user_iv, model.author_img)
-                holder.setText(R.id.title_tv, model.title)
+                holder.setText(R.id.title_tv, "                    "+model.title)
                 holder.setText(R.id.data_tv, model.show_time)
                 holder.setText(R.id.sc_tv, model.dianzan.toString())
                 holder.setText(R.id.pl_tv, model.comments.toString())
+                holder.setText(R.id.tag_tv,model.cname.toString())
             }
         }
         zls_lv!!.adapter = zx_adapters
@@ -528,7 +529,7 @@ class ZBFragment : BaseFragment() {
     }
 
     fun load_zx() {
-        val uu = url().public_api + "get_phone_news_list"
+        val uu = url().public_api + "get_phone_news_list2"
         OkGo.post(uu)
                 .params("page", page_index)// 请求方式和请求url
                 .params("cid", "2")

@@ -9,7 +9,7 @@ class TradeModel {
     var pay_code: Int = 0
     var pay_sn: String? = null
     var uid: Int = 0
-    var course_id: Int = 0
+    var course_id: String = ""
     var teacher_course_id: Int = 0
     var name: String? = null
     var expire_time: String? = null

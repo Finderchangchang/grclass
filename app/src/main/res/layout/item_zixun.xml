@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:layout_marginTop="23dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/bg_button" />
     </RelativeLayout>
 
@@ -41,15 +41,34 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="20dp">
+        android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/title_tv"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="2016年河北省专接本选拨考试公共课最低控制分数线"
-            android:textColor="@color/title_zx" />
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tag_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="教师专栏"
+                android:background="@color/colorPrimary"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:paddingBottom="3dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="                    2016年河北省专接本选拨考试公共课最低控制分数线"
+                android:textColor="@color/title_zx"
+                android:layout_marginTop="3dp"
+                android:lineSpacingExtra="3dp"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

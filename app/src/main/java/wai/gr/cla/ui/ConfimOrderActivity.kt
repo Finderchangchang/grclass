@@ -23,6 +23,7 @@ import android.text.TextWatcher
 import com.tsy.sdk.pay.alipay.Alipay
 import com.tsy.sdk.pay.weixin.WXPay
 import wai.gr.cla.base.App
+import wai.gr.cla.method.Utils
 import java.math.BigDecimal
 
 
@@ -46,6 +47,7 @@ class ConfimOrderActivity : BaseActivity() {
     var normal_price=0.0//不满减的钱
     override fun initViews() {
         context = this
+        bottom_qq_tv.text="如有任何疑问，请咨询客服QQ"+Utils.getCache("qq")
         title_bar.setLeftClick { finish() }
         model = intent.getSerializableExtra("model") as LzyResponse<String>
         if(intent.getBooleanExtra("is_one",false)){

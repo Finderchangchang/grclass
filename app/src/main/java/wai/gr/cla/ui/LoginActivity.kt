@@ -48,7 +48,7 @@ class LoginActivity : BaseActivity() {
         }
         toolbar.setLeftClick { closeThis() }
         teacher_login_tv.setOnClickListener {
-//            startActivity(Intent(MainActivity.main, WebActivity::class.java).putExtra("name", "position")
+            //            startActivity(Intent(MainActivity.main, WebActivity::class.java).putExtra("name", "position")
 //                    .putExtra("url", url().normal + "index/login_phone")
 //                    .putExtra("title", "老师登录入口"))
             val intent = Intent()
@@ -63,6 +63,7 @@ class LoginActivity : BaseActivity() {
     var scope: String? = null //获取信息的范围参数
     var loginListener: IUiListener? = null //授权登录监听器
     private var downloadManager: DownloadManager? = null
+
     companion object {
         var main: LoginActivity? = null
     }
@@ -70,6 +71,12 @@ class LoginActivity : BaseActivity() {
     override fun initEvents() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(tel_et.windowToken, 0);
+        OkGo.post(url().public_api + "get_qq")
+                .execute(object : JsonCallback<LzyResponse<String>>() {
+                    override fun onSuccess(data: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        Utils.putCache("qq",data.data)
+                    }
+                })
         login_btn.setOnClickListener {
             val tel = tel_et.text.toString().trim()
             var psw = pwd_et.text.toString().trim()
@@ -89,7 +96,7 @@ class LoginActivity : BaseActivity() {
                                     downloadManager = DownloadService.getDownloadManager()
                                     downloadManager!!.targetFolder = main!!.filesDir.absolutePath;
                                     downloadManager!!.removeAllTask()
-                                    Utils.putCache(key.KEY_OLD_USERID,Utils.getCache(key.KEY_USERID))
+                                    Utils.putCache(key.KEY_OLD_USERID, Utils.getCache(key.KEY_USERID))
                                 }
                                 if (model.school_id.equals("") || model.school_id.equals("0")) {
                                     startActivityForResult(Intent(this@LoginActivity, PerfaceUserActivity::class.java)
@@ -213,7 +220,7 @@ class LoginActivity : BaseActivity() {
                                                 downloadManager = DownloadService.getDownloadManager()
                                                 downloadManager!!.targetFolder = main!!.filesDir.absolutePath;
                                                 downloadManager!!.removeAllTask()
-                                                Utils.putCache(key.KEY_OLD_USERID,Utils.getCache(key.KEY_USERID))
+                                                Utils.putCache(key.KEY_OLD_USERID, Utils.getCache(key.KEY_USERID))
                                             }
                                             Utils.putCache(key.KEY_QQ, accessToken)
                                             //未选择学校跳转到选择学校页面

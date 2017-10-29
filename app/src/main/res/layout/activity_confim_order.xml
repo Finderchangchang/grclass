@@ -15,17 +15,25 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:center_tv="确认订单" />
-
-    <TextView
+    <LinearLayout
         android:id="@+id/one_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
         android:text="如需购买多门课程，加入书包可享受大额满减优惠"
         android:textColor="@color/huang_bg"
         android:textSize="14sp"
-        android:visibility="gone" />
-
+         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/line" />
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -144,7 +152,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="为方便日后为您邮寄教材资料，请完善您的地址" />
+                        android:textColor="@color/huang_bg"
+                        android:text="为方便日后为您邮寄教材资料，请完善您的邮寄地址" />
                 </RelativeLayout>
             </RelativeLayout>
 

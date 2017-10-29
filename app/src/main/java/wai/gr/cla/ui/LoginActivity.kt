@@ -147,6 +147,7 @@ class LoginActivity : BaseActivity() {
     }
 
     fun closeThis() {
+
         setResult(88, Intent().putExtra("result", true))
         finish()
     }

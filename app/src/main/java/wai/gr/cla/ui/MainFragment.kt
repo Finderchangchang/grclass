@@ -141,7 +141,9 @@ class MainFragment : BaseFragment() {
                         }
                         zx_adapter!!.refresh(zx_list!!)
                         tj_list = data!!.courses as MutableList<TuiJianModel>?
-                        tj_adapter!!.refresh(tj_list)
+                        if(tj_list!=null) {
+                            tj_adapter!!.refresh(tj_list)
+                        }
                         mf_list = data!!.free_courses as MutableList<TuiJianModel>?
                         if (mf_list!!.size > 0) {
                             jz_ll!!.visibility = View.VISIBLE

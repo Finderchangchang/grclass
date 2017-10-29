@@ -185,6 +185,8 @@ class AskListActivity : BaseActivity() {
                             ask_btn, true, price_list!![0].teacher_course_id.toString(), price_list!!, 0)
                 }
                 s!!.showWindow()
+                s!!.setOnDismissListener { user_can_ask() }
+
             }else{
                 toast("当前无法操作")
             }
@@ -276,6 +278,10 @@ class AskListActivity : BaseActivity() {
         user_can_ask()
     }
 
+    override fun onResume() {
+        super.onResume()
+        user_can_ask()
+    }
     override fun initEvents() {
 
     }

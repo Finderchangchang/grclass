@@ -266,7 +266,10 @@ class ConfimOrderActivity : BaseActivity() {
                                 man_jian(old, false)
                             } else {//总价格减去优惠价格
                                 normal_price = normal_price + old_price - yh_price
-                                total_price_tv.text = "￥" + normal_price
+                                if(normal_price<=0){
+                                    normal_price=0.01
+                                }
+                                total_price_tv.text = "￥" + convert(normal_price)
                             }
                         }
                     }

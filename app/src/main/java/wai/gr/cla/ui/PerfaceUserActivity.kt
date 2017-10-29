@@ -393,15 +393,6 @@ class PerfaceUserActivity : BaseActivity() {
             //model!!.username = Utils.getCache(key.KEY_Tel)
             data = "{\"school_id\":\"" + model!!.school_id + "\"}"
         }
-//        when (login_type) {
-//            0 -> {
-//
-//            }
-//            else -> {
-//
-//            }
-//        }
-
         go.params("data", data)// 请求方式和请求url
                 .execute(object : JsonCallback<LzyResponse<UserModel>>() {
                     override fun onSuccess(t: LzyResponse<UserModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
@@ -423,8 +414,9 @@ class PerfaceUserActivity : BaseActivity() {
                                 setResult(77, Intent().putExtra("result", true))
                             }
                             //uuid为null，只是执行修改操作
+                            toast(t.msg.toString())
                             finish()
-                            toast("修改成功")
+
                         } else {
                             toast(t.msg.toString())
                         }

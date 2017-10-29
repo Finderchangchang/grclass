@@ -81,9 +81,9 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
     override fun convertSuccess(response: Response): T {
         val genType = javaClass.genericSuperclass
         //从上述的类中取出真实的泛型参数，有些类可能有多个泛型，所以是数值
-        Utils.putCache(KEY_SESSIONID,"");
+        //Utils.putCache(KEY_SESSIONID,"");
        // var sess=Utils.getCache("PHPSESSID");
-        if(Utils.getCache(KEY_SESSIONID).equals("")) {
+        //if(Utils.getCache(KEY_SESSIONID).equals("")) {
 
             var headers = response.headers("Set-Cookie");
             if(headers.size>0) {
@@ -92,7 +92,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
                 Utils.putCache(KEY_SESSIONID,str)
             }
            // Utils.putCache("PHPSESSID", headers[0].split(":").get(1).replace("\""))
-        }
+        //}
         val params = (genType as ParameterizedType).actualTypeArguments
         //我们的示例代码中，只有一个泛型，所以取出第一个，得到如下结果
         //com.lzy.demo.model.LzyResponse<com.lzy.demo.model.ServerModel>

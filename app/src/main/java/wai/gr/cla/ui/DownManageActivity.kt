@@ -27,6 +27,7 @@ import wai.gr.cla.model.url
 import java.util.*
 import android.support.v4.app.ActivityCompat.requestPermissions
 import android.support.v7.app.AlertDialog
+import android.text.TextUtils
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.key
 
@@ -89,9 +90,13 @@ class DownManageActivity : AppCompatActivity(), ExecutorWithListener.OnAllTaskEn
             }
         }
         main_lv.setOnItemClickListener { parent, view, position, id ->
+            var path=allTask!!.get(position).targetPath
+            if(TextUtils.isEmpty(path)){
+                path=""
+            }
             startActivity(Intent(this@DownManageActivity, OnlyDetailPlayer::class.java)
                     .putExtra("name", allTask!!.get(position).fileName)
-                    .putExtra("url", allTask!!.get(position).targetPath))
+                    .putExtra("url", path))
         }
     }
 

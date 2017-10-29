@@ -148,11 +148,11 @@ class ZBFragment : BaseFragment() {
         zx_adapters = object : CommonAdapter<ZiXunModel>(MainActivity.main!!, zx_lists, R.layout.item_zixun) {
             override fun convert(holder: CommonViewHolder, model: ZiXunModel, position: Int) {
                 holder.setRoundImage(R.id.user_iv, model.author_img)
-                holder.setText(R.id.title_tv, "                    "+model.title)
+                holder.setText(R.id.title_tv, "                    " + model.title)
                 holder.setText(R.id.data_tv, model.show_time)
                 holder.setText(R.id.sc_tv, model.dianzan.toString())
                 holder.setText(R.id.pl_tv, model.comments.toString())
-                holder.setText(R.id.tag_tv,model.cname.toString())
+                holder.setText(R.id.tag_tv, model.cname.toString())
             }
         }
         zls_lv!!.adapter = zx_adapters
@@ -178,7 +178,7 @@ class ZBFragment : BaseFragment() {
         val main_vp = view.findViewById(R.id.main_vp) as ViewPager
         val st_video_gv = view.findViewById(R.id.st_video_gv) as MyGridView
         val high_video_gv = view.findViewById(R.id.high_video_gv) as MyGridView
-        val ks_gv= view.findViewById(R.id.ks_gv) as MyGridView
+        val ks_gv = view.findViewById(R.id.ks_gv) as MyGridView
         val zb3_ll = view.findViewById(R.id.zb3_ll) as LinearLayout
         val class_manage_ll = view.findViewById(R.id.class_manage_ll) as LinearLayout
         val high_quality_tv = view.findViewById(R.id.high_quality_tv) as TextView
@@ -576,10 +576,13 @@ class ZBFragment : BaseFragment() {
                             } else {
                                 public_list.add(ClassTag("专业课", false))
                             }
+
                             for (key in model.children!!) {
-                                val cc = key.info
-                                cc!!.click = false
-                                public_list.add(cc)
+                                if (key.info != null) {
+                                    val cc = key.info
+                                    cc!!.click = false
+                                    public_list.add(cc)
+                                }
                             }
                             if (i == 0) {
                                 public_list.add(ClassTag("", false))
@@ -632,7 +635,7 @@ class ZBFragment : BaseFragment() {
                 .params("free", "2")
                 .execute(object : JsonCallback<LzyResponse<PageModel<TuiJianModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<TuiJianModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        ks_list= ArrayList()
+                        ks_list = ArrayList()
                         ks_list.addAll(t.data!!.list!!)
 
                         ks_adapter!!.refresh(ks_list)

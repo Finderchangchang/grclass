@@ -166,12 +166,9 @@ class UserFragment : BaseFragment() {
         }
         //意见反馈
         user_yijian.setOnClickListener {
-//            if (checkLogin()) {
-//                startActivity(Intent(MainActivity.main, AddAskActivity::class.java))
-//            }
-            startActivity(Intent(MainActivity.main, WebActivity::class.java)
-                    .putExtra("title", "抽奖")
-                    .putExtra("url", url().normal + "course/luckydraw"))
+            if (checkLogin()) {
+                startActivity(Intent(MainActivity.main, AddAskActivity::class.java))
+            }
         }
         //优惠券列表
         user_mv_quan.setOnClickListener {

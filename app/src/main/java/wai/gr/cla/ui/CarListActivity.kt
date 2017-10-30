@@ -15,10 +15,7 @@ import okhttp3.Response
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.callback.JsonCallback
-import wai.gr.cla.method.CommonAdapter
-import wai.gr.cla.method.CommonViewHolder
-import wai.gr.cla.method.Utils
-import wai.gr.cla.method.common
+import wai.gr.cla.method.*
 import wai.gr.cla.model.CarModel
 import wai.gr.cla.model.LzyResponse
 import wai.gr.cla.model.TradeModel
@@ -35,7 +32,6 @@ class CarListActivity : BaseActivity() {
     override fun initViews() {
         toolbar.setLeftClick { finish() }
         qq_tv.text="如有任何疑问，请咨询客服QQ"+ Utils.getCache("qq")
-
         context = this
         kc1_adapter = object : CommonAdapter<CarModel>(this, kc1_list, R.layout.item_car) {
             override fun convert(holder: CommonViewHolder, model: CarModel, position: Int) {
@@ -64,9 +60,6 @@ class CarListActivity : BaseActivity() {
             }
         }
         main_lv.adapter = kc1_adapter
-        main_srl.setOnRefreshListener {
-            load_data()
-        }
         toolbar.setRightClick {
             tool_click = !tool_click
             if (tool_click) {//编辑模式
@@ -138,7 +131,6 @@ class CarListActivity : BaseActivity() {
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
                         toast(common().toast_error(e!!))
-                        main_srl.isRefreshing = false
                     }
                 })
     }
@@ -190,7 +182,6 @@ class CarListActivity : BaseActivity() {
                         kc1_list.clear()
                         kc1_list.addAll(model.data!!)
                         kc1_adapter!!.refresh(kc1_list)
-                        main_srl.isRefreshing = false
                         main_lv.getIndex(1, 10, 1)
                         if (kc1_list!!.size == 0) {
                             error_ll.visibility = View.VISIBLE;
@@ -204,12 +195,10 @@ class CarListActivity : BaseActivity() {
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
                         toast(common().toast_error(e!!))
-                        main_srl.isRefreshing = false
                     }
                 })
     }
 
     override fun initEvents() {
-
     }
 }

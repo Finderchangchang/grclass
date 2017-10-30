@@ -16,48 +16,42 @@
         app:center_tv="我的书包"
         app:right_tv="编辑" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/main_srl"
+    <RelativeLayout
+        android:id="@+id/order_lv_rl"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_ll"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/order_lv_rl"
+        <wai.gr.cla.method.OnlyLoadListView
+            android:id="@+id/main_lv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/zb_click" />
 
-            <wai.gr.cla.method.OnlyLoadListView
-                android:id="@+id/main_lv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/zb_click" />
+        <TextView
+            android:id="@+id/qq_tv"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/main_lv"
+            android:background="@color/main_bg"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:text="如有任何疑问，请咨询客服QQ"
+            android:textColor="@color/huang_bg" />
+
+        <LinearLayout
+            android:id="@+id/error_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
             <TextView
-                android:id="@+id/qq_tv"
-                android:layout_below="@+id/main_lv"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:text="如有任何疑问，请咨询客服QQ"
-                android:gravity="center_horizontal"
-                android:textColor="@color/huang_bg"
-                android:background="@color/main_bg"
-                android:paddingTop="10dp"/>
-
-            <LinearLayout
-                android:id="@+id/error_ll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="当前无数据" />
-            </LinearLayout>
-        </RelativeLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前无数据" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottom_ll"
@@ -79,8 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="全选"
-                android:clickable="false"/>
+                android:clickable="false"
+                android:text="全选" />
 
             <TextView
                 android:id="@+id/hj_tv"

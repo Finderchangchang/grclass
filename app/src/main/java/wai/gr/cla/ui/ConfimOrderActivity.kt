@@ -125,7 +125,7 @@ class ConfimOrderActivity : BaseActivity() {
                 val items = arrayOfNulls<String>(can_user_quan.size)
                 var builder = AlertDialog.Builder(this);
                 for (i in 0..can_user_quan.size - 1) {
-                    items[i] = can_user_quan[i].type_name
+                    items[i] = can_user_quan[i].coupon_code
                 }
                 builder.setItems(items) { dialogInterface, i ->
                     code_et.setText(can_user_quan[i].coupon_code)
@@ -133,7 +133,7 @@ class ConfimOrderActivity : BaseActivity() {
                 }
                 builder.show();
             } else {
-                toast("您没有优惠券")
+                toast("暂无优惠券可以使用")
             }
         }
         code_et.addTextChangedListener(object : TextWatcher {
@@ -447,9 +447,14 @@ class ConfimOrderActivity : BaseActivity() {
                                     .putExtra("title", "抽奖")
                                     .putExtra("url", url().normal + "course/luckydraw"))
                         }
-                        CarListActivity.context!!.finish()
-                        finish()
+
+                    }
+
+                    override fun onError(call: Call?, response: Response?, e: Exception?) {
+                        super.onError(call, response, e)
                     }
                 })
+        CarListActivity.context!!.finish()
+        finish()
     }
 }

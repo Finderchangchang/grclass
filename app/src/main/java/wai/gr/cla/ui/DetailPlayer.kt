@@ -393,11 +393,11 @@ class DetailPlayer : BaseActivity() {
         super.onResume()
         if (s != null) {
             (s as ZhiFuPopuWindowActivity).closePop()
-            //loadData()//支付成功以后重调
+
             isPause = false
         }
         window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        loadData()//支付成功以后重调
     }
 
     override fun onDestroy() {

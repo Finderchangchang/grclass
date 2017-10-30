@@ -16,10 +16,7 @@ import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.*
-import wai.gr.cla.model.CarModel
-import wai.gr.cla.model.LzyResponse
-import wai.gr.cla.model.TradeModel
-import wai.gr.cla.model.url
+import wai.gr.cla.model.*
 import java.util.*
 
 class CarListActivity : BaseActivity() {
@@ -166,7 +163,13 @@ class CarListActivity : BaseActivity() {
             total_price_tv.visibility = View.VISIBLE
             var price = convert(checked_price)
             total_price_tv.text = "￥$price"
+            if(price==0.0){
+                yh_price_tv.text="暂无消费金额"
+            }else {
+                man_jian(price)
+            }
         }
+
         kc1_adapter!!.refresh(kc1_list)
     }
 
@@ -198,7 +201,23 @@ class CarListActivity : BaseActivity() {
                     }
                 })
     }
+    fun man_jian(price:Double){
+        OkGo.post(url().auth_api + "get_subtract_price")
+                .params("price", price)
+                .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
+                    override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                        if (model.code == 0) {
+                            yh_price_tv.text="优惠：满"+model.data!!.amount+"减"+model.data!!.reduce_amount
+                        } else {
+                            yh_price_tv.text="暂无减免"
+                        }
+                    }
 
+                    override fun onError(call: Call?, response: Response?, e: Exception?) {
+                        yh_price_tv.text="暂无减免"
+                    }
+                })
+    }
     override fun initEvents() {
     }
 }

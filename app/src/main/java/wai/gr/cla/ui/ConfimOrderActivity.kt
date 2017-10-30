@@ -125,7 +125,7 @@ class ConfimOrderActivity : BaseActivity() {
                 val items = arrayOfNulls<String>(can_user_quan.size)
                 var builder = AlertDialog.Builder(this);
                 for (i in 0..can_user_quan.size - 1) {
-                    items[i] = can_user_quan[i].coupon_code
+                    items[i] = "优惠券："+can_user_quan[i].coupon_price+"元"
                 }
                 builder.setItems(items) { dialogInterface, i ->
                     code_et.setText(can_user_quan[i].coupon_code)
@@ -146,6 +146,7 @@ class ConfimOrderActivity : BaseActivity() {
                 if (code.length == 6) {
                     check_quan(code)
                 } else {
+                    yh_tv.text = "暂无优惠"
                     man_jian(old_price, true)
                 }
             }
@@ -237,7 +238,7 @@ class ConfimOrderActivity : BaseActivity() {
                         }
 
                         override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            total_price_tv.text = "￥" + convert(normal_price + price)
+                            total_price_tv.text = "￥" + convert(normal_price + old_price)
                             if (TextUtils.isEmpty(yh_tv.text)) {
                                 yh_tv.text = "暂无优惠"
                             }
@@ -265,11 +266,11 @@ class ConfimOrderActivity : BaseActivity() {
                                 var old = old_price - yh_price
                                 man_jian(old, false)
                             } else {//总价格减去优惠价格
-                                normal_price = normal_price + old_price - yh_price
-                                if(normal_price<=0){
-                                    normal_price=0.01
+                                var oo = normal_price + old_price - yh_price
+                                if(oo<=0){
+                                    oo=0.01
                                 }
-                                total_price_tv.text = "￥" + convert(normal_price)
+                                total_price_tv.text = "￥" + convert(oo)
                             }
                         }
                     }

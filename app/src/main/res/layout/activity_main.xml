@@ -43,7 +43,7 @@
             android:padding="2dp"
             app:tabIconNormal="@mipmap/home_button_zhuanjieben"
             app:tabIconSelected="@mipmap/home_button_zhuanjieben_selected"
-            app:tabText="专接本"
+            app:tabText="课程中心"
             app:tabTextSize="10sp"
             app:textColorNormal="@color/bottom_normal"
             app:textColorSelected="@color/main_toolbar" />

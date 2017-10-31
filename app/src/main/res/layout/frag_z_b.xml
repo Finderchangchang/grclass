@@ -78,7 +78,7 @@
                 android:padding="4dp"
                 app:tabIconNormal="@mipmap/zhuangjieben_kechengfenlei_bai"
                 app:tabIconSelected="@mipmap/zhuanjieben_button_kecheng_selected"
-                app:tabText="课程分类"
+                app:tabText="专接本"
                 app:textColorNormal="@color/bottom_normal"
                 app:textColorSelected="@color/bottom_normal" />
 

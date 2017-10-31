@@ -37,6 +37,11 @@ class QuansActivity : BaseActivity() {
                 holder.setText(R.id.price_tv, "￥" + model.coupon_price)
                 holder.setText(R.id.time_tv, "有效时间："+model.expiration_date)
                 holder.setText(R.id.code_tv,model.coupon_code)
+                if(model.coupon_price.toDouble()>=50.0){
+                    holder.setBG(R.id.main_rl, R.mipmap.bg_kuaiguoqi)
+                }else{
+                    holder.setBG(R.id.main_rl, R.mipmap.bg_weishiyong)
+                }
                 when (model.expiration_status) {
                     0 -> {//0   未过期
                         holder.setVisible(R.id.tag_iv, false)
@@ -49,14 +54,10 @@ class QuansActivity : BaseActivity() {
                     }
                     3 -> {//已使用
                         holder.setImageResource(R.id.tag_iv, R.mipmap.yishiyong)
-
+                        holder.setBG(R.id.main_rl, R.mipmap.bg_yishiyong)
                     }
                 }
-                if(model.coupon_price.toDouble()>=50.0){
-                    holder.setBG(R.id.main_rl, R.mipmap.bg_kuaiguoqi)
-                }else{
-                    holder.setBG(R.id.main_rl, R.mipmap.bg_weishiyong)
-                }
+
             }
         }
         main_lv.adapter = kc1_adapter

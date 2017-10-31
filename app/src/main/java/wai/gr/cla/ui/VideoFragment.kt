@@ -29,6 +29,7 @@ import wai.gr.cla.method.*
 import wai.gr.cla.model.*
 import java.util.*
 import org.dom4j.dom.DOMNodeHelper.getData
+import wai.gr.cla.base.App
 
 
 /**
@@ -81,12 +82,12 @@ class VideoFragment() : Fragment() {
     var page_index = 1
     var center_click = 0
     var ml_pl_lv: LoadListView? = null
-    var jdesc_tv:TextView?=null
+    var jdesc_tv: TextView? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.frag_sp, container, false)
         val gs_sl = view.findViewById(R.id.gs_sl) as ScrollView
         ml_pl_lv = view.findViewById(R.id.ml_pl_lv) as LoadListView
-        jdesc_tv=view.findViewById(R.id.jdesc_tv) as TextView
+        jdesc_tv = view.findViewById(R.id.jdesc_tv) as TextView
         val main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
         val center_lv = view.findViewById(R.id.center_lv) as ListView
         val user_iv = view.findViewById(R.id.user_iv) as ImageView
@@ -108,9 +109,11 @@ class VideoFragment() : Fragment() {
                 main_srl.visibility = View.VISIBLE
                 ml_pl_lv!!.visibility = View.VISIBLE
                 ml_lv_fl.visibility = View.VISIBLE
-
-                GlideImgManager.glideLoader(DetailPlayer.main!!, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
-
+//                if (DetailPlayer.main != null) {
+//                    GlideImgManager.glideLoader(DetailPlayer.main!!, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
+//                }else{
+                    GlideImgManager.glideLoader(App.context, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
+//                }
 
                 teacher_name_tv.text = "讲师：" + mo!!.lecturer
                 teacher_detail_tv.text = mo!!.forwho
@@ -119,7 +122,7 @@ class VideoFragment() : Fragment() {
                 }
                 center_lv.visibility = View.GONE
                 desc_tv.text = mo!!.summary
-                jdesc_tv!!.text="适合学员："+mo!!.forwho
+                jdesc_tv!!.text = "适合学员：" + mo!!.forwho
                 yxq_tv.text = "有效期：自购买之日起" + mo!!.valid_year + "年"
                 ks_tv.text = "课时：" + mo!!.videos!!.size + "讲"
                 var plnum = 0;

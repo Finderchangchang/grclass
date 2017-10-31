@@ -125,7 +125,7 @@ class ConfimOrderActivity : BaseActivity() {
                 val items = arrayOfNulls<String>(can_user_quan.size)
                 var builder = AlertDialog.Builder(this);
                 for (i in 0..can_user_quan.size - 1) {
-                    items[i] = "优惠券："+can_user_quan[i].coupon_price+"元"
+                    items[i] = "优惠券：" + can_user_quan[i].coupon_price + "元"
                 }
                 builder.setItems(items) { dialogInterface, i ->
                     code_et.setText(can_user_quan[i].coupon_code)
@@ -267,8 +267,8 @@ class ConfimOrderActivity : BaseActivity() {
                                 man_jian(old, false)
                             } else {//总价格减去优惠价格
                                 var oo = normal_price + old_price - yh_price
-                                if(oo<=0){
-                                    oo=0.01
+                                if (oo <= 0) {
+                                    oo = 0.01
                                 }
                                 total_price_tv.text = "￥" + convert(oo)
                             }
@@ -455,7 +455,9 @@ class ConfimOrderActivity : BaseActivity() {
                         super.onError(call, response, e)
                     }
                 })
-        CarListActivity.context!!.finish()
+        if (CarListActivity?.context != null) {
+            CarListActivity.context!!.finish()
+        }
         finish()
     }
 }

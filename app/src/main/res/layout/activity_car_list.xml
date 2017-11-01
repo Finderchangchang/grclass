@@ -20,7 +20,8 @@
         android:id="@+id/order_lv_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/bottom_ll">
 
         <wai.gr.cla.method.OnlyLoadListView
             android:id="@+id/main_lv"

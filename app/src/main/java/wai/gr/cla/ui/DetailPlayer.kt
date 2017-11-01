@@ -168,18 +168,23 @@ class DetailPlayer : BaseActivity() {
         //请求视频数据
         loadData()
         car_btn.setOnClickListener {
-            OkGo.post(url().auth_api + "add_shopcar")
-                    .params("course_id", ss)
-                    .execute(object : StringCallback() {
-                        override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            var m = Gson().fromJson(model, LzyResponse::class.java)
-                            toast(m.msg!!)
-                        }
+            var user_id = Utils.getCache(key.KEY_USERID)
+            if (TextUtils.isEmpty(user_id)) {
+                toast("请先登录")
+            } else {//验证是否登录
+                OkGo.post(url().auth_api + "add_shopcar")
+                        .params("course_id", ss)
+                        .execute(object : StringCallback() {
+                            override fun onSuccess(model: String, call: okhttp3.Call?, response: okhttp3.Response?) {
+                                var m = Gson().fromJson(model, LzyResponse::class.java)
+                                toast(m.msg!!)
+                            }
 
-                        override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            toast(common().toast_error(e!!))
-                        }
-                    })
+                            override fun onError(call: Call?, response: Response?, e: Exception?) {
+                                toast(common().toast_error(e!!))
+                            }
+                        })
+            }
         }
         /**
          * 购买按钮
@@ -191,17 +196,17 @@ class DetailPlayer : BaseActivity() {
             } else {//验证是否登录
                 var lzy = LzyResponse<String>()
                 var kk_list: ArrayList<CarModel> = ArrayList()//购买的课程列表
-                var car=CarModel()
-                car.course_id=model!!.id
-                car.course_title=model!!.title
-                car.thumbnail=model!!.thumbnail
-                car.price=model!!.price
-                car.is_full_cut=model!!.is_full_cut
+                var car = CarModel()
+                car.course_id = model!!.id
+                car.course_title = model!!.title
+                car.thumbnail = model!!.thumbnail
+                car.price = model!!.price
+                car.is_full_cut = model!!.is_full_cut
                 kk_list.add(car)
                 lzy.car = kk_list
                 startActivity(Intent(this@DetailPlayer, ConfimOrderActivity::class.java)
                         .putExtra("model", lzy)
-                        .putExtra("is_one",true))//是当个课程，有提示
+                        .putExtra("is_one", true))//是当个课程，有提示
 //                if (s == null) {
 //                    s = ZhiFuPopuWindowActivity(this@DetailPlayer, CardDetailActivity(), this, down_iv, false, model!!.id.toString(), ArrayList(), ss)
 //                }

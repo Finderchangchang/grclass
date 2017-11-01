@@ -1,5 +1,6 @@
 package wai.gr.cla.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.view.View
@@ -47,6 +48,8 @@ class ConfimOrderActivity : BaseActivity() {
     }
 
     var normal_price = 0.0//不满减的钱
+    var mj_desc=""//满减的描述
+    var yh_desc=""//优惠的描述
     override fun initViews() {
         context = this
         bottom_qq_tv.text = "如有任何疑问，请咨询客服QQ" + Utils.getCache("qq")
@@ -129,7 +132,7 @@ class ConfimOrderActivity : BaseActivity() {
                 }
                 builder.setItems(items) { dialogInterface, i ->
                     code_et.setText(can_user_quan[i].coupon_code)
-                    //check_quan(can_user_quan[i].coupon_code)
+                    check_quan(can_user_quan[i].coupon_code)
                 }
                 builder.show();
             } else {
@@ -146,6 +149,7 @@ class ConfimOrderActivity : BaseActivity() {
                 if (code.length == 6) {
                     check_quan(code)
                 } else {
+                    yh_desc=""
                     yh_tv.text = "暂无优惠"
                     man_jian(old_price, true)
                 }
@@ -210,25 +214,29 @@ class ConfimOrderActivity : BaseActivity() {
             OkGo.post(url().auth_api + "get_subtract_price")
                     .params("price", price)
                     .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
+                        @SuppressLint("SetTextI18n")
                         override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                             if (model.code == 0) {
                                 //yh_tv.visibility = View.VISIBLE
                                 var n_price = normal_price + model.data!!.new_price.toDouble()
+                                mj_desc="满减优惠"+convert(model.data!!.reduce_amount)
                                 if (n_price <= 0) {
                                     total_price_tv.text = "￥0.01"
-                                    if (clear) {
-                                        yh_tv.text = "优惠：满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
-                                    } else {
-                                        yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
-                                    }
+                                    //mj_desc="满减优惠"+convert(model.data!!.reduce_amount)
+//                                    if (clear) {
+//                                        yh_tv.text = "优惠：满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
+//                                    } else {
+//                                        yh_tv.text = yh_tv.text.toString() + " 满减优惠" + convert(model.data!!.reduce_amount)
+//                                    }
                                 } else {
                                     total_price_tv.text = "￥" + convert(n_price)
-                                    if (clear) {
-                                        yh_tv.text = "优惠：满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
-                                    } else {
-                                        yh_tv.text = yh_tv.text.toString() + " 满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
-                                    }
+//                                    if (clear) {
+//                                        yh_tv.text = "优惠：满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
+//                                    } else {
+//                                        yh_tv.text = yh_tv.text.toString() + " 满" + convert(model.data!!.amount.toDouble()) + "减" + convert(model.data!!.reduce_amount)
+//                                    }
                                 }
+                                yh_tv.text= "优惠：$yh_desc$mj_desc"
                             } else {
                                 total_price_tv.text = "￥" + convert(price)
                                 if (TextUtils.isEmpty(yh_tv.text)) {
@@ -238,7 +246,7 @@ class ConfimOrderActivity : BaseActivity() {
                         }
 
                         override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            total_price_tv.text = "￥" + convert(normal_price + old_price)
+                            total_price_tv.text = "￥" + convert(normal_price + price)
                             if (TextUtils.isEmpty(yh_tv.text)) {
                                 yh_tv.text = "暂无优惠"
                             }
@@ -253,15 +261,20 @@ class ConfimOrderActivity : BaseActivity() {
         return bd.toString()
     }
 
-    //加载当前优惠券
+    /**
+     * 加载当前优惠券
+     * @param quan 优惠券id
+     * */
     fun check_quan(quan: String) {
         OkGo.post(url().auth_api + "get_coupon_info")
                 .params("coupon_code", quan)
                 .execute(object : JsonCallback<LzyResponse<QuanModel>>() {
+                    @SuppressLint("SetTextI18n")
                     override fun onSuccess(model: LzyResponse<QuanModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (model.code == 0) {
                             var yh_price = model.data!!.coupon_price.toDouble()//优惠的价格
-                            yh_tv.text = "优惠：优惠券减" + convert(yh_price)
+//                            yh_tv.text = "优惠：优惠券减" + convert(yh_price)
+                            yh_desc = "优惠券减" + convert(yh_price)+" "
                             if (old_price > yh_price) {
                                 var old = old_price - yh_price
                                 man_jian(old, false)
@@ -272,6 +285,7 @@ class ConfimOrderActivity : BaseActivity() {
                                 }
                                 total_price_tv.text = "￥" + convert(oo)
                             }
+                            yh_tv.text= "优惠：$yh_desc "
                         }
                     }
 

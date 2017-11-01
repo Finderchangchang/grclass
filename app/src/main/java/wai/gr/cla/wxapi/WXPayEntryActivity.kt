@@ -18,11 +18,11 @@ class WXPayEntryActivity : BaseActivity(), IWXAPIEventHandler {
     override fun onResp(resp: com.tencent.mm.sdk.modelbase.BaseResp?) {
         if (resp!!.getType() == com.tencent.mm.sdk.constants.ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (WXPay.getInstance() != null) {
-                if (resp!!.errStr != null) {
-                    Log.e("wxpay", "errstr=" + resp!!.errStr)
+                if (resp.errStr != null) {
+                    Log.e("wxpay", "errstr=" + resp.errStr)
                 }
 
-                WXPay.getInstance().onResp(resp!!.errCode)
+                WXPay.getInstance().onResp(resp.errCode)
                 finish()
             }
         }

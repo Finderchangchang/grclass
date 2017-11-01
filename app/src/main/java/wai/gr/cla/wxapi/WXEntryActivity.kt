@@ -79,7 +79,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                                 override fun onSuccess(t: LzyResponse<String>?, call: Call?, response: Response?) {
                                                     //登录成功，跳转到注册学校页面(必须选择完学校以后才算是注册完成)
                                                     if (t!!.nickname != null) {
-                                                        var uuid = t!!.unionid
+                                                        var uuid = t.unionid
                                                         OkGo.post(url().public_api + "open_login")
                                                                 .params("openid", uuid)// 请求方式和请求url
                                                                 .params("login_type", "wx")// 请求方式和请求url

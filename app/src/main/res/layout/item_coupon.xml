@@ -38,7 +38,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="邀请码："
+                    android:text="优惠码："
                     android:textColor="@color/white"
                     android:textSize="16sp" />
                 <TextView

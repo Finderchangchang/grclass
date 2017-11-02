@@ -187,13 +187,13 @@ class MainFragment : BaseFragment() {
     internal var images = ArrayList<String>()
     var jz_ll: LinearLayout? = null
     var jp_ll: LinearLayout? = null
-    var dy_ll: TextView? = null
+    var dy_ll: LinearLayout? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.frag_main, container, false)
         main_ban = view.findViewById(R.id.main_title_ban) as Banner
         jz_ll = view.findViewById(R.id.jz_ll) as LinearLayout
         jp_ll = view.findViewById(R.id.jp_ll) as LinearLayout
-        dy_ll = view.findViewById(R.id.dy_ll) as TextView
+        dy_ll = view.findViewById(R.id.dy_ll) as LinearLayout
         main_ban!!.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 

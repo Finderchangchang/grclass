@@ -76,7 +76,7 @@ class MyOrderListActivity : BaseActivity() {
                 kc1_adapter = object : CommonAdapter<TradeModel>(this, kc1_list, R.layout.item_tread) {
                     override fun convert(holder: CommonViewHolder, model: TradeModel, position: Int) {
                         holder.setText(R.id.name_tv, model.name)
-                        holder.setText(R.id.xd_time_tv, "下单时间：" + model.expire_time.toString())
+                        holder.setText(R.id.xd_time_tv, "下单时间：" + model.pay_success_time.toString())
                         holder.setText(R.id.num_tv, model.trade_no.toString())
                         holder.setText(R.id.price_tv, "￥" + model.price)
                         var url = url().total

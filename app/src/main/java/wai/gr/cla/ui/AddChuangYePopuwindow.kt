@@ -10,7 +10,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 
 import com.lzy.okgo.OkGo
 
@@ -19,13 +18,8 @@ import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.model.LzyResponse
 import wai.gr.cla.model.MyBussinessModel
 
-import android.R.id.message
-import android.telecom.Call
 import android.text.TextUtils
 import android.widget.*
-import com.google.gson.Gson
-import com.lzy.okgo.model.Response
-import com.tencent.open.a.c.e
 import com.umeng.socialize.utils.Log.toast
 import wai.gr.cla.method.Utils
 import wai.gr.cla.method.common

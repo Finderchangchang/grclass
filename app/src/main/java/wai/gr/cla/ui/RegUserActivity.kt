@@ -1,12 +1,10 @@
 package wai.gr.cla.ui
 
 import android.content.Intent
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Message
 import android.view.View
 import com.lzy.okgo.OkGo
-import com.tencent.bugly.proguard.t
 import kotlinx.android.synthetic.main.activity_reg.*
 import okhttp3.Call
 import okhttp3.Response
@@ -20,7 +18,6 @@ import wai.gr.cla.model.key.KEY_LOGINKEY
 import wai.gr.cla.model.key.KEY_SCHOOLID
 import wai.gr.cla.model.key.KEY_SESSIONID
 import java.util.*
-import kotlin.concurrent.timer
 
 
 /**

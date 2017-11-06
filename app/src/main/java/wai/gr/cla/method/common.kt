@@ -1,7 +1,6 @@
 package wai.gr.cla.method
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import com.lzy.okgo.OkGo
@@ -12,7 +11,6 @@ import wai.gr.cla.model.LzyResponse
 import wai.gr.cla.model.key
 import wai.gr.cla.model.url
 import wai.gr.cla.ui.LoginActivity
-import wai.gr.cla.ui.MainActivity
 import wai.gr.cla.ui.PerfaceUserActivity
 
 /**

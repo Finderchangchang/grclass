@@ -1,13 +1,9 @@
 package wai.gr.cla.ui
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import com.google.gson.Gson
 import com.lzy.okgo.OkGo
-import com.lzy.okgo.callback.StringCallback
 import kotlinx.android.synthetic.main.activity_car_list.*
 import okhttp3.Call
 import okhttp3.Response

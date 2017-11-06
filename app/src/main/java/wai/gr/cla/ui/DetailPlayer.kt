@@ -1,15 +1,8 @@
 package wai.gr.cla.ui
 
-import android.annotation.TargetApi
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.graphics.Color
-import android.os.Build
-import android.os.Environment
-import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.view.*
 import android.widget.*
@@ -32,13 +25,10 @@ import wai.gr.cla.video.LandLayoutVideo
 import wai.gr.cla.video.listener.SampleListener
 import com.lzy.okserver.download.DownloadManager
 import com.lzy.okserver.download.DownloadService
-import com.shuyu.gsyvideoplayer.utils.GSYVideoType
-import kotlinx.android.synthetic.main.item_down.view.*
 import kotlinx.android.synthetic.main.sample_video.view.*
 import wai.gr.cla.callback.DialogCallback
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.*
-import java.io.File
 import java.util.*
 
 
@@ -218,7 +208,8 @@ class DetailPlayer : BaseActivity() {
             startActivity(Intent(this, AskListActivity::class.java)
                     .putExtra("is_one", model!!.id)
                     .putExtra("id", model!!.teacher_id)
-                    .putExtra("name", model!!.subject))
+                    .putExtra("name", model!!.subject)
+                    .putExtra("cid",model!!.cid))
         }
     }
 

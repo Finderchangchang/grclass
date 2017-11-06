@@ -5,11 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.text.format.Formatter
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -25,11 +23,9 @@ import wai.gr.cla.method.NumberProgressBar
 import wai.gr.cla.model.VideoModel
 import wai.gr.cla.model.url
 import java.util.*
-import android.support.v4.app.ActivityCompat.requestPermissions
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import wai.gr.cla.method.Utils
-import wai.gr.cla.model.key
 
 
 /**

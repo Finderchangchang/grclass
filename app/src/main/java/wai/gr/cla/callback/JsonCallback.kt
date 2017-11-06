@@ -1,19 +1,13 @@
 package wai.gr.cla.callback
 
-import android.widget.Toast
 import com.google.gson.stream.JsonReader
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.request.BaseRequest
-import com.tencent.bugly.Bugly.applicationContext
-import okhttp3.Call
 
 import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
 
 import okhttp3.Response
-import wai.gr.cla.base.App
 import wai.gr.cla.method.Utils
-import wai.gr.cla.method.common
 import wai.gr.cla.model.LzyResponse
 import wai.gr.cla.model.ZBResponse
 import wai.gr.cla.model.key

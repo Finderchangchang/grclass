@@ -1,34 +1,23 @@
 package wai.gr.cla.ui
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.bumptech.glide.Glide
 import com.lzy.okgo.OkGo
-import kotlinx.android.synthetic.main.activity_detail_player.*
-import kotlinx.android.synthetic.main.frag_sp.*
 import okhttp3.Call
 import okhttp3.Response
 import wai.gr.cla.R
-import wai.gr.cla.callback.DialogCallback
 import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.glideimg.GlideImgManager
 import wai.gr.cla.method.*
 import wai.gr.cla.model.*
 import java.util.*
-import org.dom4j.dom.DOMNodeHelper.getData
 import wai.gr.cla.base.App
 
 

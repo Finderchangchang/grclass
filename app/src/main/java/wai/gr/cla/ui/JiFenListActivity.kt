@@ -1,14 +1,8 @@
 package wai.gr.cla.ui
 
-import android.content.Intent
-import android.view.View
-import android.widget.ListView
-import android.widget.Toolbar
-import com.bumptech.glide.Glide
 import com.lzy.okgo.OkGo
 import kotlinx.android.synthetic.main.activity_jifen_list.*
 
-import net.tsz.afinal.view.TitleBar
 import okhttp3.Call
 import okhttp3.Response
 

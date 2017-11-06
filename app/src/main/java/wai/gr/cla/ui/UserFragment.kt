@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,8 +12,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.lzy.okgo.OkGo
-import com.umeng.socialize.utils.Log.toast
-import kotlinx.android.synthetic.main.frag_user_center.*
 
 import net.tsz.afinal.view.MenuView
 import okhttp3.Call

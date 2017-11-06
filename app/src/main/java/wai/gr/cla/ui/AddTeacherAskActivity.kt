@@ -66,51 +66,11 @@ class AddTeacherAskActivity : BaseActivity() {
             } else {//执行保存操作
                 toolbar.setRightCanClick(false)
                 var bArray = arrayOfNulls<String>(img_list.size)
-//                if (img_list.size > 0) {
-//                    for (i in 0..img_list.size - 1) {
-//                        OkGo.post(url().auth_api + "upload_thumbnail")
-//                                .params("file", File(img_list[i]))// 请求方式和请求url
-//                                .execute(object : JsonCallback<LzyResponse<ApkModel>>() {
-//                                    override fun onSuccess(t: LzyResponse<ApkModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
-//                                        if (t.code == 0) {
-//                                            bArray[i] = t.data!!.src
-//                                            if (i + 1 == img_list.size) {//上传图片完毕
-//                                                OkGo.post(url().auth_api + "save_user_question")
-//                                                        .params("teacher_course_id", course_id)
-//                                                        .params("question", txt)
-//                                                        .params("question_images", Gson().toJson(bArray))
-//                                                        .execute(object : JsonCallback<LzyResponse<PageModel<ZiXunModel>>>() {
-//                                                            override fun onSuccess(t: LzyResponse<PageModel<ZiXunModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-//                                                                if (t.code == 0) {
-//                                                                    setResult(88)
-//                                                                    finish()
-//                                                                } else {
-//                                                                    toast("提交失败，请重新提交")
-//                                                                    toolbar.setRightCanClick(true)
-//                                                                }
-//                                                            }
-//
-//                                                            override fun onError(call: Call?, response: Response?, e: Exception?) {
-//                                                                toast(common().toast_error(e!!))
-//                                                                toolbar.setRightCanClick(true)
-//                                                            }
-//                                                        })
-//                                            }
-//                                        }
-//                                    }
-//
-//                                    override fun onError(call: Call?, response: Response?, e: Exception?) {
-//                                        toast(common().toast_error(e!!))
-//                                        toolbar.setRightCanClick(true)
-//                                    }
-//                                })
-//                    }
-//                } else {
                 for (s in 0..img_list.size - 1) {
                     bArray[s] = img_list[s]
                 }
                 OkGo.post(url().auth_api + "save_user_question")
-                        .params("teacher_course_id", course_id)
+                        .params("teacher_course_id", 97)
                         .params("question", txt)
                         .params("question_images", Gson().toJson(bArray))
                         .execute(object : JsonCallback<LzyResponse<PageModel<ZiXunModel>>>() {

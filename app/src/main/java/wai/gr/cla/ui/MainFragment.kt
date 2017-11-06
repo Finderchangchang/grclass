@@ -3,7 +3,6 @@ package wai.gr.cla.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.text.TextUtils
@@ -12,9 +11,7 @@ import com.lzy.okgo.OkGo
 import com.youth.banner.Banner
 import com.zaaach.toprightmenu.MenuItem
 import com.zaaach.toprightmenu.TopRightMenu
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.frag_main.*
-import net.tsz.afinal.view.TitleBar
 import net.tsz.afinal.view.TotalScrollView
 import okhttp3.Call
 import okhttp3.Response
@@ -24,11 +21,6 @@ import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.*
 import wai.gr.cla.model.*
 import java.util.*
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
-import android.content.Context.WINDOW_SERVICE
 import android.view.*
 
 

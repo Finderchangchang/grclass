@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.lzy.okgo.OkGo
-import com.tencent.mm.opensdk.constants.ConstantsAPI
 
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -14,7 +13,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.weixin.view.WXCallbackActivity
-import kotlinx.android.synthetic.main.activity_perface_user.*
 import okhttp3.Call
 import okhttp3.Response
 import wai.gr.cla.R
@@ -24,9 +22,7 @@ import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.*
 import wai.gr.cla.ui.LoginActivity
-import wai.gr.cla.ui.MainActivity
 import wai.gr.cla.ui.PerfaceUserActivity
-import android.support.v4.media.session.MediaButtonReceiver.handleIntent
 import com.lzy.okserver.download.DownloadManager
 import com.lzy.okserver.download.DownloadService
 

@@ -1,14 +1,10 @@
 package wai.gr.cla.ui
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import com.kaopiz.kprogresshud.KProgressHUD
 import com.lzy.okgo.OkGo
 import kotlinx.android.synthetic.main.activity_ask_list.*
-import kotlinx.android.synthetic.main.card_new_item.*
 import okhttp3.Call
 import okhttp3.Response
 
@@ -18,7 +14,6 @@ import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.CommonAdapter
 import wai.gr.cla.method.CommonViewHolder
 import wai.gr.cla.method.Utils
-import wai.gr.cla.method.common
 import wai.gr.cla.model.*
 import java.util.*
 
@@ -177,7 +172,8 @@ class AskListActivity : BaseActivity() {
         if (TextUtils.isEmpty(user_id)) {
             toast("请先登录")
         } else if (can_ask) {//跳转到添加提问页面
-            startActivityForResult(Intent(this@AskListActivity, AddTeacherAskActivity::class.java).putExtra("teacher_id", cid), 0)
+            startActivityForResult(Intent(this@AskListActivity, AddTeacherAskActivity::class.java)
+                    .putExtra("teacher_id", cid), 0)
         } else {
             if (price_list!!.isNotEmpty()) {
                 if (s == null) {

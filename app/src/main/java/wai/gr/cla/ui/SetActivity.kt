@@ -3,10 +3,8 @@ package wai.gr.cla.ui
 import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.view.View
 import com.lzy.okgo.OkGo
 import kotlinx.android.synthetic.main.activity_set.*
-import net.tsz.afinal.view.TitleBar
 import okhttp3.Call
 import okhttp3.Response
 

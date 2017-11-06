@@ -4,27 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.hardware.Camera
-import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 
-import net.tsz.afinal.view.TitleBar
-import butterknife.OnClick
 import com.lzy.okgo.OkGo
-import com.lzy.okgo.callback.StringCallback
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import me.iwf.photopicker.PhotoPicker
 import okhttp3.Call
 import okhttp3.Response
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
-import wai.gr.cla.callback.DialogCallback
 import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.glideimg.GlideImgManager
 import wai.gr.cla.method.BottomPopup

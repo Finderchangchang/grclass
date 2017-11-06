@@ -5,17 +5,13 @@ import android.content.Intent
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
 
 import java.util.ArrayList
 
-import butterknife.Bind
 import kotlinx.android.synthetic.main.activity_launcher.*
-import me.relex.circleindicator.CircleIndicator
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.method.LauncherPagerAdapter
-import wai.gr.cla.method.SamplePagerAdapter
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.key.KEY_IS_LOAD
 

@@ -1,11 +1,8 @@
 package wai.gr.cla.ui
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.net.http.SslError
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.text.TextUtils
 import android.webkit.*
 import kotlinx.android.synthetic.main.activity_web.*
@@ -14,8 +11,6 @@ import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.key
-import wai.gr.cla.model.url
-import android.view.Window.FEATURE_PROGRESS
 
 
 

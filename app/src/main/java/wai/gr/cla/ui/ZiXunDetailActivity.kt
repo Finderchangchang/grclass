@@ -1,46 +1,21 @@
 package wai.gr.cla.ui
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.os.Handler
-import android.os.Message
-import android.text.Html
-import android.text.Spannable
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
-import android.text.style.BackgroundColorSpan
-import android.text.style.StyleSpan
-import android.util.DisplayMetrics
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import com.bumptech.glide.Glide
 
 import com.lzy.okgo.OkGo
-import com.lzy.okgo.callback.StringCallback
-import kotlinx.android.synthetic.main.activity_detail_player.*
-import kotlinx.android.synthetic.main.activity_text_web.view.*
 import kotlinx.android.synthetic.main.activity_zi_xun_detail.*
 import okhttp3.Call
 import okhttp3.Response
 
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
-import wai.gr.cla.callback.DialogCallback
 import wai.gr.cla.callback.JsonCallback
-import wai.gr.cla.glideimg.GlideImgManager
 import wai.gr.cla.method.Utils
 import wai.gr.cla.method.common
 import wai.gr.cla.model.*
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
-import java.net.MalformedURLException
-import java.net.URL
-import java.net.URLEncoder
 
 /**
  * Created by lenovo on 2017/5/20.

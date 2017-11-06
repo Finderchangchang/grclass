@@ -1,13 +1,8 @@
 package wai.gr.cla.ui
 
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
 
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity

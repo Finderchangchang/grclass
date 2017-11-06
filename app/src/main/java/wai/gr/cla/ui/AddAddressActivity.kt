@@ -1,13 +1,7 @@
 package wai.gr.cla.ui
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.text.TextUtils
-import android.view.View
-import chihane.jdaddressselector.BottomDialog
 import com.lzy.okgo.OkGo
-import com.umeng.socialize.utils.Log
 import kotlinx.android.synthetic.main.activity_add_address.*
 
 import wai.gr.cla.R
@@ -21,7 +15,6 @@ import com.lljjcoder.city_20170724.bean.DistrictBean
 import com.lljjcoder.city_20170724.bean.CityBean
 import com.lljjcoder.city_20170724.bean.ProvinceBean
 import com.lljjcoder.city_20170724.CityPickerView
-import android.graphics.Color.parseColor
 
 
 

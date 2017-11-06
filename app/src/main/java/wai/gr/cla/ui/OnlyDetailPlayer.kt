@@ -1,37 +1,21 @@
 package wai.gr.cla.ui
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.os.Environment
-import android.text.TextUtils
-import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.lzy.okgo.OkGo
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-import okhttp3.Call
-import okhttp3.Response
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
-import wai.gr.cla.callback.JsonCallback
-import wai.gr.cla.method.VideoAdapter
-import wai.gr.cla.method.common
-import wai.gr.cla.video.LandLayoutVideo
 import wai.gr.cla.video.listener.SampleListener
 import com.lzy.okserver.download.DownloadManager
 import com.lzy.okserver.download.DownloadService
 import kotlinx.android.synthetic.main.activity_only_detail_player.*
-import wai.gr.cla.callback.DialogCallback
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.*
-import java.io.File
-import java.util.*
 
 
 /**

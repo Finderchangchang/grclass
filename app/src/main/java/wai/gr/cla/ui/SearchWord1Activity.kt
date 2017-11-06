@@ -4,10 +4,8 @@ import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import com.lzy.okgo.OkGo
 import kotlinx.android.synthetic.main.activity_serach_word1.*
-import net.tsz.afinal.db.table.KeyValue
 import okhttp3.Call
 import okhttp3.Response
 import wai.gr.cla.R

@@ -2,33 +2,25 @@ package wai.gr.cla.ui
 
 
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.google.gson.Gson
 import com.lzy.okgo.OkGo
-import com.lzy.okgo.callback.StringCallback
-import com.lzy.okgo.request.PostRequest
 import com.zaaach.toprightmenu.MenuItem
 import com.zaaach.toprightmenu.TopRightMenu
 import kotlinx.android.synthetic.main.activity_perface_user.*
-import kotlinx.android.synthetic.main.frag_main.*
 import okhttp3.Call
 import okhttp3.Response
-import org.json.JSONObject
 import wai.gr.cla.R
 import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.callback.JsonCallback
-import wai.gr.cla.method.CommonAdapter
 import wai.gr.cla.method.Utils
 import wai.gr.cla.method.common
 import wai.gr.cla.model.*
 import wai.gr.cla.model.key.KEY_SCHOOLID
-import wai.gr.cla.model.key.KEY_USERID
 import java.util.*
 import org.feezu.liuli.timeselector.TimeSelector
 import java.text.SimpleDateFormat

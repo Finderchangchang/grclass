@@ -21,7 +21,6 @@ import java.util.*
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.widget.EditText
 import com.tsy.sdk.pay.alipay.Alipay
 import com.tsy.sdk.pay.weixin.WXPay
 import wai.gr.cla.base.App

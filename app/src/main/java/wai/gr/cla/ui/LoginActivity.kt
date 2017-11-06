@@ -22,9 +22,6 @@ import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.Utils
 import wai.gr.cla.method.common
 import wai.gr.cla.model.*
-import java.util.*
-import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.net.Uri
 import android.view.inputmethod.InputMethodManager
 

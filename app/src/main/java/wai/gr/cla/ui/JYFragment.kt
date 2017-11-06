@@ -4,15 +4,12 @@ package wai.gr.cla.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Contacts.SettingsColumns.KEY
-import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.lzy.okgo.OkGo
-import net.tsz.afinal.view.TitleBar
 import okhttp3.Call
 import okhttp3.Response
 
@@ -21,7 +18,6 @@ import wai.gr.cla.base.BaseFragment
 import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.*
 import wai.gr.cla.model.*
-import wai.gr.cla.model.key.KEY_LOGINKEY
 import java.util.*
 
 /**

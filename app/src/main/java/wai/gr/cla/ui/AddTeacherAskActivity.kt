@@ -78,7 +78,7 @@ class AddTeacherAskActivity : BaseActivity() {
                                 if (t.code == 0) {
                                     setResult(88)
                                     finish()
-                                    toast(t.msg!!)
+                                    toast("提问成功")
                                 } else {
                                     toast("提交失败，请重新提交")
                                     toolbar.setRightCanClick(true)

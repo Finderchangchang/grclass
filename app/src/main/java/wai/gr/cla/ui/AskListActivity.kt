@@ -13,6 +13,7 @@ import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.CommonAdapter
 import wai.gr.cla.method.CommonViewHolder
+import wai.gr.cla.method.OnlyLoadListView
 import wai.gr.cla.method.Utils
 import wai.gr.cla.model.*
 import java.util.*
@@ -50,6 +51,15 @@ class AskListActivity : BaseActivity() {
                 holder.setInVisible(R.id.item_zixun_ll_dot)
             }
         }
+        asl_llv.setIsValid(object : OnlyLoadListView.OnSwipeIsValid {
+            override fun setSwipeEnabledTrue() {
+                main_srl.isEnabled=true
+            }
+
+            override fun setSwipeEnabledFalse() {
+                main_srl.isEnabled=false
+            }
+        })
         answer_adapter = object : CommonAdapter<AnswerModel>(this, answer_list, R.layout.item_wenda) {
             override fun convert(holder: CommonViewHolder, model: AnswerModel, position: Int) {
                 if (TextUtils.isEmpty(model.answer)) {
@@ -154,10 +164,10 @@ class AskListActivity : BaseActivity() {
         //asl_llv.emptyView = error_ll
         asl_llv.setInterface { loadData(page_index++) }//上划加载更多数据
         ask_btn.setOnClickListener {
-            skip()
+            skip(true)
         }
         hf_rl.setOnClickListener {
-            skip()
+            skip(false)
         }
         loadData(1)
         val num = intent.getIntExtra("answer_num", 0)
@@ -168,12 +178,21 @@ class AskListActivity : BaseActivity() {
         user_can_ask()
     }
 
-    fun skip() {
+    /**
+     * 跳页处理
+     * @param to_ask true:提问。false：回复页
+     * */
+    fun skip(to_ask: Boolean) {
         if (TextUtils.isEmpty(user_id)) {
             toast("请先登录")
         } else if (can_ask) {//跳转到添加提问页面
-            startActivityForResult(Intent(this@AskListActivity, AddTeacherAskActivity::class.java)
-                    .putExtra("teacher_id", cid), 0)
+            if (to_ask) {
+                startActivityForResult(Intent(this@AskListActivity, AddTeacherAskActivity::class.java)
+                        .putExtra("teacher_id", price_list!![0].teacher_course_id), 0)
+            } else {
+                startActivityForResult(Intent(this@AskListActivity, HFActivity::class.java)
+                        .putExtra("teacher_id", price_list!![0].teacher_course_id), 0)
+            }
         } else {
             if (price_list!!.isNotEmpty()) {
                 if (s == null) {
@@ -183,8 +202,8 @@ class AskListActivity : BaseActivity() {
                 s!!.showWindow()
                 s!!.setOnDismissListener { user_can_ask() }
 
-            }else{
-                toast("当前无法操作")
+            } else {
+                toast("此老师暂时未开通答疑专栏")
             }
         }
     }
@@ -278,6 +297,7 @@ class AskListActivity : BaseActivity() {
         super.onResume()
         user_can_ask()
     }
+
     override fun initEvents() {
 
     }

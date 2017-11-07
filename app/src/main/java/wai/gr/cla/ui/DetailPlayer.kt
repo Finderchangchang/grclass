@@ -204,12 +204,24 @@ class DetailPlayer : BaseActivity() {
             }
         }
         new_teacher_btn.setOnClickListener {
+            OkGo.post(url().public_api + "get_phone_teachers")     // 请求方式和请求url
+                    .params("cid", model!!.cid)
+                    .params("page", "1")
+                    .execute(object : JsonCallback<LzyResponse<PageModel<Teacher>>>() {
+                        override fun onSuccess(t: LzyResponse<PageModel<Teacher>>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            if (t.data!!.list!!.isNotEmpty()) {
+                                startActivity(Intent(this@DetailPlayer, AskListActivity::class.java)
+                                        .putExtra("is_one", model!!.id)
+                                        .putExtra("id", model!!.teacher_id)
+                                        .putExtra("name", model!!.subject)
+                                        .putExtra("cid", model!!.cid))
+                            } else {
+                                toast("此老师暂时未开通答疑专栏")
+                            }
+                        }
+                    })
             //跳转到单个提问列表
-            startActivity(Intent(this, AskListActivity::class.java)
-                    .putExtra("is_one", model!!.id)
-                    .putExtra("id", model!!.teacher_id)
-                    .putExtra("name", model!!.subject)
-                    .putExtra("cid",model!!.cid))
+
         }
     }
 

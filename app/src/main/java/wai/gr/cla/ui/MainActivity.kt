@@ -35,7 +35,6 @@ class MainActivity : BaseActivity() {
         Utils.putCache(key.KEY_IS_POST, "0")//控制我要创业按钮
         tab_pager = findViewById(R.id.tab_pager) as ViewPager
         alphaIndicator = findViewById(R.id.alphaIndicator) as AlphaTabsIndicator
-
         tab_pager!!.adapter = mAdapter
         //预加载页面的个数
         tab_pager!!.offscreenPageLimit = 4

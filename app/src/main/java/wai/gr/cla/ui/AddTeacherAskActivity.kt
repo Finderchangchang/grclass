@@ -70,7 +70,7 @@ class AddTeacherAskActivity : BaseActivity() {
                     bArray[s] = img_list[s]
                 }
                 OkGo.post(url().auth_api + "save_user_question")
-                        .params("teacher_course_id", 97)
+                        .params("teacher_course_id", course_id)
                         .params("question", txt)
                         .params("question_images", Gson().toJson(bArray))
                         .execute(object : JsonCallback<LzyResponse<PageModel<ZiXunModel>>>() {
@@ -78,6 +78,7 @@ class AddTeacherAskActivity : BaseActivity() {
                                 if (t.code == 0) {
                                     setResult(88)
                                     finish()
+                                    toast(t.msg!!)
                                 } else {
                                     toast("提交失败，请重新提交")
                                     toolbar.setRightCanClick(true)

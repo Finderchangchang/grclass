@@ -18,30 +18,36 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<ScrollView-->
+            <!--android:id="@+id/main_sv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-            <wai.gr.cla.method.LoadListView
-                android:id="@+id/asl_llv"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/error_ll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="当前无数据" />
-            </LinearLayout>
-        </FrameLayout>
+                <wai.gr.cla.method.OnlyLoadListView
+                    android:id="@+id/asl_llv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
+
+                <LinearLayout
+                    android:id="@+id/error_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前无数据" />
+                </LinearLayout>
+            </FrameLayout>
+        <!--</ScrollView>-->
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout

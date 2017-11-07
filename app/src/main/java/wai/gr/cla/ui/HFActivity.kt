@@ -12,6 +12,7 @@ import wai.gr.cla.base.BaseActivity
 import wai.gr.cla.callback.JsonCallback
 import wai.gr.cla.method.CommonAdapter
 import wai.gr.cla.method.CommonViewHolder
+import wai.gr.cla.method.OnlyLoadListView
 import wai.gr.cla.method.common
 import wai.gr.cla.model.*
 import java.util.*
@@ -28,7 +29,7 @@ class HFActivity : BaseActivity() {
 
     override fun initViews() {
         toolbar.setLeftClick { finish() }
-        id = intent.getIntExtra("id", 0)
+        id = intent.getIntExtra("teacher_id", 0)
         kc1_adapter = object : CommonAdapter<AnswerModel>(this, kc1_list, R.layout.item_wenda) {
             override fun convert(holder: CommonViewHolder, model: AnswerModel, position: Int) {
                 if (TextUtils.isEmpty(model.answer)) {
@@ -120,10 +121,23 @@ class HFActivity : BaseActivity() {
         main_srl.setOnRefreshListener {
             load()
         }
+        main_lv.setInterface {
+            page_index++
+            load()
+        }//上划加载更多数据
+        main_lv.setIsValid(object : OnlyLoadListView.OnSwipeIsValid {
+            override fun setSwipeEnabledTrue() {
+                main_srl.isEnabled = true
+            }
+
+            override fun setSwipeEnabledFalse() {
+                main_srl.isEnabled = false
+            }
+        })
     }
 
     var id = 0
-    val page_index = 1
+    var page_index = 1
     override fun initEvents() {
         load()
     }
@@ -134,9 +148,14 @@ class HFActivity : BaseActivity() {
                 .params("page", page_index)
                 .execute(object : JsonCallback<LzyResponse<PageModel<AnswerModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<AnswerModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        kc1_list = t.data!!.list as MutableList<AnswerModel>
+                        if (page_index == 1) {
+                            kc1_list = ArrayList()
+                        }
+                        kc1_list.addAll(t.data!!.list as MutableList<AnswerModel>)
                         kc1_adapter!!.refresh(kc1_list)
                         main_srl.isRefreshing = false
+                        main_lv.getIndex(page_index, 20, kc1_list.size)
+
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {

@@ -69,7 +69,10 @@ class GBDetailActivity : BaseActivity() {
                     override fun onSuccess(t: LzyResponse<PageModel<GBModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (t.code == 0) {
                             if (t.data!!.list != null) {
-                                tj_list = t.data!!.list as ArrayList<GBModel>
+                                if(page_index==1){
+                                    tj_list= ArrayList()
+                                }
+                                tj_list.addAll(t.data!!.list as ArrayList<GBModel>)
                                 kc1_adapter!!.refresh(tj_list)
                                 main_lv.getIndex(page_index, 20, tj_list.size)
                             } else {

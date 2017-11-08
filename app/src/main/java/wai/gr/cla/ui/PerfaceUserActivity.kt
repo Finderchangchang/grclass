@@ -36,7 +36,8 @@ class PerfaceUserActivity : BaseActivity() {
     override fun setLayout(): Int {
         return R.layout.activity_perface_user
     }
-    var myslist:MutableList<SchoolModel>?=null
+
+    var myslist: MutableList<SchoolModel>? = null
     internal var num = 60
     val timer = Timer()
     var task: TimerTask? = null
@@ -148,7 +149,11 @@ class PerfaceUserActivity : BaseActivity() {
                                     show(perface_iv_shi, menuItems)
                                     //var pw = SchoolPopuWindows(this@PerfaceUserActivity, perface_iv_shi, toSchoolList(list), city_tv, school_tv2, perface_btn_save, false)
                                 } else {
-                                    toast(t.msg.toString())
+                                    if (is_login) {
+                                        toast(t.msg.toString())
+                                    } else {
+                                        toast("修改成功！")
+                                    }
                                 }
                             }
 
@@ -245,7 +250,7 @@ class PerfaceUserActivity : BaseActivity() {
                             school_tv.text = menuItems[position].text
                             perface_btn_save.setEnabled(true)
                             perface_btn_save.setBackgroundResource(R.drawable.login_btn_bg)
-                            school_id= myslist!![position].id!!.toInt()
+                            school_id = myslist!![position].id!!.toInt()
                         }
                     }
 
@@ -339,7 +344,7 @@ class PerfaceUserActivity : BaseActivity() {
                 toast("请选择入学时间")
             } else {
 //                if (school_id != 0) {
-                    model!!.school_id = school_id.toString()
+                model!!.school_id = school_id.toString()
 //                } else {
 //                    model!!.school_id = pw!!.position
 //                }
@@ -406,7 +411,11 @@ class PerfaceUserActivity : BaseActivity() {
                                 setResult(77, Intent().putExtra("result", true))
                             }
                             //uuid为null，只是执行修改操作
-                            toast(t.msg.toString())
+                            if (is_login) {
+                                toast(t.msg.toString())
+                            } else {
+                                toast("修改成功！")
+                            }
                             finish()
 
                         } else {

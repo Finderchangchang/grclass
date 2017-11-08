@@ -29,6 +29,7 @@ class AskListActivity : BaseActivity() {
     internal var cid = 0
     var class_id = 0//课程编号
     var answer_list = ArrayList<AnswerModel>()
+    var is_dy = false
     var answer_adapter: CommonAdapter<AnswerModel>? = null//资讯
     override fun setLayout(): Int {
         return R.layout.activity_ask_list
@@ -39,6 +40,7 @@ class AskListActivity : BaseActivity() {
         teacher_id = intent.getIntExtra("id", 1)
         cid = intent.getIntExtra("cid", 0)
         class_id = intent.getIntExtra("is_one", 0)
+        is_dy = intent.getBooleanExtra("is_dy", false)
         toolbar.center_str = intent.getStringExtra("name")
         zx_adapter = object : CommonAdapter<ZiXunModel>(this, zx_list, R.layout.item_zixun) {
             override fun convert(holder: CommonViewHolder, model: ZiXunModel, position: Int) {
@@ -53,11 +55,11 @@ class AskListActivity : BaseActivity() {
         }
         asl_llv.setIsValid(object : OnlyLoadListView.OnSwipeIsValid {
             override fun setSwipeEnabledTrue() {
-                main_srl.isEnabled=true
+                main_srl.isEnabled = true
             }
 
             override fun setSwipeEnabledFalse() {
-                main_srl.isEnabled=false
+                main_srl.isEnabled = false
             }
         })
         answer_adapter = object : CommonAdapter<AnswerModel>(this, answer_list, R.layout.item_wenda) {
@@ -148,18 +150,18 @@ class AskListActivity : BaseActivity() {
             }
         }
         toolbar.setLeftClick { finish() }
-        if (class_id == 0) {
-            asl_llv.adapter = zx_adapter
-            asl_llv.setOnItemClickListener { adapterView, view, i, l ->
-                val intent = Intent(MainActivity.main, ZiXunDetailActivity::class.java)
-                intent.putExtra("cid", zx_list[i].id.toString())
-                intent.putExtra("title", "资讯")
-                intent.putExtra("is_dy", true)
-                startActivity(intent)
-            }
-        } else {
-            asl_llv.adapter = answer_adapter
-        }
+//        if (class_id == 0) {
+//            asl_llv.adapter = zx_adapter
+//            asl_llv.setOnItemClickListener { adapterView, view, i, l ->
+//                val intent = Intent(MainActivity.main, ZiXunDetailActivity::class.java)
+//                intent.putExtra("cid", zx_list[i].id.toString())
+//                intent.putExtra("title", "资讯")
+//                intent.putExtra("is_dy", true)
+//                startActivity(intent)
+//            }
+//        } else {
+        asl_llv.adapter = answer_adapter
+//        }
         main_srl.setOnRefreshListener { loadData(1) }//刷新加载数据
         //asl_llv.emptyView = error_ll
         asl_llv.setInterface { loadData(page_index++) }//上划加载更多数据
@@ -216,50 +218,57 @@ class AskListActivity : BaseActivity() {
     fun loadData(index: Int) {
         page_index = index//获得当前要加载页面id
         main_srl.isRefreshing = true
-        if (class_id == 0) {
-            OkGo.get(url().public_api + "get_phone_teacher_news_list")
-                    .params("teacher_id", teacher_id)
-                    .params("page", page_index)
-                    .execute(object : JsonCallback<LzyResponse<PageModel<ZiXunModel>>>() {
-                        override fun onSuccess(t: LzyResponse<PageModel<ZiXunModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            zx_list = t.data!!.list as ArrayList<ZiXunModel>
-                            zx_adapter!!.refresh(zx_list)
-                            asl_llv.getIndex(page_index, 20, zx_list.size)
-                            main_srl.isRefreshing = false
-                            if (zx_list.size == 0) {
-                                error_ll.visibility = View.VISIBLE;
-                            } else {
-                                error_ll.visibility = View.GONE;
-                            }
-                        }
-
-                        override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            //toast(common().toast_error(e!!))
-                            main_srl.isRefreshing = false
-                        }
-                    })
+//        if (class_id == 0) {
+//            OkGo.get(url().public_api + "get_phone_teacher_news_list")
+//                    .params("teacher_id", teacher_id)
+//                    .params("page", page_index)
+//                    .execute(object : JsonCallback<LzyResponse<PageModel<ZiXunModel>>>() {
+//                        override fun onSuccess(t: LzyResponse<PageModel<ZiXunModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
+//                            zx_list = t.data!!.list as ArrayList<ZiXunModel>
+//                            zx_adapter!!.refresh(zx_list)
+//                            asl_llv.getIndex(page_index, 20, zx_list.size)
+//                            main_srl.isRefreshing = false
+//                            if (zx_list.size == 0) {
+//                                error_ll.visibility = View.VISIBLE;
+//                            } else {
+//                                error_ll.visibility = View.GONE;
+//                            }
+//                        }
+//
+//                        override fun onError(call: Call?, response: Response?, e: Exception?) {
+//                            //toast(common().toast_error(e!!))
+//                            main_srl.isRefreshing = false
+//                        }
+//                    })
+//        } else {
+        var s = OkGo.get(url().public_api + "get_course_answer_list")
+        var url = url().public_api + "get_course_answer_list"
+        if (is_dy) {
+            s = OkGo.get(url().public_api + "get_course_answer_list_by_teacher_course_id")
+            s.params("teacher_course_id", class_id)
         } else {
-            OkGo.get(url().public_api + "get_course_answer_list")
-                    .params("id", class_id)
-                    .execute(object : JsonCallback<LzyResponse<List<AnswerModel>>>() {
-                        override fun onSuccess(t: LzyResponse<List<AnswerModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            answer_list = t.data!! as ArrayList<AnswerModel>
-                            answer_adapter!!.refresh(answer_list)
-                            asl_llv.getIndex(page_index, 20, answer_list.size)
-                            main_srl.isRefreshing = false
-                            if (answer_list.size == 0) {
-                                error_ll.visibility = View.VISIBLE;
-                            } else {
-                                error_ll.visibility = View.GONE;
-                            }
-                        }
-
-                        override fun onError(call: Call?, response: Response?, e: Exception?) {
-                            //toast(common().toast_error(e!!))
-                            main_srl.isRefreshing = false
-                        }
-                    })
+            s.params("id", class_id)
         }
+
+        s.execute(object : JsonCallback<LzyResponse<List<AnswerModel>>>() {
+            override fun onSuccess(t: LzyResponse<List<AnswerModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                answer_list = t.data!! as ArrayList<AnswerModel>
+                answer_adapter!!.refresh(answer_list)
+                asl_llv.getIndex(page_index, 20, answer_list.size)
+                main_srl.isRefreshing = false
+                if (answer_list.size == 0) {
+                    error_ll.visibility = View.VISIBLE;
+                } else {
+                    error_ll.visibility = View.GONE;
+                }
+            }
+
+            override fun onError(call: Call?, response: Response?, e: Exception?) {
+                //toast(common().toast_error(e!!))
+                main_srl.isRefreshing = false
+            }
+        })
+//        }
     }
 
     var can_ask = false
@@ -290,7 +299,7 @@ class AskListActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode==88){
+        if (resultCode == 88) {
             skip(false)
         }
         user_can_ask()

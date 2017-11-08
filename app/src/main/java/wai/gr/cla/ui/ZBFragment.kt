@@ -160,12 +160,12 @@ class ZBFragment : BaseFragment() {
 
     var main_srl: SwipeRefreshLayout? = null
     var only013_srl: SwipeRefreshLayout? = null
-    var zls_lv: LoadListView? = null
+    var zls_lv: OnlyLoadListView? = null
     var right_tag_lv: ListView? = null
     //var only013: LinearLayout? = null
     //var zb_sv: ScrollBottomScrollView? = null
     var only013_sr: ScrollBottomScrollView? = null
-    var main_sr: ScrollView? = null
+//    var main_sr: ScrollView? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.frag_z_b, container, false)
         val public_class_gv = view.findViewById(R.id.public_class_gv) as MyGridView
@@ -186,13 +186,13 @@ class ZBFragment : BaseFragment() {
 //        val zl_lv = view.findViewById(R.id.zl_lv) as OnlyMeasureListView
 //        val zl_ll = view.findViewById(R.id.zl_ll) as LinearLayout
         only013_sr = view.findViewById(R.id.only013_sr) as ScrollBottomScrollView
-        zls_lv = view.findViewById(R.id.zls_lv) as LoadListView
+        zls_lv = view.findViewById(R.id.zls_lv) as OnlyLoadListView
         main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
         right_tag_lv = view.findViewById(R.id.right_tag_lv) as OnlyMeasureListView
         //only013 = view.findViewById(R.id.only013) as LinearLayout
         only013_srl = view.findViewById(R.id.only013_srl) as SwipeRefreshLayout
         //zb_sv = view.findViewById(R.id.zb_sv) as ScrollBottomScrollView
-        main_sr = view.findViewById(R.id.main_sr) as ScrollView
+//        main_sr = view.findViewById(R.id.main_sr) as ScrollView
         val left_tag_lv = view.findViewById(R.id.left_tag_lv) as OnlyMeasureListView
         val tuijian_iv = view.findViewById(R.id.tuijian_iv) as ImageView
         val st_ll = view.findViewById(R.id.st_ll) as LinearLayout
@@ -236,6 +236,15 @@ class ZBFragment : BaseFragment() {
             load_sp()
             only013_srl!!.isRefreshing = false
         }
+        zls_lv!!.setIsValid(object : OnlyLoadListView.OnSwipeIsValid {
+            override fun setSwipeEnabledTrue() {
+                main_srl!!.isEnabled = true
+            }
+
+            override fun setSwipeEnabledFalse() {
+                main_srl!!.isEnabled = false
+            }
+        })
         //点击顶部tab进行切换
         main_vp.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -337,9 +346,9 @@ class ZBFragment : BaseFragment() {
                             load_zx()
                         }
                         //解决滑动和刷新冲突的问题
-                        main_sr!!.viewTreeObserver.addOnScrollChangedListener {
-                            main_srl!!.isEnabled = main_sr!!.scrollY === 0
-                        }
+//                        main_sr!!.viewTreeObserver.addOnScrollChangedListener {
+//                            main_srl!!.isEnabled = main_sr!!.scrollY === 0
+//                        }
                     }
                     3 -> {//模拟考试
                         if (tags.size == 0) {
@@ -532,7 +541,7 @@ class ZBFragment : BaseFragment() {
         val uu = url().public_api + "get_phone_news_list2"
         OkGo.post(uu)
                 .params("page", page_index)// 请求方式和请求url
-                .params("cid", "2")
+                //.params("cid", "2")
                 .execute(object : JsonCallback<LzyResponse<PageModel<ZiXunModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<ZiXunModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         if (page_index == 1) {
@@ -546,7 +555,7 @@ class ZBFragment : BaseFragment() {
                         }
                         zx_adapters!!.refresh(zx_lists)
                         main_srl!!.isRefreshing = false
-                        if (zx_lists!!.size == 0) {
+                        if (zx_lists.size == 0) {
                             MainActivity.main?.toast("没有更多数据")
                         }
                     }

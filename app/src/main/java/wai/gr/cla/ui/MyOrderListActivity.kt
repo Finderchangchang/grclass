@@ -189,7 +189,7 @@ class MyOrderListActivity : BaseActivity() {
 
                         holder.setText(R.id.title_tv, model.title)
                         holder.setText(R.id.time_tv, model.show_time)
-                        holder.setText(R.id.sc_tv, model.dots.toString())
+                        holder.setText(R.id.sc_tv, model.dianzan.toString())
                         holder.setText(R.id.pl_tv, model.comments.toString())
                         holder.setRoundFangImage(R.id.tag_iv, url().total + model.thumbnail)
                         if (IsEdit) {

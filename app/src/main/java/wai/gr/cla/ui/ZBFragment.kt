@@ -577,13 +577,17 @@ class ZBFragment : BaseFragment() {
                 .execute(object : JsonCallback<ZBResponse<ZB>>() {
                     override fun onSuccess(t: ZBResponse<ZB>, call: okhttp3.Call?, response: okhttp3.Response?) {
                         tags = t.data as ArrayList<ZB>
+                        var load_one=false//加载了一次就不在执行
                         for (i in 0..t.data!!.size - 1) {
                             val model = t.data!![i]
                             model.info!!.click = true
                             if (i == 0) {
                                 public_list.add(ClassTag("公共课", false))
                             } else {
-                                public_list.add(ClassTag("专业课", false))
+                                if(!load_one) {
+                                    public_list.add(ClassTag("专业课", false))
+                                    load_one = true
+                                }
                             }
 
                             for (key in model.children!!) {

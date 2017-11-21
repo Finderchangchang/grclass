@@ -38,7 +38,7 @@ class WebActivity : BaseActivity() {
         }
         CookieSyncManager.createInstance(this)
         val cookieManager = CookieManager.getInstance()
-        val cookieString = Utils.getCache(key.KEY_SESSIONID)
+        val cookieString = Utils.getCache("all_session")
         cookieManager.setAcceptCookie(true);
         cookieManager.setCookie(url, cookieString)
         CookieSyncManager.getInstance().sync()

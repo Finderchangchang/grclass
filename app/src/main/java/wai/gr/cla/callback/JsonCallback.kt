@@ -56,6 +56,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
         return hexValue.toString()
 
     }
+
     /**
      * 该方法是子线程处理，不能做ui相关的工作
      * 主要作用是解析网络返回的 response 对象,生产onSuccess回调中需要的数据对象
@@ -76,16 +77,17 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
         val genType = javaClass.genericSuperclass
         //从上述的类中取出真实的泛型参数，有些类可能有多个泛型，所以是数值
         //Utils.putCache(KEY_SESSIONID,"");
-       // var sess=Utils.getCache("PHPSESSID");
+        // var sess=Utils.getCache("PHPSESSID");
         //if(Utils.getCache(KEY_SESSIONID).equals("")) {
 
-            var headers = response.headers("Set-Cookie");
-            if(headers.size>0) {
-                val headerstr = headers.get(0).toString()
-                var str=headerstr.split(";").get(0);
-                Utils.putCache(KEY_SESSIONID,str)
-            }
-           // Utils.putCache("PHPSESSID", headers[0].split(":").get(1).replace("\""))
+        var headers = response.headers("Set-Cookie");
+        if (headers.size > 0) {
+            val headerstr = headers.get(0).toString()
+            var str = headerstr.split(";").get(0);
+            Utils.putCache(KEY_SESSIONID, str)
+            Utils.putCache("all_session", headerstr)
+        }
+        // Utils.putCache("PHPSESSID", headers[0].split(":").get(1).replace("\""))
         //}
         val params = (genType as ParameterizedType).actualTypeArguments
         //我们的示例代码中，只有一个泛型，所以取出第一个，得到如下结果
@@ -116,7 +118,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
             val lzyResponse = Convert.fromJson<LzyResponse<*>>(jsonReader, type)
             response.close()
             val code = lzyResponse.code
-            if(lzyResponse.msg.equals("此账号在别处登录，请重新登录")){
+            if (lzyResponse.msg.equals("此账号在别处登录，请重新登录")) {
                 Utils.putCache(key.KEY_SCHOOLID, "")
                 Utils.putCache(key.KEY_Tel, "")
                 Utils.putCache(key.KEY_PWd, "")

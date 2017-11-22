@@ -1,6 +1,8 @@
 package wai.gr.cla.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 
@@ -16,10 +18,13 @@ import wai.gr.cla.method.*
 import java.io.File
 import android.net.Uri
 import android.os.Build
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
 
 import com.yinglan.alphatabs.AlphaTabsIndicator
+import android.support.v4.app.ActivityCompat.requestPermissions
+import android.support.v4.content.ContextCompat
 
 
 class MainActivity : BaseActivity() {
@@ -91,6 +96,17 @@ class MainActivity : BaseActivity() {
      * 检测更新
      * */
     fun check_update() {
+        // 扫描功能
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !== PackageManager.PERMISSION_GRANTED) {
+            //申请CAMERA权限
+            ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE), 3)
+        } else {
+            check_updates()
+        }
+
+    }
+
+    fun check_updates() {
         OkGo.post(url().public_api + "get_update_info")
                 .params("app", "android")// 文字ID
                 .execute(object : JsonCallback<LzyResponse<String>>() {
@@ -119,6 +135,10 @@ class MainActivity : BaseActivity() {
                                                 startActivity(intent)
                                             }
 
+                                            override fun onError(call: Call?, response: Response?, e: Exception?) {
+                                                super.onError(call, response, e)
+                                            }
+
                                         })
                             }
                             builder.show()
@@ -131,6 +151,17 @@ class MainActivity : BaseActivity() {
                         //toast(common().toast_error(e!!))
                     }
                 })
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (3 == requestCode) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                check_updates()
+            } else {
+                // 未授权
+            }
+        }
     }
 
     companion object {

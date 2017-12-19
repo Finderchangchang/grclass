@@ -62,9 +62,9 @@ class DownManageActivity : AppCompatActivity(), ExecutorWithListener.OnAllTaskEn
         downloadManager = DownloadService.getDownloadManager()
         downloadManager!!.targetFolder = this.filesDir.absolutePath;
         allTask = downloadManager!!.allTask as ArrayList<DownloadInfo>?
-        if(allTask==null||allTask!!.size==0){
-            error_ll.visibility=View.VISIBLE;
-            main_lv.visibility=View.GONE;
+        if (allTask == null || allTask!!.size == 0) {
+            error_ll.visibility = View.VISIBLE;
+            main_lv.visibility = View.GONE;
         }
         adapter = MyAdapter()
         main_lv.adapter = adapter
@@ -86,13 +86,18 @@ class DownManageActivity : AppCompatActivity(), ExecutorWithListener.OnAllTaskEn
             }
         }
         main_lv.setOnItemClickListener { parent, view, position, id ->
-            var path=allTask!!.get(position).targetPath
-            if(TextUtils.isEmpty(path)){
-                path=""
+            if (allTask != null) {
+                var path = allTask!![position].targetPath
+                var name = allTask!![position].fileName
+                if (TextUtils.isEmpty(path)) {
+                    path = ""
+                }
+                startActivity(Intent(this@DownManageActivity, OnlyDetailPlayer::class.java)
+                        .putExtra("name", allTask!!.get(position).fileName)
+                        .putExtra("url", path))
+            } else {
+                Toast.makeText(this, "播放地址有问题，请重新下载", Toast.LENGTH_SHORT).show()
             }
-            startActivity(Intent(this@DownManageActivity, OnlyDetailPlayer::class.java)
-                    .putExtra("name", allTask!!.get(position).fileName)
-                    .putExtra("url", path))
         }
     }
 
@@ -214,26 +219,26 @@ class DownManageActivity : AppCompatActivity(), ExecutorWithListener.OnAllTaskEn
             //println("progress:"+downloadInfo!!.progress +":...:"+(Math.round(downloadInfo!!.progress * 10000) * 1.0f / 100).toString());
             tvProgress.text = (Math.round(downloadInfo!!.progress * 10000) * 1.0f / 100).toString() + "%"
             //tvProgress.visibility=View.GONE
-            var total=downloadInfo!!.totalLength.toString().replace(" MB","")
-            var now_length=downloadInfo!!.downloadLength.toString().replace(" MB","")
+            var total = downloadInfo!!.totalLength.toString().replace(" MB", "")
+            var now_length = downloadInfo!!.downloadLength.toString().replace(" MB", "")
 
             pbProgress.max = total.toInt()
             pbProgress.progress = now_length.toInt()
-            pbProgress.visibility=View.GONE
+            pbProgress.visibility = View.GONE
         }
 
         override fun onClick(v: View) {
             if (v.id == download.id) {
                 when (downloadInfo!!.state) {
                     DownloadManager.PAUSE, DownloadManager.NONE, DownloadManager.ERROR ->
-                        if(Utils.isWifiConnected(this@DownManageActivity)) {
+                        if (Utils.isWifiConnected(this@DownManageActivity)) {
                             downloadManager!!.addTask(downloadInfo!!.url, downloadInfo!!.request, downloadInfo!!.listener)
-                        }else{
+                        } else {
                             var builder = AlertDialog.Builder(this@DownManageActivity);
                             builder.setTitle("提示");
                             builder.setMessage("当前为移动网络，确定要开始下载吗？");
                             builder.setNegativeButton("取消", null);
-                            builder.setPositiveButton("确定"){dialogInterface, i ->
+                            builder.setPositiveButton("确定") { dialogInterface, i ->
                                 downloadManager!!.addTask(downloadInfo!!.url, downloadInfo!!.request, downloadInfo!!.listener)
                             }
                             builder.show()
@@ -252,14 +257,14 @@ class DownManageActivity : AppCompatActivity(), ExecutorWithListener.OnAllTaskEn
                 downloadManager!!.removeTask(downloadInfo!!.url)
                 adapter!!.notifyDataSetChanged()
             } else if (v.id == restart.id) {
-                if(Utils.isWifiConnected(this@DownManageActivity)) {
+                if (Utils.isWifiConnected(this@DownManageActivity)) {
                     downloadManager!!.restartTask(downloadInfo!!.url)
-                }else{
+                } else {
                     var builder = AlertDialog.Builder(this@DownManageActivity);
                     builder.setTitle("提示");
                     builder.setMessage("当前为移动网络，确定要开始下载吗？");
                     builder.setNegativeButton("取消", null);
-                    builder.setPositiveButton("确定"){dialogInterface, i ->
+                    builder.setPositiveButton("确定") { dialogInterface, i ->
                         downloadManager!!.restartTask(downloadInfo!!.url)
                     }
                     builder.show()

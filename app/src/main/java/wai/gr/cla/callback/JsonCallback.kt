@@ -82,7 +82,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
 
         var headers = response.headers("Set-Cookie");
         if (headers.size > 0) {
-            val headerstr = headers.get(0).toString()
+            val headerstr = headers[0].toString()
             var str = headerstr.split(";").get(0);
             Utils.putCache(KEY_SESSIONID, str)
             Utils.putCache("all_session", headerstr)

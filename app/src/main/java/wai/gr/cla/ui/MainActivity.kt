@@ -25,6 +25,11 @@ import android.support.v4.view.ViewPager
 import com.yinglan.alphatabs.AlphaTabsIndicator
 import android.support.v4.app.ActivityCompat.requestPermissions
 import android.support.v4.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.util.Util
+import com.bumptech.glide.util.Util.isOnMainThread
+
+
 
 
 class MainActivity : BaseActivity() {
@@ -33,6 +38,12 @@ class MainActivity : BaseActivity() {
         check_update()
     }
 
+    public override fun onDestroy() {
+        super.onDestroy()
+        if (Util.isOnMainThread()) {
+            Glide.with(main).pauseRequests()
+        }
+    }
     var tab_pager: ViewPager? = null
     var alphaIndicator: AlphaTabsIndicator? = null
     override fun initEvents() {

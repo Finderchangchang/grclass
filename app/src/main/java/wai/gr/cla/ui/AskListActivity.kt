@@ -280,7 +280,7 @@ class AskListActivity : BaseActivity() {
             toast("请先登录")
         } else {
             OkGo.get(url().auth_api + "get_phone_one_teacher")
-                    .params("teacher_id", teacher_id)
+                    .params("cid", cid)
                     .execute(object : JsonCallback<LzyResponse<Teacher>>() {
                         override fun onSuccess(t: LzyResponse<Teacher>, call: okhttp3.Call?, response: okhttp3.Response?) {
                             if (t.code == 0) {

@@ -232,9 +232,10 @@ class MyOrderListActivity : BaseActivity() {
                     startActivity(Intent(this, DetailPlayer::class.java).putExtra("cid", sp2_list!![position].id))
                 }
                 5 -> {
+                    var s=""
                     startActivity(Intent(this, AskListActivity::class.java)
                             .putExtra("id", dy3_list[position].teacher_course!!.teacher!!.id)
-                            .putExtra("cid", dy3_list[position].teacher_course_id)
+                            .putExtra("cid", dy3_list[position].teacher_course!!.cid)
                             .putExtra("is_one", dy3_list[position].teacher_course_id)
                             .putExtra("name", dy3_list[position].teacher_course!!.cname + "-" + dy3_list[position].teacher_course!!.teacher_name)
                             .putExtra("answer_num", dy3_list[position].answer_unread))
@@ -264,7 +265,7 @@ class MyOrderListActivity : BaseActivity() {
                 5 -> {
                     startActivity(Intent(this, AskListActivity::class.java)
                             .putExtra("id", dy3_list[position].teacher_course!!.teacher!!.id)
-                            .putExtra("cid", dy3_list[position].teacher_course_id)
+                            .putExtra("cid", dy3_list[position].teacher_course!!.cid)
                             .putExtra("is_one", dy3_list[position].teacher_course_id)
                             .putExtra("is_dy", true)//订阅跳转过去的
                             .putExtra("name", dy3_list[position].teacher_course!!.cname + "-" + dy3_list[position].teacher_course!!.teacher_name)

@@ -202,7 +202,7 @@ class AskListActivity : BaseActivity() {
                             ask_btn, true, price_list!![0].teacher_course_id.toString(), price_list!!, 0)
                 }
                 s!!.showWindow()
-                s!!.setOnDismissListener { user_can_ask() }
+                s!!.setOnDismissListener { user_can_ask() }//13091201967
 
             } else {
                 toast("此老师暂时未开通答疑专栏")

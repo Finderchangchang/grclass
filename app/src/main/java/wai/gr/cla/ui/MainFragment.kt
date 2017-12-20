@@ -127,13 +127,14 @@ class MainFragment : BaseFragment() {
                         data!!.banner!!.mapTo(images) { url().total + it.src }
                         main_ban!!.setImages(images)
                         main_ban!!.start()
+
                         zx_list = data!!.news as MutableList<DataBean.NewsBean>?
                         if (zx_adapter == null) {
                             initAdapter()
                         }
                         zx_adapter!!.refresh(zx_list!!)
                         tj_list = data!!.courses as MutableList<TuiJianModel>?
-                        if (tj_list != null) {
+                        if (tj_list != null && tj_adapter != null) {
                             tj_adapter!!.refresh(tj_list)
                         }
                         mf_list = data!!.free_courses as MutableList<TuiJianModel>?

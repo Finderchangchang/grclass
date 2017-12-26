@@ -111,7 +111,7 @@ class MyOrderListActivity : BaseActivity() {
                         holder.setText(R.id.name_tv, model.teacher_course!!.cname + "-" + model.teacher_course!!.teacher_name)
                         //val uu = url().total + model.teacher_course!!.teacher!!.photo
                         holder.setGlideImage(R.id.user_iv, url().total + model.teacher_course!!.teacher!!.photo)//设置图片
-                        holder.setText(R.id.xd_time_tv, "截止时间：" + model.mdate)//创建时间
+                        holder.setText(R.id.xd_time_tv, "截止时间：" + model.expire_time)//创建时间
                     }
                 }
                 main_lv.adapter = dy3_adapter

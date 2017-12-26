@@ -28,8 +28,7 @@ import android.support.v4.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.util.Util
 import com.bumptech.glide.util.Util.isOnMainThread
-
-
+import wai.gr.cla.DownloadUtils
 
 
 class MainActivity : BaseActivity() {
@@ -44,6 +43,7 @@ class MainActivity : BaseActivity() {
             Glide.with(main).pauseRequests()
         }
     }
+
     var tab_pager: ViewPager? = null
     var alphaIndicator: AlphaTabsIndicator? = null
     override fun initEvents() {
@@ -130,27 +130,32 @@ class MainActivity : BaseActivity() {
                             builder.setMessage(t.content)
                             builder.setNegativeButton("取消", null)
                             builder.setPositiveButton("确定") { dialog, which ->
-                                //执行下载操作
-                                OkGo.get(url().total + t.download)
-                                        .execute(object : FileCallback() {
-                                            override fun onSuccess(t: File?, call: Call?, response: Response?) {
-                                                val intent = Intent(Intent.ACTION_VIEW)
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                                    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                                    val contentUri = FileProvider.getUriForFile(this@MainActivity, "wai.gr.cla.provider", File(t!!.toString()))
-                                                    intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
-                                                } else {
-                                                    intent.setDataAndType(Uri.fromFile(File(t!!.toString())), "application/vnd.android.package-archive")
-                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                                }
-                                                startActivity(intent)
-                                            }
-
-                                            override fun onError(call: Call?, response: Response?, e: Exception?) {
-                                                super.onError(call, response, e)
-                                            }
-
-                                        })
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    DownloadUtils(this@MainActivity).downloadAPK(url().total + t.download, "新版本Apk.apk")
+                                } else {
+                                    UpdateManager(this@MainActivity).checkUpdateInfo(url().total + t.download)
+                                }
+//                                //执行下载操作
+//                                OkGo.get(url().total + t.download)
+//                                        .execute(object : FileCallback() {
+//                                            override fun onSuccess(t: File?, call: Call?, response: Response?) {
+//                                                val intent = Intent(Intent.ACTION_VIEW)
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                                    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                                                    val contentUri = FileProvider.getUriForFile(this@MainActivity, "wai.gr.cla.provider", File(t!!.toString()))
+//                                                    intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+//                                                } else {
+//                                                    intent.setDataAndType(Uri.fromFile(File(t!!.toString())), "application/vnd.android.package-archive")
+//                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                                                }
+//                                                startActivity(intent)
+//                                            }
+//
+//                                            override fun onError(call: Call?, response: Response?, e: Exception?) {
+//                                                super.onError(call, response, e)
+//                                            }
+//
+//                                        })
                             }
                             builder.show()
                         } else {

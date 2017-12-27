@@ -50,6 +50,8 @@ public class LoadListView extends ListView implements AbsListView.OnScrollListen
         this.setOnScrollListener(this);
     }
 
+    boolean can_load = false;
+
     /**
      * @param pageSize  当前页面显示数量
      * @param pageIndex 页面码
@@ -59,8 +61,10 @@ public class LoadListView extends ListView implements AbsListView.OnScrollListen
 //            closeLoading();
 //        }
         if (total < pageIndex * pageSize) {
+            can_load = false;
             loadComplete();//加载更多操作
         } else {
+            can_load = true;
             closeLoading();
         }
     }
@@ -68,17 +72,17 @@ public class LoadListView extends ListView implements AbsListView.OnScrollListen
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (totalItemCount == lastVisibieItem && scrollState == SCROLL_STATE_IDLE) {
-            if(totalItemCount>20) {
+            if (totalItemCount > 20) {
                 LinearLayout foot = (LinearLayout) footer.findViewById(R.id.footer_layout);
                 foot.setVisibility(View.VISIBLE);
             }
 
             //if (!load_tv.getText().toString().trim().equals("------已经到底了------")) {
-                if (!isLoading) {
-                    isLoading = true;
-                    // 加载更多（获取接口）
-                    iLoadListener.onLoad(footer);
-                }
+            if (!isLoading && can_load) {
+                isLoading = true;
+                // 加载更多（获取接口）
+                iLoadListener.onLoad(footer);
+            }
             //}
         }
     }

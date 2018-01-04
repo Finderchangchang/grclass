@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -39,6 +40,7 @@ import java.util.TimerTask;
 import moe.codeest.enviews.ENDownloadView;
 import moe.codeest.enviews.ENPlayView;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.shuyu.gsyvideoplayer.utils.CommonUtil.hideNavKey;
 
 
@@ -131,7 +133,8 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
         mThumbImageViewLayout = (RelativeLayout) findViewById(R.id.thumb);
         mLockScreen = (ImageView) findViewById(R.id.lock_screen);
         moreScale1 = (TextView) findViewById(R.id.moreScale1);
-        moreScale1.setText(tel);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("grclass", MODE_PRIVATE);
+        moreScale1.setText(sharedPreferences.getString("tel", ""));
         down_iv = (ImageView) findViewById(R.id.down_iv);
         star_iv = (ImageView) findViewById(R.id.star_iv);
         share_iv = (ImageView) findViewById(R.id.share_iv);

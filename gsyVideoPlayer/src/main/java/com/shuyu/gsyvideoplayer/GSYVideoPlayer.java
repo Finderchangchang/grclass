@@ -2,6 +2,7 @@ package com.shuyu.gsyvideoplayer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
@@ -41,6 +42,7 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkLibLoader;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.shuyu.gsyvideoplayer.utils.CommonUtil.getTextSpeed;
 import static com.shuyu.gsyvideoplayer.utils.CommonUtil.hideNavKey;
 
@@ -177,7 +179,9 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
         View.inflate(context, getLayoutId(), this);
         mStartButton = findViewById(R.id.start);
         moreScale1 = (TextView) findViewById(R.id.moreScale1);
-        moreScale1.setText(key);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("grclass", MODE_PRIVATE);
+        String t=sharedPreferences.getString("tel", "");
+        moreScale1.setText(sharedPreferences.getString("tel", ""));
         mSmallClose = findViewById(R.id.small_close);
         mBackButton = (ImageView) findViewById(R.id.back);
         mCoverImageView = (ImageView) findViewById(R.id.cover);

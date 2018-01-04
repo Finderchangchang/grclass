@@ -430,7 +430,7 @@ class DetailPlayer : BaseActivity() {
                     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
                     detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true,Utils.getCache("tel"))
-                    detailPlayer!!.setText("0000000")
+                    //detailPlayer!!.setText("0000000")
                 }
             } else {
                 //新版本isIfCurrentIsFullscreen的标志位内部提前设置了，所以不会和手动点击冲突

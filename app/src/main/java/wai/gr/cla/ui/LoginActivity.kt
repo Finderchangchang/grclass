@@ -89,6 +89,8 @@ class LoginActivity : BaseActivity() {
                                 Utils.putCache(key.KEY_PWd, psw)
                                 Utils.putCache(key.KEY_Tel, tel)
                                 Utils.putCache(key.KEY_USERID, model!!.uid)
+                                Utils.putCache("tel", t.data!!.username)
+
                                 if (!Utils.getCache(key.KEY_OLD_USERID).equals(Utils.getCache(key.KEY_USERID))) {
                                     downloadManager = DownloadService.getDownloadManager()
                                     downloadManager!!.targetFolder = main!!.filesDir.absolutePath;
@@ -211,6 +213,7 @@ class LoginActivity : BaseActivity() {
                                     override fun onSuccess(t: LzyResponse<UserModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                                         if (t.code == 0) {
                                             var model = t.data
+                                            Utils.putCache("tel", t.data!!.username)
                                             /**
                                              * 前后id不同，清空下载记录
                                              * */

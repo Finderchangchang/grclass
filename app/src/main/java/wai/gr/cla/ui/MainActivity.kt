@@ -131,6 +131,9 @@ class MainActivity : BaseActivity() {
                             builder.setNegativeButton("取消", null)
                             builder.setPositiveButton("确定") { dialog, which ->
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    builder.setMessage("可在顶部状态栏，查看APP更新进度")
+                                    builder.setPositiveButton("确定") { dialog, which -> }
+                                    builder.show()
                                     DownloadUtils(this@MainActivity).downloadAPK(url().total + t.download, "新版本Apk.apk")
                                 } else {
                                     UpdateManager(this@MainActivity).checkUpdateInfo(url().total + t.download)

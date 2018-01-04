@@ -121,6 +121,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
             if (lzyResponse.msg.equals("此账号在别处登录，请重新登录")) {
                 Utils.putCache(key.KEY_SCHOOLID, "")
                 Utils.putCache(key.KEY_Tel, "")
+                Utils.putCache("tel", "")
                 Utils.putCache(key.KEY_PWd, "")
                 Utils.putCache(key.KEY_WX, "")
                 Utils.putCache(key.KEY_QQ, "")

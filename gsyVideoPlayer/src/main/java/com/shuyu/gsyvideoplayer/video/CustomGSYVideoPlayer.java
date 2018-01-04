@@ -163,8 +163,8 @@ public class CustomGSYVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     @Override
-    public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar) {
-        GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar);
+    public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar,String val) {
+        GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar,val);
         CustomGSYVideoPlayer customGSYVideoPlayer = (CustomGSYVideoPlayer) gsyBaseVideoPlayer;
         customGSYVideoPlayer.mOpenPreView = mOpenPreView;
         return gsyBaseVideoPlayer;

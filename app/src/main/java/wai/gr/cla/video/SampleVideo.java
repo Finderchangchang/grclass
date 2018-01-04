@@ -237,8 +237,8 @@ public class SampleVideo extends StandardGSYVideoPlayer {
 
 
     @Override
-    public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar) {
-        SampleVideo sampleVideo = (SampleVideo) super.startWindowFullscreen(context, actionBar, statusBar);
+    public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar,String tel) {
+        SampleVideo sampleVideo = (SampleVideo) super.startWindowFullscreen(context, actionBar, statusBar,tel);
         //这个播放器的demo配置切换到全屏播放器
         //这只是单纯的作为全屏播放显示，如果需要做大小屏幕切换，请记得在这里耶设置上视频全屏的需要的自定义配置
         //比如已旋转角度之类的等等

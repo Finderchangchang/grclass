@@ -65,6 +65,7 @@ class DetailPlayer : BaseActivity() {
             }
         }
         detail_player!!.backButton.setOnClickListener { finish() }
+        detail_player!!.userText.text = Utils.getCache("tel")
         main_tab.addTab(main_tab.newTab().setText("概述"))
         main_tab.addTab(main_tab.newTab().setText("目录"))
         ss = intent.getIntExtra("cid", 0)
@@ -331,7 +332,7 @@ class DetailPlayer : BaseActivity() {
         detailPlayer!!.fullscreenButton.setOnClickListener { v ->
             //直接横屏
             orientationUtils!!.resolveByClick()
-            detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true)
+            detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true,Utils.getCache("tel"))
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
             //highApiEffects(false)
@@ -428,7 +429,8 @@ class DetailPlayer : BaseActivity() {
                     //全屏
                     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-                    detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true)
+                    detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true,Utils.getCache("tel"))
+                    detailPlayer!!.setText("0000000")
                 }
             } else {
                 //新版本isIfCurrentIsFullscreen的标志位内部提前设置了，所以不会和手动点击冲突
@@ -438,6 +440,8 @@ class DetailPlayer : BaseActivity() {
                 if (orientationUtils != null) {
                     orientationUtils!!.isEnable = true
                 }
+                detail_player!!.userText.text = Utils.getCache("tel")
+
                 //window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             }
         }

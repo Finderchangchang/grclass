@@ -2,7 +2,9 @@ package wai.gr.cla.video;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
@@ -42,6 +44,9 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer {
 
     @Override
     protected void updateStartImage() {
+        ImageView btnt=mBackButton;
+        TextView btnt1=moreScale1;
+//        moreScale1.setText();
         if (mIfCurrentIsFullscreen) {
             try {
                 ImageView imageView = (ImageView) mStartButton;
@@ -52,7 +57,7 @@ public class LandLayoutVideo extends StandardGSYVideoPlayer {
                 } else {
                     imageView.setImageResource(R.drawable.video_click_play_selector);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 super.updateStartImage();
 
             }

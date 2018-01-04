@@ -263,6 +263,7 @@ class UserFragment : BaseFragment() {
                         }
                         Utils.putCache(key.KEY_SCHOOLID, "")
                         Utils.putCache(key.KEY_Tel, "")
+                        Utils.putCache("tel", "")
                         Utils.putCache(key.KEY_PWd, "")
                         Utils.putCache(key.KEY_WX, "")
                         Utils.putCache(key.KEY_QQ, "")

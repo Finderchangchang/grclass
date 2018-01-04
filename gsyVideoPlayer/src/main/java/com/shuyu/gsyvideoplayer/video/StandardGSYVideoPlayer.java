@@ -55,7 +55,7 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
     protected ProgressBar mBottomProgressBar;
 
     private View mLoadingProgressBar;
-
+    public TextView moreScale1;
     public TextView mTitleTextView; //title
     public ImageView down_iv;
     public ImageView star_iv;
@@ -82,6 +82,7 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
     protected ProgressBar mDialogProgressBar;
     protected TextView mDialogSeekTime;
     protected TextView mDialogTotalTime;
+
     protected ImageView mDialogIcon;
     protected ImageView mLockScreen;
 
@@ -123,17 +124,18 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
     }
 
     @Override
-    protected void init(Context context) {
-        super.init(context);
+    protected void init(Context context, String tel1) {
+        super.init(context, tel1);
         mBottomProgressBar = (ProgressBar) findViewById(R.id.bottom_progressbar);
         mTitleTextView = (TextView) findViewById(R.id.title);
         mThumbImageViewLayout = (RelativeLayout) findViewById(R.id.thumb);
         mLockScreen = (ImageView) findViewById(R.id.lock_screen);
+        moreScale1 = (TextView) findViewById(R.id.moreScale1);
+        moreScale1.setText(tel);
         down_iv = (ImageView) findViewById(R.id.down_iv);
         star_iv = (ImageView) findViewById(R.id.star_iv);
         share_iv = (ImageView) findViewById(R.id.share_iv);
         mLoadingProgressBar = findViewById(R.id.loading);
-
         mThumbImageViewLayout.setVisibility(GONE);
         mThumbImageViewLayout.setOnClickListener(this);
         mBackButton.setOnClickListener(this);
@@ -807,15 +809,20 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
         }
     }
 
+    String tel = "";
+
     @Override
-    public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar) {
-        GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar);
+    public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar, String val) {
+        tel = val;
+        GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar, val);
         if (gsyBaseVideoPlayer != null) {
             StandardGSYVideoPlayer gsyVideoPlayer = (StandardGSYVideoPlayer) gsyBaseVideoPlayer;
             gsyVideoPlayer.setStandardVideoAllCallBack(mStandardVideoAllCallBack);
             gsyVideoPlayer.setLockClickListener(mLockClickListener);
             gsyVideoPlayer.setNeedLockFull(isNeedLockFull());
             initFullUI(gsyVideoPlayer);
+            moreScale1.setText("tek");
+
             //比如你自定义了返回案件，但是因为返回按键底层已经设置了返回事件，所以你需要在这里重新增加的逻辑
         }
         return gsyBaseVideoPlayer;

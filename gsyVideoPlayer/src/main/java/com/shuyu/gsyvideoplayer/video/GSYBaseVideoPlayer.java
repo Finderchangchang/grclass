@@ -114,7 +114,7 @@ public abstract class GSYBaseVideoPlayer extends FrameLayout implements GSYMedia
     protected ViewGroup mTextureViewContainer; //渲染控件父类
 
     protected View mSmallClose; //小窗口关闭按键
-
+    protected TextView moreScale1;
     protected VideoAllCallBack mVideoAllCallBack;
 
     protected Map<String, String> mMapHeadData = new HashMap<>();
@@ -276,7 +276,7 @@ public abstract class GSYBaseVideoPlayer extends FrameLayout implements GSYMedia
      * @param statusBar 是否有状态bar，有的话需要隐藏
      */
     @SuppressWarnings("ResourceType")
-    public GSYBaseVideoPlayer startWindowFullscreen(final Context context, final boolean actionBar, final boolean statusBar) {
+    public GSYBaseVideoPlayer startWindowFullscreen(final Context context, final boolean actionBar, final boolean statusBar,String val) {
 
         mSystemUiVisibility = ((Activity) context).getWindow().getDecorView().getSystemUiVisibility();
 

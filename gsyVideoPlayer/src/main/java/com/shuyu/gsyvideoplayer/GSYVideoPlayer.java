@@ -169,9 +169,15 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
     }
 
     protected void init(Context context) {
+        init(context, "");
+    }
+
+    protected void init(Context context, String key) {
         this.mContext = context;
         View.inflate(context, getLayoutId(), this);
         mStartButton = findViewById(R.id.start);
+        moreScale1 = (TextView) findViewById(R.id.moreScale1);
+        moreScale1.setText(key);
         mSmallClose = findViewById(R.id.small_close);
         mBackButton = (ImageView) findViewById(R.id.back);
         mCoverImageView = (ImageView) findViewById(R.id.cover);
@@ -198,8 +204,12 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
         mAudioManager = (AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         mSeekEndOffset = CommonUtil.dip2px(getContext(), 50);
+
     }
 
+    public void setText(String txt) {
+        moreScale1.setText(txt);
+    }
 
     /**
      * 设置自定义so包加载类，必须在setUp之前调用
@@ -316,6 +326,7 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
                 cancelProgressTimer();
                 mProgressBar.setProgress(100);
                 mCurrentTimeTextView.setText(mTotalTimeTextView.getText());
+
                 break;
         }
     }
@@ -421,6 +432,7 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
         mBackUpPlayingBufferState = -1;
         GSYVideoManager.instance().prepare(mUrl, mMapHeadData, mLooping, mSpeed);
         setStateAndUi(CURRENT_STATE_PREPAREING);
+
     }
 
     /**
@@ -1191,6 +1203,13 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
      */
     public ImageView getBackButton() {
         return mBackButton;
+    }
+
+    /**
+     * 获取返回按键
+     */
+    public TextView getUserText() {
+        return moreScale1;
     }
 
     /**

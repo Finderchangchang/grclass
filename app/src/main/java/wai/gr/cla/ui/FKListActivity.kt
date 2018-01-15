@@ -24,9 +24,7 @@ import java.util.*
 class FKListActivity : BaseActivity() {
     var zx_list = ArrayList<ZiXunModel>()
     internal var page_index = 1//当前页数
-    internal var teacher_id = 1//老师id
     internal var cid = 0
-    var class_id = 0//课程编号
     var answer_list = ArrayList<FKModel>()
     var answer_adapter: CommonAdapter<FKModel>? = null//资讯
     override fun setLayout(): Int {
@@ -62,10 +60,16 @@ class FKListActivity : BaseActivity() {
         }
         toolbar.setLeftClick { finish() }
         asl_llv.adapter = answer_adapter
-        main_srl.setOnRefreshListener { loadData(1) }//刷新加载数据
-        asl_llv.setInterface { loadData(page_index++) }//上划加载更多数据
-
-        loadData(1)
+        main_srl.setOnRefreshListener {
+            page_index = 1
+            loadData()
+        }//刷新加载数据
+        asl_llv.setInterface {
+            page_index++
+            loadData()
+        }//上划加载更多数据
+        page_index = 1
+        loadData()
     }
 
 
@@ -74,15 +78,18 @@ class FKListActivity : BaseActivity() {
     /**
      * 加载数据
      * */
-    fun loadData(index: Int) {
-        page_index = index//获得当前要加载页面id
+    fun loadData() {
         main_srl.isRefreshing = true
         var s = OkGo.get(url().auth_api + "get_all_feedback_info")
+                .params("page", page_index)
         s.execute(object : JsonCallback<LzyResponse<PageModel<FKModel>>>() {
             override fun onSuccess(t: LzyResponse<PageModel<FKModel>>, call: Call?, response: Response?) {
-                answer_list = t.data?.list as ArrayList<FKModel>
+                if (page_index == 1) {
+                    answer_list.clear()
+                }
+                answer_list.addAll(t.data?.list as ArrayList<FKModel>)
                 answer_adapter!!.refresh(answer_list)
-                asl_llv.getIndex(page_index, 20, answer_list.size)
+                asl_llv.getIndex(page_index, 5, 5 * (page_index - 1) + t.data!!.count)
                 main_srl.isRefreshing = false
                 if (answer_list.size == 0) {
                     error_ll.visibility = View.VISIBLE;

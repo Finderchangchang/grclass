@@ -39,9 +39,6 @@ class MainActivity : BaseActivity() {
 
     public override fun onDestroy() {
         super.onDestroy()
-        if (Util.isOnMainThread()) {
-            Glide.with(main).pauseRequests()
-        }
     }
 
     var tab_pager: ViewPager? = null

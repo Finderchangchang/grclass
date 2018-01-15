@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -271,12 +272,12 @@ class DetailPlayer : BaseActivity() {
                             if (model!!.videos!!.size > 0 && model!!.videos!![0].free == 1) {
                                 if (model!!.i_can_play) {
                                     if (videos!!.size > model!!.last_play_num) {//解决超出索引的问题
-                                        play(url().total + videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
+                                        play(videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
                                     } else {
-                                        play(url().total + videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
+                                        play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                                     }
                                 } else {
-                                    play(url().total + videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
+                                    play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                                 }
                             }
                             //}
@@ -314,6 +315,12 @@ class DetailPlayer : BaseActivity() {
      * 根据url播放视频
      * */
     fun play(url: String, img_url: String, title: String) {
+        var url = url
+        if (!TextUtils.isEmpty(url)) {
+            url = url.replace(".mp4", ".gr.mp4")
+        }
+        url = url().total + "/fP3m8r/t7Me1e" + url
+        Log.i("url", url)
         detailPlayer!!.setUp(url, false, null)
         loadsp(img_url)
         //外部辅助的旋转，帮助全屏
@@ -332,7 +339,7 @@ class DetailPlayer : BaseActivity() {
         detailPlayer!!.fullscreenButton.setOnClickListener { v ->
             //直接横屏
             orientationUtils!!.resolveByClick()
-            detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true,Utils.getCache("tel"))
+            detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true, Utils.getCache("tel"))
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
             //highApiEffects(false)
@@ -429,7 +436,7 @@ class DetailPlayer : BaseActivity() {
                     //全屏
                     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-                    detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true,Utils.getCache("tel"))
+                    detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true, Utils.getCache("tel"))
                     //detailPlayer!!.setText("0000000")
                 }
             } else {

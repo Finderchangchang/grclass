@@ -101,7 +101,7 @@ class VideoFragment() : Fragment() {
 //                if (DetailPlayer.main != null) {
 //                    GlideImgManager.glideLoader(DetailPlayer.main!!, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
 //                }else{
-                    GlideImgManager.glideLoader(App.context, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
+                GlideImgManager.glideLoader(App.context, url().total + mo!!.thumbnail, R.mipmap.error_img_sml, R.mipmap.error_img_sml, user_iv, 0)
 //                }
 
                 teacher_name_tv.text = "讲师：" + mo!!.lecturer
@@ -186,7 +186,7 @@ class VideoFragment() : Fragment() {
 //                    ml_list = ac.loadData1() as MutableList<VideoModel>?
                     //当前item可以播放，当前视频已购买
                     if (DetailPlayer.main!!.play(position)) {
-                        DetailPlayer.main!!.play(url().total + ml_list!![position].url, ml_list!![position].thumbnail!!, ml_list!![position].name!!)
+                        DetailPlayer.main!!.play(ml_list!![position].url!!, ml_list!![position].thumbnail!!, ml_list!![position].name!!)
                         ml_list!![center_click].check = false
                         center_click = position
                         ml_list!![center_click].check = true

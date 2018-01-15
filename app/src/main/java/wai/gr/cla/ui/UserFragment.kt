@@ -74,6 +74,7 @@ class UserFragment : BaseFragment() {
         val user_mv_quan = view.findViewById(R.id.user_mv_quan) as MenuView
         val iv_set = view.findViewById(R.id.iv_set) as ImageView//设置按钮
         val user_ll = view.findViewById(R.id.user_ll) as LinearLayout
+        val user_mv_fk = view.findViewById(R.id.user_mv_fk) as MenuView
         lv_iv = view.findViewById(R.id.lv_iv) as ImageView
         user_iv_header = view.findViewById(R.id.user_iv_header) as ImageView
         main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
@@ -106,6 +107,12 @@ class UserFragment : BaseFragment() {
         iv_set.setOnClickListener {
             if (checkLogin()) {
                 startActivity(Intent(MainActivity.main, SetActivity::class.java))
+            }
+        }
+        //反馈回复列表
+        user_mv_fk.setOnClickListener {
+            if (checkLogin()) {
+                startActivity(Intent(MainActivity.main, FKListActivity::class.java))
             }
         }
         //积分排行

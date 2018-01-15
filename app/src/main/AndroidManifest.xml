@@ -45,6 +45,7 @@
         <activity android:name=".ui.LauncherActivity" />
         <activity android:name=".ui.UpdatePassWordActivity" />
         <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.FKListActivity" />
 
         <receiver android:name=".method.NetWorkStateReceiver">
             <intent-filter>
@@ -53,7 +54,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ui.QuansActivity"/>
+
+        <activity android:name=".ui.QuansActivity" />
         <activity
             android:name=".ui.OnlyDetailPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize"

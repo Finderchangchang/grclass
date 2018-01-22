@@ -81,7 +81,11 @@ class DetailPlayer : BaseActivity() {
                 if (model!!.videos!!.size > 0 && model!!.videos!!.size > play_url_position) {
                     val modd = model!!.videos!![play_url_position]
                     if (modd.free == 1 || model!!.i_can_play) {
-                        val url = url().total + model!!.videos!![play_url_position].url
+                        var url = model!!.videos!![play_url_position].url//视频地址
+                        if (!TextUtils.isEmpty(url)) {
+                            url = url!!.replace(".mp4", ".gr.mp4")
+                        }
+                        url = url().total + "/fP3m8r/t7Me1e" + url
                         if (downloadManager!!.getDownloadInfo(url) != null) {
                             Toast.makeText(applicationContext, "任务已经在下载列表中", Toast.LENGTH_SHORT).show()
                         } else {

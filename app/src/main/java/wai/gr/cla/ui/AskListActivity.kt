@@ -202,7 +202,7 @@ class AskListActivity : BaseActivity() {
                             ask_btn, true, price_list!![0].teacher_course_id.toString(), price_list!!, 0)
                 }
                 s!!.showWindow()
-                s!!.setOnDismissListener { user_can_ask() }
+                s!!.setOnDismissListener { user_can_ask() }//13091201967
 
             } else {
                 toast("此老师暂时未开通答疑专栏")
@@ -280,7 +280,7 @@ class AskListActivity : BaseActivity() {
             toast("请先登录")
         } else {
             OkGo.get(url().auth_api + "get_phone_one_teacher")
-                    .params("teacher_id", teacher_id)
+                    .params("cid", cid)
                     .execute(object : JsonCallback<LzyResponse<Teacher>>() {
                         override fun onSuccess(t: LzyResponse<Teacher>, call: okhttp3.Call?, response: okhttp3.Response?) {
                             if (t.code == 0) {

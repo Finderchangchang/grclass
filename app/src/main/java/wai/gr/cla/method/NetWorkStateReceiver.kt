@@ -54,7 +54,9 @@ class NetWorkStateReceiver : BroadcastReceiver() {
             for (i in networks.indices) {
                 //获取ConnectivityManager对象对应的NetworkInfo对象
                 val networkInfo = connMgr.getNetworkInfo(networks[i])
-                sb.append(networkInfo.typeName + " connect is " + networkInfo.isConnected)
+                if (networkInfo != null) {
+                    sb.append(networkInfo.typeName + " connect is " + networkInfo.isConnected)
+                }
             }
             //Toast.makeText(context, sb.toString(), Toast.LENGTH_SHORT).show();
         }

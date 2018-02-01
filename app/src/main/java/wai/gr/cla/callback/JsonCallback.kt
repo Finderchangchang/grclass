@@ -82,7 +82,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
 
         var headers = response.headers("Set-Cookie");
         if (headers.size > 0) {
-            val headerstr = headers.get(0).toString()
+            val headerstr = headers[0].toString()
             var str = headerstr.split(";").get(0);
             Utils.putCache(KEY_SESSIONID, str)
             Utils.putCache("all_session", headerstr)
@@ -121,6 +121,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
             if (lzyResponse.msg.equals("此账号在别处登录，请重新登录")) {
                 Utils.putCache(key.KEY_SCHOOLID, "")
                 Utils.putCache(key.KEY_Tel, "")
+                Utils.putCache("tel", "")
                 Utils.putCache(key.KEY_PWd, "")
                 Utils.putCache(key.KEY_WX, "")
                 Utils.putCache(key.KEY_QQ, "")

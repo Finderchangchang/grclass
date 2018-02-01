@@ -46,11 +46,11 @@
             android:id="@+id/start"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/video_click_play_selector"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/video_click_play_selector" />
 
         <TextView
             android:id="@+id/current"
@@ -166,7 +166,7 @@
             android:paddingLeft="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/video_back"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/title"
@@ -176,6 +176,7 @@
             android:paddingLeft="10dp"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -207,6 +208,7 @@
                 android:paddingRight="10dp"
                 android:src="@mipmap/sharebutton" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/moreScale"
             android:layout_width="wrap_content"
@@ -217,9 +219,20 @@
             android:text="默认比例"
             android:textColor="@android:color/white"
             android:textSize="13sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/moreScale1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:minEms="5"
+        android:paddingLeft="10dp"
+        android:text="默认比例777"
+        android:textColor="@android:color/white"
+        android:textSize="13sp" />
 
     <RelativeLayout
         android:id="@+id/preview_layout"

@@ -14,14 +14,15 @@
             android:id="@+id/gs_sl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageButton
                     android:id="@+id/pl_btn"
                     android:layout_width="wrap_content"
@@ -30,6 +31,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_margin="10dp"
                     android:background="@mipmap/pinglun_bianji" />
+
                 <LinearLayout
                     android:id="@+id/top_ll"
                     android:layout_width="match_parent"
@@ -151,9 +153,9 @@
 
                 <FrameLayout
                     android:id="@+id/ml_lv_fl"
-                    android:layout_below="@+id/top_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/top_ll">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -169,8 +171,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </ScrollView>
-
-
 
 
                     </RelativeLayout>

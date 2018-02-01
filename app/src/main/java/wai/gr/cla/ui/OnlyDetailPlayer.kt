@@ -114,7 +114,7 @@ class OnlyDetailPlayer : BaseActivity() {
             //直接横屏
             orientationUtils!!.resolveByClick()
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-            detail_player!!.startWindowFullscreen(this@OnlyDetailPlayer, true, true)
+            detail_player!!.startWindowFullscreen(this@OnlyDetailPlayer, true, true,Utils.getCache("tel"))
         }
         detail_player!!.isNeedShowWifiTip = true
         detail_player!!.setStandardVideoAllCallBack(object : SampleListener() {
@@ -189,7 +189,7 @@ class OnlyDetailPlayer : BaseActivity() {
         if (isPlay && !isPause) {
             if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
                 if (!detail_player!!.isIfCurrentIsFullscreen) {
-                    detail_player!!.startWindowFullscreen(this@OnlyDetailPlayer, true, true)
+                    detail_player!!.startWindowFullscreen(this@OnlyDetailPlayer, true, true,Utils.getCache("tel"))
                 }
             } else {
                 //新版本isIfCurrentIsFullscreen的标志位内部提前设置了，所以不会和手动点击冲突

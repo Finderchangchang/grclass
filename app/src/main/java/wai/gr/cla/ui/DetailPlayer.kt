@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -65,6 +66,7 @@ class DetailPlayer : BaseActivity() {
             }
         }
         detail_player!!.backButton.setOnClickListener { finish() }
+        detail_player!!.userText.text = Utils.getCache("tel")
         main_tab.addTab(main_tab.newTab().setText("概述"))
         main_tab.addTab(main_tab.newTab().setText("目录"))
         ss = intent.getIntExtra("cid", 0)
@@ -79,7 +81,11 @@ class DetailPlayer : BaseActivity() {
                 if (model!!.videos!!.size > 0 && model!!.videos!!.size > play_url_position) {
                     val modd = model!!.videos!![play_url_position]
                     if (modd.free == 1 || model!!.i_can_play) {
-                        val url = url().total + model!!.videos!![play_url_position].url
+                        var url = model!!.videos!![play_url_position].url//视频地址
+                        if (!TextUtils.isEmpty(url)) {
+                            url = url!!.replace(".mp4", ".gr.mp4")
+                        }
+                        url = url().total + "/fP3m8r/t7Me1e" + url
                         if (downloadManager!!.getDownloadInfo(url) != null) {
                             Toast.makeText(applicationContext, "任务已经在下载列表中", Toast.LENGTH_SHORT).show()
                         } else {
@@ -270,12 +276,12 @@ class DetailPlayer : BaseActivity() {
                             if (model!!.videos!!.size > 0 && model!!.videos!![0].free == 1) {
                                 if (model!!.i_can_play) {
                                     if (videos!!.size > model!!.last_play_num) {//解决超出索引的问题
-                                        play(url().total + videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
+                                        play(videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
                                     } else {
-                                        play(url().total + videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
+                                        play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                                     }
                                 } else {
-                                    play(url().total + videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
+                                    play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                                 }
                             }
                             //}
@@ -313,6 +319,12 @@ class DetailPlayer : BaseActivity() {
      * 根据url播放视频
      * */
     fun play(url: String, img_url: String, title: String) {
+        var url = url
+        if (!TextUtils.isEmpty(url)) {
+            url = url.replace(".mp4", ".gr.mp4")
+        }
+        url = url().total + "/fP3m8r/t7Me1e" + url
+        Log.i("url", url)
         detailPlayer!!.setUp(url, false, null)
         loadsp(img_url)
         //外部辅助的旋转，帮助全屏
@@ -331,7 +343,7 @@ class DetailPlayer : BaseActivity() {
         detailPlayer!!.fullscreenButton.setOnClickListener { v ->
             //直接横屏
             orientationUtils!!.resolveByClick()
-            detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true)
+            detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true, Utils.getCache("tel"))
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
             //highApiEffects(false)
@@ -428,7 +440,8 @@ class DetailPlayer : BaseActivity() {
                     //全屏
                     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-                    detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true)
+                    detailPlayer!!.startWindowFullscreen(this@DetailPlayer, true, true, Utils.getCache("tel"))
+                    //detailPlayer!!.setText("0000000")
                 }
             } else {
                 //新版本isIfCurrentIsFullscreen的标志位内部提前设置了，所以不会和手动点击冲突
@@ -438,6 +451,8 @@ class DetailPlayer : BaseActivity() {
                 if (orientationUtils != null) {
                     orientationUtils!!.isEnable = true
                 }
+                detail_player!!.userText.text = Utils.getCache("tel")
+
                 //window.setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             }
         }

@@ -196,7 +196,18 @@
         </LinearLayout>
     </LinearLayout>
 
-
+    <TextView
+        android:id="@+id/moreScale1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:minEms="5"
+        android:paddingLeft="10dp"
+        android:text="默认比例1111"
+        android:textColor="@android:color/white"
+        android:textSize="13sp" />
     <RelativeLayout
         android:id="@+id/preview_layout"
         android:layout_width="@dimen/seek_bar_image"

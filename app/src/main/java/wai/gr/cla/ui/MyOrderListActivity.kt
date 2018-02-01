@@ -63,11 +63,11 @@ class MyOrderListActivity : BaseActivity() {
 //        }
         main_lv.setIsValid(object : OnlyLoadListView.OnSwipeIsValid {
             override fun setSwipeEnabledTrue() {
-                main_srl.isEnabled=true
+                main_srl.isEnabled = true
             }
 
             override fun setSwipeEnabledFalse() {
-                main_srl.isEnabled=false
+                main_srl.isEnabled = false
             }
         })
         when (which) {
@@ -83,7 +83,9 @@ class MyOrderListActivity : BaseActivity() {
                         if (model.course != null) {
                             url += model.course!!.thumbnail!!
                         } else {
-                            url += model.teacher!!.teacher!!.photo!!
+                            if (model.teacher != null && model.teacher!!.teacher != null) {
+                                url += model.teacher!!.teacher!!.photo!!
+                            }
                         }
                         holder.setGImage(R.id.user_iv, url)
                     }
@@ -100,7 +102,7 @@ class MyOrderListActivity : BaseActivity() {
                 }
             }//获取我的订单列表
             4 -> {
-                
+
             }//获取我的视频课程
             5 -> {
                 toolbar.setCentertv("我的订阅")
@@ -109,7 +111,7 @@ class MyOrderListActivity : BaseActivity() {
                         holder.setText(R.id.name_tv, model.teacher_course!!.cname + "-" + model.teacher_course!!.teacher_name)
                         //val uu = url().total + model.teacher_course!!.teacher!!.photo
                         holder.setGlideImage(R.id.user_iv, url().total + model.teacher_course!!.teacher!!.photo)//设置图片
-                        holder.setText(R.id.xd_time_tv, "截止时间：" + model.mdate)//创建时间
+                        holder.setText(R.id.xd_time_tv, "截止时间：" + model.expire_time)//创建时间
                     }
                 }
                 main_lv.adapter = dy3_adapter
@@ -159,8 +161,10 @@ class MyOrderListActivity : BaseActivity() {
                         .params("page", page_index)
                         .execute(object : JsonCallback<LzyResponse<PageModel<ProjectModel>>>() {
                             override fun onSuccess(t: LzyResponse<PageModel<ProjectModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                                xm5_list = t.data!!.list as MutableList<ProjectModel>
-                                xm5_adapter!!.refresh(xm5_list)
+                                if (t.data != null) {
+                                    xm5_list = t.data!!.list as MutableList<ProjectModel>
+                                    xm5_adapter!!.refresh(xm5_list)
+                                }
                             }
 
                             override fun onError(call: Call?, response: Response?, e: Exception?) {
@@ -228,9 +232,10 @@ class MyOrderListActivity : BaseActivity() {
                     startActivity(Intent(this, DetailPlayer::class.java).putExtra("cid", sp2_list!![position].id))
                 }
                 5 -> {
+                    var s=""
                     startActivity(Intent(this, AskListActivity::class.java)
                             .putExtra("id", dy3_list[position].teacher_course!!.teacher!!.id)
-                            .putExtra("cid", dy3_list[position].teacher_course_id)
+                            .putExtra("cid", dy3_list[position].teacher_course!!.cid)
                             .putExtra("is_one", dy3_list[position].teacher_course_id)
                             .putExtra("name", dy3_list[position].teacher_course!!.cname + "-" + dy3_list[position].teacher_course!!.teacher_name)
                             .putExtra("answer_num", dy3_list[position].answer_unread))
@@ -260,9 +265,9 @@ class MyOrderListActivity : BaseActivity() {
                 5 -> {
                     startActivity(Intent(this, AskListActivity::class.java)
                             .putExtra("id", dy3_list[position].teacher_course!!.teacher!!.id)
-                            .putExtra("cid", dy3_list[position].teacher_course_id)
+                            .putExtra("cid", dy3_list[position].teacher_course!!.cid)
                             .putExtra("is_one", dy3_list[position].teacher_course_id)
-                            .putExtra("is_dy",true)//订阅跳转过去的
+                            .putExtra("is_dy", true)//订阅跳转过去的
                             .putExtra("name", dy3_list[position].teacher_course!!.cname + "-" + dy3_list[position].teacher_course!!.teacher_name)
                             .putExtra("answer_num", dy3_list[position].answer_unread))
                 }
@@ -289,18 +294,20 @@ class MyOrderListActivity : BaseActivity() {
                 .params("page", page_index)
                 .execute(object : JsonCallback<LzyResponse<PageModel<TradeModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<TradeModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        kc1_list.addAll(t.data!!.list as MutableList<TradeModel>)
-                        kc1_adapter!!.refresh(kc1_list)
-                        main_lv.getIndex(page_index, 10, t.data!!.count)
-                        main_srl.isRefreshing = false
-
-                        if(kc1_list!!.size==0){
-                            error_ll.visibility=View.VISIBLE;
-                            main_lv.visibility=View.GONE;
-                        }else{
-                            error_ll.visibility=View.GONE;
-                            main_lv.visibility=View.VISIBLE;
+                        if (t.data != null) {
+                            kc1_list.addAll(t.data!!.list as MutableList<TradeModel>)
+                            kc1_adapter!!.refresh(kc1_list)
+                            main_lv.getIndex(page_index, 10, t.data!!.count)
+                            main_srl.isRefreshing = false
+                            if (kc1_list!!.size == 0) {
+                                error_ll.visibility = View.VISIBLE;
+                                main_lv.visibility = View.GONE;
+                            } else {
+                                error_ll.visibility = View.GONE;
+                                main_lv.visibility = View.VISIBLE;
+                            }
                         }
+
                     }
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
@@ -321,19 +328,20 @@ class MyOrderListActivity : BaseActivity() {
                     .params("free", free)
                     .execute(object : JsonCallback<LzyResponse<PageModel<CoursesModel>>>() {
                         override fun onSuccess(t: LzyResponse<PageModel<CoursesModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            sp2_list = t.data!!.list as MutableList<CoursesModel>
-                            sp2_adapter!!.refresh(sp2_list)
-                            main_lv.getIndex(page_index, 20, sp2_list.size)
-                            main_srl.isRefreshing = false
+                            if (t.data != null) {
+                                sp2_list = t.data!!.list as MutableList<CoursesModel>
+                                sp2_adapter!!.refresh(sp2_list)
+                                main_lv.getIndex(page_index, 20, sp2_list.size)
+                                main_srl.isRefreshing = false
 
-                            if(sp2_list!!.size==0){
-                                error_ll.visibility=View.VISIBLE;
-                                main_lv.visibility=View.GONE;
-                            }else{
-                                error_ll.visibility=View.GONE;
-                                main_lv.visibility=View.VISIBLE;
+                                if (sp2_list!!.size == 0) {
+                                    error_ll.visibility = View.VISIBLE;
+                                    main_lv.visibility = View.GONE;
+                                } else {
+                                    error_ll.visibility = View.GONE;
+                                    main_lv.visibility = View.VISIBLE;
+                                }
                             }
-
                         }
 
                         override fun onError(call: Call?, response: Response?, e: Exception?) {
@@ -346,19 +354,22 @@ class MyOrderListActivity : BaseActivity() {
                     .params("page", page_index)
                     .execute(object : JsonCallback<LzyResponse<PageModel<PageCourse>>>() {
                         override fun onSuccess(t: LzyResponse<PageModel<PageCourse>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                            for (list in t.data!!.list!!) {
-                                sp2_list.add(list.course!!)
-                            }
-                            sp2_adapter!!.refresh(sp2_list)
-                            main_lv.getIndex(page_index, 20, sp2_list.size)
-                            main_srl.isRefreshing = false
+                            if (t.data != null) {
 
-                            if(sp2_list!!.size==0){
-                                error_ll.visibility=View.VISIBLE;
-                                main_lv.visibility=View.GONE;
-                            }else{
-                                error_ll.visibility=View.GONE;
-                                main_lv.visibility=View.VISIBLE;
+                                for (list in t.data!!.list!!) {
+                                    sp2_list.add(list.course!!)
+                                }
+                                sp2_adapter!!.refresh(sp2_list)
+                                main_lv.getIndex(page_index, 20, sp2_list.size)
+                                main_srl.isRefreshing = false
+
+                                if (sp2_list!!.size == 0) {
+                                    error_ll.visibility = View.VISIBLE;
+                                    main_lv.visibility = View.GONE;
+                                } else {
+                                    error_ll.visibility = View.GONE;
+                                    main_lv.visibility = View.VISIBLE;
+                                }
                             }
                         }
 
@@ -379,17 +390,20 @@ class MyOrderListActivity : BaseActivity() {
                 .params("page", page_index)
                 .execute(object : JsonCallback<LzyResponse<PageModel<OrderClassModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<OrderClassModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        dy3_list = t.data!!.list as MutableList<OrderClassModel>
-                        dy3_adapter!!.refresh(dy3_list)
-                        main_lv.getIndex(page_index, 20, dy3_list.size)
-                        main_srl.isRefreshing = false
+                        if (t.data != null) {
 
-                        if(dy3_list!!.size==0){
-                            error_ll.visibility=View.VISIBLE;
-                            main_lv.visibility=View.GONE;
-                        }else{
-                            error_ll.visibility=View.GONE;
-                            main_lv.visibility=View.VISIBLE;
+                            dy3_list = t.data!!.list as MutableList<OrderClassModel>
+                            dy3_adapter!!.refresh(dy3_list)
+                            main_lv.getIndex(page_index, 20, dy3_list.size)
+                            main_srl.isRefreshing = false
+
+                            if (dy3_list!!.size == 0) {
+                                error_ll.visibility = View.VISIBLE;
+                                main_lv.visibility = View.GONE;
+                            } else {
+                                error_ll.visibility = View.GONE;
+                                main_lv.visibility = View.VISIBLE;
+                            }
                         }
 //                        main_lv.setOnItemClickListener { parent, view, position, id ->
 //                            startActivity(Intent(this@MyOrderListActivity, AskListActivity::class.java).putExtra("id", dy3_list[position].id).putExtra("name", dy3_list[position].teacher_course!!.teacher_name))
@@ -412,23 +426,26 @@ class MyOrderListActivity : BaseActivity() {
                 .params("which", which)//1.收藏课程，2.收藏资讯
                 .execute(object : JsonCallback<LzyResponse<PageModel<SCModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<SCModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        sc6_list = t.data!!.list as MutableList<SCModel>
-                        when (which) {
-                            1 -> {
-                                sc6_adapter!!.refresh(sc6_list)
+                        if (t.data != null) {
+
+                            sc6_list = t.data!!.list as MutableList<SCModel>
+                            when (which) {
+                                1 -> {
+                                    sc6_adapter!!.refresh(sc6_list)
+                                }
+                                else -> {
+                                    zx_adapter!!.refresh(sc6_list)
+                                }
                             }
-                            else -> {
-                                zx_adapter!!.refresh(sc6_list)
+                            main_lv.getIndex(page_index, 20, sc6_list.size)
+                            main_srl.isRefreshing = false
+                            if (sc6_list!!.size == 0) {
+                                error_ll.visibility = View.VISIBLE;
+                                main_lv.visibility = View.GONE;
+                            } else {
+                                error_ll.visibility = View.GONE;
+                                main_lv.visibility = View.VISIBLE;
                             }
-                        }
-                        main_lv.getIndex(page_index, 20, sc6_list.size)
-                        main_srl.isRefreshing = false
-                        if(sc6_list!!.size==0){
-                            error_ll.visibility=View.VISIBLE;
-                            main_lv.visibility=View.GONE;
-                        }else{
-                            error_ll.visibility=View.GONE;
-                            main_lv.visibility=View.VISIBLE;
                         }
                     }
 
@@ -468,17 +485,20 @@ class MyOrderListActivity : BaseActivity() {
                 .params("page", page_index)
                 .execute(object : JsonCallback<LzyResponse<PageModel<CommonModel>>>() {
                     override fun onSuccess(t: LzyResponse<PageModel<CommonModel>>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        tw4_list = t.data!!.list as MutableList<CommonModel>
-                        tw4_adapter!!.refresh(tw4_list)
-                        main_lv.getIndex(page_index, 20, tw4_list.size)
-                        main_srl.isRefreshing = false
+                        if (t.data != null) {
 
-                        if(tw4_list!!.size==0){
-                            error_ll.visibility=View.VISIBLE;
-                            main_lv.visibility=View.GONE;
-                        }else{
-                            error_ll.visibility=View.GONE;
-                            main_lv.visibility=View.VISIBLE;
+                            tw4_list = t.data!!.list as MutableList<CommonModel>
+                            tw4_adapter!!.refresh(tw4_list)
+                            main_lv.getIndex(page_index, 20, tw4_list.size)
+                            main_srl.isRefreshing = false
+
+                            if (tw4_list!!.size == 0) {
+                                error_ll.visibility = View.VISIBLE;
+                                main_lv.visibility = View.GONE;
+                            } else {
+                                error_ll.visibility = View.GONE;
+                                main_lv.visibility = View.VISIBLE;
+                            }
                         }
                     }
 

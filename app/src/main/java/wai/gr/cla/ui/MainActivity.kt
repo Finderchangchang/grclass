@@ -1,6 +1,8 @@
 package wai.gr.cla.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 
@@ -16,16 +18,27 @@ import wai.gr.cla.method.*
 import java.io.File
 import android.net.Uri
 import android.os.Build
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
 
 import com.yinglan.alphatabs.AlphaTabsIndicator
+import android.support.v4.app.ActivityCompat.requestPermissions
+import android.support.v4.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.util.Util
+import com.bumptech.glide.util.Util.isOnMainThread
+import wai.gr.cla.DownloadUtils
 
 
 class MainActivity : BaseActivity() {
     override fun initViews() {
         main = this
         check_update()
+    }
+
+    public override fun onDestroy() {
+        super.onDestroy()
     }
 
     var tab_pager: ViewPager? = null
@@ -91,6 +104,17 @@ class MainActivity : BaseActivity() {
      * 检测更新
      * */
     fun check_update() {
+        // 扫描功能
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !== PackageManager.PERMISSION_GRANTED) {
+            //申请CAMERA权限
+            ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE), 3)
+        } else {
+            check_updates()
+        }
+
+    }
+
+    fun check_updates() {
         OkGo.post(url().public_api + "get_update_info")
                 .params("app", "android")// 文字ID
                 .execute(object : JsonCallback<LzyResponse<String>>() {
@@ -103,23 +127,35 @@ class MainActivity : BaseActivity() {
                             builder.setMessage(t.content)
                             builder.setNegativeButton("取消", null)
                             builder.setPositiveButton("确定") { dialog, which ->
-                                //执行下载操作
-                                OkGo.get(url().total + t.download)
-                                        .execute(object : FileCallback() {
-                                            override fun onSuccess(t: File?, call: Call?, response: Response?) {
-                                                val intent = Intent(Intent.ACTION_VIEW)
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                                    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                                    val contentUri = FileProvider.getUriForFile(this@MainActivity, "wai.gr.cla.provider", File(t!!.toString()))
-                                                    intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
-                                                } else {
-                                                    intent.setDataAndType(Uri.fromFile(File(t!!.toString())), "application/vnd.android.package-archive")
-                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                                }
-                                                startActivity(intent)
-                                            }
-
-                                        })
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    builder.setMessage("可在顶部状态栏，查看APP更新进度")
+                                    builder.setPositiveButton("确定") { dialog, which -> }
+                                    builder.show()
+                                    DownloadUtils(this@MainActivity).downloadAPK(url().total + t.download, "新版本Apk.apk")
+                                } else {
+                                    UpdateManager(this@MainActivity).checkUpdateInfo(url().total + t.download)
+                                }
+//                                //执行下载操作
+//                                OkGo.get(url().total + t.download)
+//                                        .execute(object : FileCallback() {
+//                                            override fun onSuccess(t: File?, call: Call?, response: Response?) {
+//                                                val intent = Intent(Intent.ACTION_VIEW)
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                                    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                                                    val contentUri = FileProvider.getUriForFile(this@MainActivity, "wai.gr.cla.provider", File(t!!.toString()))
+//                                                    intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+//                                                } else {
+//                                                    intent.setDataAndType(Uri.fromFile(File(t!!.toString())), "application/vnd.android.package-archive")
+//                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                                                }
+//                                                startActivity(intent)
+//                                            }
+//
+//                                            override fun onError(call: Call?, response: Response?, e: Exception?) {
+//                                                super.onError(call, response, e)
+//                                            }
+//
+//                                        })
                             }
                             builder.show()
                         } else {
@@ -131,6 +167,17 @@ class MainActivity : BaseActivity() {
                         //toast(common().toast_error(e!!))
                     }
                 })
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (3 == requestCode) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                check_updates()
+            } else {
+                // 未授权
+            }
+        }
     }
 
     companion object {

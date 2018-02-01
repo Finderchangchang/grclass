@@ -2,6 +2,7 @@ package com.shuyu.gsyvideoplayer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
@@ -41,6 +42,7 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkLibLoader;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.shuyu.gsyvideoplayer.utils.CommonUtil.getTextSpeed;
 import static com.shuyu.gsyvideoplayer.utils.CommonUtil.hideNavKey;
 
@@ -169,9 +171,17 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
     }
 
     protected void init(Context context) {
+        init(context, "");
+    }
+
+    protected void init(Context context, String key) {
         this.mContext = context;
         View.inflate(context, getLayoutId(), this);
         mStartButton = findViewById(R.id.start);
+        moreScale1 = (TextView) findViewById(R.id.moreScale1);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("grclass", MODE_PRIVATE);
+        String t=sharedPreferences.getString("tel", "");
+        moreScale1.setText(sharedPreferences.getString("tel", ""));
         mSmallClose = findViewById(R.id.small_close);
         mBackButton = (ImageView) findViewById(R.id.back);
         mCoverImageView = (ImageView) findViewById(R.id.cover);
@@ -198,8 +208,12 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
         mAudioManager = (AudioManager) getContext().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         mSeekEndOffset = CommonUtil.dip2px(getContext(), 50);
+
     }
 
+    public void setText(String txt) {
+        moreScale1.setText(txt);
+    }
 
     /**
      * 设置自定义so包加载类，必须在setUp之前调用
@@ -316,6 +330,7 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
                 cancelProgressTimer();
                 mProgressBar.setProgress(100);
                 mCurrentTimeTextView.setText(mTotalTimeTextView.getText());
+
                 break;
         }
     }
@@ -421,6 +436,7 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
         mBackUpPlayingBufferState = -1;
         GSYVideoManager.instance().prepare(mUrl, mMapHeadData, mLooping, mSpeed);
         setStateAndUi(CURRENT_STATE_PREPAREING);
+
     }
 
     /**
@@ -1191,6 +1207,13 @@ public abstract class GSYVideoPlayer extends GSYBaseVideoPlayer implements View.
      */
     public ImageView getBackButton() {
         return mBackButton;
+    }
+
+    /**
+     * 获取返回按键
+     */
+    public TextView getUserText() {
+        return moreScale1;
     }
 
     /**

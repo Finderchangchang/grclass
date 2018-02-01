@@ -28,7 +28,7 @@ import com.lzy.okserver.download.DownloadService
 
 
 class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
-     var api: IWXAPI? = null
+    var api: IWXAPI? = null
     private var downloadManager: DownloadManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                 override fun onSuccess(t: LzyResponse<String>?, call: Call?, response: Response?) {
                                     val path = "https://api.weixin.qq.com/sns/userinfo?access_token=" +
                                             t!!.access_token + "&openid=" + App.wx_id
-                                    val token=t!!.access_token
+                                    val token = t!!.access_token
                                     OkGo.get(path)
                                             .execute(object : JsonCallback<LzyResponse<String>>() {
                                                 override fun onSuccess(t: LzyResponse<String>?, call: Call?, response: Response?) {
@@ -79,11 +79,13 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                                         OkGo.post(url().public_api + "open_login")
                                                                 .params("openid", uuid)// 请求方式和请求url
                                                                 .params("login_type", "wx")// 请求方式和请求url
-                                                                .params("access_token",token)
+                                                                .params("access_token", token)
                                                                 .execute(object : JsonCallback<LzyResponse<UserModel>>() {
                                                                     override fun onSuccess(t: LzyResponse<UserModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
                                                                         if (t.code == 0) {
                                                                             var model = t.data
+                                                                            Utils.putCache("tel", t.data!!.username)
+
                                                                             /**
                                                                              * 前后id不同，清空下载记录
                                                                              * */
@@ -91,7 +93,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                                                                 downloadManager = DownloadService.getDownloadManager()
                                                                                 downloadManager!!.targetFolder = this@WXEntryActivity.filesDir.absolutePath;
                                                                                 downloadManager!!.removeAllTask()
-                                                                                Utils.putCache(key.KEY_OLD_USERID,Utils.getCache(key.KEY_USERID))
+                                                                                Utils.putCache(key.KEY_OLD_USERID, Utils.getCache(key.KEY_USERID))
                                                                             }
                                                                             //未选择学校跳转到选择学校页面
                                                                             if (("0").equals(model!!.school_id)) {
@@ -100,7 +102,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                                                                 startActivityForResult(Intent(this@WXEntryActivity, PerfaceUserActivity::class.java)
                                                                                         .putExtra("uuid", uuid)
                                                                                         .putExtra("type", 2)
-                                                                                        .putExtra("is_login", true),0)
+                                                                                        .putExtra("is_login", true), 0)
                                                                             } else {
                                                                                 Utils.putCache(key.KEY_SCHOOLID, model.school_id)
                                                                                 Utils.putCache(key.KEY_WX, uuid)
@@ -110,7 +112,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                                                                 Toast.makeText(this@WXEntryActivity, "登录成功", Toast.LENGTH_LONG).show()
                                                                             }
                                                                         } else {
-                                                                            Toast.makeText(this@WXEntryActivity,t.msg.toString(), Toast.LENGTH_SHORT).show()
+                                                                            Toast.makeText(this@WXEntryActivity, t.msg.toString(), Toast.LENGTH_SHORT).show()
                                                                         }
                                                                     }
 
@@ -146,6 +148,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
             }
         }
     }
+
     companion object {
         private val RETURN_MSG_TYPE_LOGIN = 1
         private val RETURN_MSG_TYPE_SHARE = 2

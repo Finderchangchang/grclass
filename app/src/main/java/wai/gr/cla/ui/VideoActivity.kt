@@ -15,6 +15,7 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import kotlinx.android.synthetic.main.activity_video.*
 import wai.gr.cla.base.BaseActivity
+import wai.gr.cla.method.Utils
 import wai.gr.cla.video.listener.SampleListener
 
 /**
@@ -63,7 +64,7 @@ class VideoActivity : BaseActivity() {
             //直接横屏
             orientationUtils!!.resolveByClick()
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-            detail_player.startWindowFullscreen(this@VideoActivity, true, true)
+            detail_player.startWindowFullscreen(this@VideoActivity, true, true, Utils.getCache("tel"))
         }
         detail_player.isNeedShowWifiTip = true
         detail_player.setStandardVideoAllCallBack(object : SampleListener() {
@@ -98,7 +99,7 @@ class VideoActivity : BaseActivity() {
         if (isPlay && !isPause) {
             if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
                 if (!detail_player.isIfCurrentIsFullscreen) {
-                    detail_player.startWindowFullscreen(this, true, true)
+                    detail_player.startWindowFullscreen(this, true, true, Utils.getCache("tel"))
                 }
             } else {
                 //新版本isIfCurrentIsFullscreen的标志位内部提前设置了，所以不会和手动点击冲突

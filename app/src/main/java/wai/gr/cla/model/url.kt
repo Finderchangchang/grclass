@@ -6,8 +6,8 @@ package wai.gr.cla.model
  */
 class url {
     //val total = "http://gr.rungo.net"
-    val total="http://test.guanrenjiaoyu.com"
-    val normal = total+"/?s=index/"
+    val total="http://www.guanrenjiaoyu.com"
+    val normal = total + "/?s=index/"
     val public_api = normal + "api/"
     val class_api = normal + "course/"
     val user_api = normal + "user/"

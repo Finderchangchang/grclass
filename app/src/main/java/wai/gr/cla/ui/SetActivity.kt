@@ -83,7 +83,7 @@ class SetActivity : BaseActivity() {
                             override fun onSuccess(t: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
                                 if (t.code == 0) {
                                     Utils.putCache(key.KEY_SCHOOLID, "")
-                                    Utils.putCache(key.KEY_Tel, "")
+                                    //Utils.putCache(key.KEY_Tel, "")
                                     Utils.putCache("tel", "")
                                     Utils.putCache(key.KEY_PWd, "")
                                     Utils.putCache(key.KEY_WX, "")

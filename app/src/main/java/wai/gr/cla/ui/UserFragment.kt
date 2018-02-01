@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -192,7 +193,7 @@ class UserFragment : BaseFragment() {
         val key_wx = Utils.getCache(key.KEY_WX)
         val key_qq = Utils.getCache(key.KEY_QQ)
         //login_key或者用户id为空说明已退出登录
-        if (TextUtils.isEmpty(user_id) && TextUtils.isEmpty(pwd) && TextUtils.isEmpty(key_wx) && TextUtils.isEmpty(key_qq)) {
+        if (TextUtils.isEmpty(pwd) && TextUtils.isEmpty(key_wx) && TextUtils.isEmpty(key_qq)) {
             GlideImgManager.glideLoader(MainActivity.main, "", R.mipmap.defult_user, R.mipmap.defult_user, user_iv_header, 0)
             user_tv_name!!.text = "未登录"
             startActivityForResult(Intent(MainActivity.main, LoginActivity::class.java), 0)
@@ -268,8 +269,10 @@ class UserFragment : BaseFragment() {
                         if (!TextUtils.isEmpty(Utils.getCache(key.KEY_USERID))) {
                             Toast.makeText(MainActivity.main, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
                         }
+                        Log.i("--!!-------", common().toast_error(e!!) + "***" + Utils.getCache(key.KEY_USERID))
+
                         Utils.putCache(key.KEY_SCHOOLID, "")
-                        Utils.putCache(key.KEY_Tel, "")
+                        //Utils.putCache(key.KEY_Tel, "")
                         Utils.putCache("tel", "")
                         Utils.putCache(key.KEY_PWd, "")
                         Utils.putCache(key.KEY_WX, "")

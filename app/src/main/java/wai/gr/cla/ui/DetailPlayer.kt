@@ -273,17 +273,16 @@ class DetailPlayer : BaseActivity() {
                             Utils.putCache("last_position", model!!.last_play_num.toString())
                             play_url_position = model!!.last_play_num//设置一下最后播放的位置
                             //if (("0").equals(model!!.price) || model!!.i_can_play) {
-                            if (model!!.videos!!.size > 0 && model!!.videos!![0].free == 1) {
-                                if (model!!.i_can_play) {
-                                    if (videos!!.size > model!!.last_play_num) {//解决超出索引的问题
-                                        play(videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
-                                    } else {
-                                        play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
-                                    }
+                            if (model!!.i_can_play && model!!.videos!![0].free == 1) {
+                                if (videos!!.size > model!!.last_play_num) {//解决超出索引的问题
+                                    play(videos!![model!!.last_play_num].url!!, model!!.videos!![model!!.last_play_num].thumbnail!!, videos!![model!!.last_play_num].name!!)
                                 } else {
                                     play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                                 }
+                            } else {
+                                play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                             }
+
                             //}
                             if (model!!.favorite_id > 0) {
                                 star_iv.setImageResource(R.mipmap.shipin_yishoucang)

@@ -23,6 +23,7 @@ import wai.gr.cla.method.Utils
 import wai.gr.cla.method.common
 import wai.gr.cla.model.*
 import android.net.Uri
+import android.text.TextUtils
 import android.view.inputmethod.InputMethodManager
 
 
@@ -71,9 +72,10 @@ class LoginActivity : BaseActivity() {
         OkGo.post(url().public_api + "get_qq")
                 .execute(object : JsonCallback<LzyResponse<String>>() {
                     override fun onSuccess(data: LzyResponse<String>, call: okhttp3.Call?, response: okhttp3.Response?) {
-                        Utils.putCache("qq",data.data)
+                        Utils.putCache("qq", data.data)
                     }
                 })
+        tel_et.setText(Utils.getCache(key.KEY_Tel))
         login_btn.setOnClickListener {
             val tel = tel_et.text.toString().trim()
             var psw = pwd_et.text.toString().trim()

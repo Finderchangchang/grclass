@@ -1,5 +1,6 @@
 package wai.gr.cla.callback
 
+import android.util.Log
 import com.google.gson.stream.JsonReader
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.request.BaseRequest
@@ -8,6 +9,7 @@ import java.lang.reflect.ParameterizedType
 
 import okhttp3.Response
 import wai.gr.cla.method.Utils
+import wai.gr.cla.method.common
 import wai.gr.cla.model.LzyResponse
 import wai.gr.cla.model.ZBResponse
 import wai.gr.cla.model.key
@@ -28,6 +30,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
         var md5_num = string2MD5(key + millis + key)
         request!!.params("auth_md5", md5_num)//
                 .params("auth_sec", millis)
+        Log.i("ccecc", "md5_num--" + md5_num + "---" + millis)
     }
 
     fun string2MD5(inStr: String): String {
@@ -120,12 +123,14 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
             val code = lzyResponse.code
             if (lzyResponse.msg.equals("此账号在别处登录，请重新登录")) {
                 Utils.putCache(key.KEY_SCHOOLID, "")
-                Utils.putCache(key.KEY_Tel, "")
+                //Utils.putCache(key.KEY_Tel, "")
                 Utils.putCache("tel", "")
                 Utils.putCache(key.KEY_PWd, "")
                 Utils.putCache(key.KEY_WX, "")
                 Utils.putCache(key.KEY_QQ, "")
                 Utils.putCache(key.KEY_USERID, "")
+                Log.i("--!!-------", "清空")
+
                 //Toast.makeText(applicationContext,"此账号在别处登录，请重新登录",Toast.LENGTH_SHORT).show()
             }            //这里的0是以下意思
             //一般来说服务器会和客户端约定一个数表示成功，其余的表示失败，这里根据实际情况修改

@@ -106,6 +106,7 @@ class WXEntryActivity : WXCallbackActivity(), IWXAPIEventHandler {
                                                                             } else {
                                                                                 Utils.putCache(key.KEY_SCHOOLID, model.school_id)
                                                                                 Utils.putCache(key.KEY_WX, uuid)
+                                                                                Utils.putCache(key.KEY_TOKEN, token)
                                                                                 Utils.putCache(key.KEY_USERID, model.uid)
                                                                                 finish()
                                                                                 LoginActivity.main!!.finish()//关闭login页面

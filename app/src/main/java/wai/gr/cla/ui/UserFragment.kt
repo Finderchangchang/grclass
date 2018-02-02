@@ -266,9 +266,10 @@ class UserFragment : BaseFragment() {
 
                     override fun onError(call: Call?, response: Response?, e: Exception?) {
                         main_srl!!.isRefreshing = false//加载个人信息失败说明已经退出登录了
-                        if (!TextUtils.isEmpty(Utils.getCache(key.KEY_USERID))) {
-                            Toast.makeText(MainActivity.main, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
-                        }
+                        //if (!TextUtils.isEmpty(Utils.getCache(key.KEY_USERID))) {
+                        //Toast.makeText(MainActivity.main, common().toast_error(e!!), Toast.LENGTH_SHORT).show()
+                        login()
+                        //}
                         Log.i("--!!-------", common().toast_error(e!!) + "***" + Utils.getCache(key.KEY_USERID))
 
 //                        Utils.putCache(key.KEY_SCHOOLID, "")
@@ -291,17 +292,32 @@ class UserFragment : BaseFragment() {
         var pwd = Utils.getCache(key.KEY_PWd)
         var wx = Utils.getCache(key.KEY_WX)
         var qq = Utils.getCache(key.KEY_QQ)
+        var token = Utils.getCache(key.KEY_TOKEN)
         if (!TextUtils.isEmpty(tel) && !TextUtils.isEmpty(pwd)) {
             OkGo.post(url().public_api + "login")
                     .params("username", tel)// 请求方式和请求url
                     .params("password", pwd)// 请求方式和请求url
                     .execute(object : JsonCallback<LzyResponse<UserModel>>() {
                         override fun onSuccess(t: LzyResponse<UserModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
-
+                            loadUser()
                         }
                     })
-        }else if(!TextUtils.isEmpty(wx)){
-
+        } else if (!TextUtils.isEmpty(wx) || !TextUtils.isEmpty(qq)) {
+            var open_id = ""
+            if (!TextUtils.isEmpty(wx)) {
+                open_id = wx
+            } else if (!TextUtils.isEmpty(qq)) {
+                open_id = qq
+            }
+            OkGo.post(url().public_api + "open_login")
+                    .params("openid", open_id)// 请求方式和请求url
+                    .params("login_type", "wx")// 请求方式和请求url
+                    .params("access_token", token)
+                    .execute(object : JsonCallback<LzyResponse<UserModel>>() {
+                        override fun onSuccess(t: LzyResponse<UserModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                            loadUser()
+                        }
+                    })
         }
     }
 }

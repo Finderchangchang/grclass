@@ -18,6 +18,7 @@ object key {
     val KEY_HEADER_PATH = "HeaderPath"
     val KEY_IS_POST = "IS_POST"//是否提交了项目，0，未提交，1已提交
     val KEY_WX = "WX"
+    val KEY_TOKEN = "TOKEN"//微信qq登录的token
     val KEY_QQ = "KEY+QQ"
     val KEY_IS_WIFI = "IS_WIFI"//当前状态是wifi（true）
     val KEY_IS_LOAD = "IS_LOAD"//是否加载了一次了

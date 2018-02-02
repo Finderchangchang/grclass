@@ -225,7 +225,8 @@ class LoginActivity : BaseActivity() {
                                                 downloadManager!!.removeAllTask()
                                                 Utils.putCache(key.KEY_OLD_USERID, Utils.getCache(key.KEY_USERID))
                                             }
-                                            Utils.putCache(key.KEY_QQ, accessToken)
+                                            Utils.putCache(key.KEY_QQ, openID)
+                                            Utils.putCache(key.KEY_TOKEN, accessToken)
                                             //未选择学校跳转到选择学校页面
                                             if (("0").equals(model!!.school_id)) {
                                                 startActivityForResult(Intent(this@LoginActivity, PerfaceUserActivity::class.java)

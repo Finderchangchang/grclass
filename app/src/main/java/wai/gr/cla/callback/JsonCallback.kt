@@ -127,6 +127,7 @@ abstract class JsonCallback<T> : AbsCallback<T>() {
                 Utils.putCache("tel", "")
                 Utils.putCache(key.KEY_PWd, "")
                 Utils.putCache(key.KEY_WX, "")
+                Utils.putCache(key.KEY_TOKEN, "")
                 Utils.putCache(key.KEY_QQ, "")
                 Utils.putCache(key.KEY_USERID, "")
                 Log.i("--!!-------", "清空")

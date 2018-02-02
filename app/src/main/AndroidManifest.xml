@@ -18,7 +18,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
+    <uses-sdk tools:overrideLibrary="tv.buka.sdk" />。
     <meta-data
         android:name="UMENG_APPKEY"
         android:value="5912b22d734be4288c001d05" />
@@ -39,10 +39,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon_font"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:resizeableActivity="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:theme">
         <activity android:name=".ui.LauncherActivity" />
         <activity android:name=".ui.UpdatePassWordActivity" />
         <activity android:name=".ui.MainActivity" />

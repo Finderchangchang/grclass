@@ -185,10 +185,10 @@ class MainFragment : BaseFragment() {
     var dy_ll: LinearLayout? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.frag_main, container, false)
-        main_ban = view.findViewById(R.id.main_title_ban) as Banner
-        jz_ll = view.findViewById(R.id.jz_ll) as LinearLayout
-        jp_ll = view.findViewById(R.id.jp_ll) as LinearLayout
-        dy_ll = view.findViewById(R.id.dy_ll) as LinearLayout
+        main_ban = view.findViewById<Banner>(R.id.main_title_ban) as Banner
+        jz_ll = view.findViewById<LinearLayout>(R.id.jz_ll) as LinearLayout
+        jp_ll = view.findViewById<LinearLayout>(R.id.jp_ll) as LinearLayout
+        dy_ll = view.findViewById<LinearLayout>(R.id.dy_ll) as LinearLayout
         main_ban!!.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
@@ -202,22 +202,22 @@ class MainFragment : BaseFragment() {
 
             }
         })
-        main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
-        var title_rl = view.findViewById(R.id.title_rl) as RelativeLayout
-        var right_iv = view.findViewById(R.id.right_iv) as ImageView
-        var main_tv = view.findViewById(R.id.main_tv) as TextView
-        var search_rl = view.findViewById(R.id.search_rl) as RelativeLayout
-        var zu_lv = view.findViewById(R.id.zu_lv) as OnlyMeasureListView
-        var text_lv = view.findViewById(R.id.text_lv) as OnlyMeasureListView
-        var class_gv = view.findViewById(R.id.class_gv) as OnlyMeasureGridView
-        var free_gv = view.findViewById(R.id.free_gv) as OnlyMeasureGridView
+        main_srl = view.findViewById<SwipeRefreshLayout>(R.id.main_srl) as SwipeRefreshLayout
+        var title_rl = view.findViewById<RelativeLayout>(R.id.title_rl) as RelativeLayout
+        var right_iv = view.findViewById<ImageView>(R.id.right_iv) as ImageView
+        var main_tv = view.findViewById<TextView>(R.id.main_tv) as TextView
+        var search_rl = view.findViewById<RelativeLayout>(R.id.search_rl) as RelativeLayout
+        var zu_lv = view.findViewById<OnlyMeasureListView>(R.id.zu_lv) as OnlyMeasureListView
+        var text_lv = view.findViewById<OnlyMeasureListView>(R.id.text_lv) as OnlyMeasureListView
+        var class_gv = view.findViewById<OnlyMeasureListView>(R.id.class_gv) as OnlyMeasureGridView
+        var free_gv = view.findViewById<OnlyMeasureListView>(R.id.free_gv) as OnlyMeasureGridView
 
-        var question_lv = view.findViewById(R.id.question_lv) as OnlyMeasureGridView
-        var main_sl = view.findViewById(R.id.main_sl) as TotalScrollView
-        var tj_more_tv = view.findViewById(R.id.tj_more_tv) as TextView
-        var free_more_tv = view.findViewById(R.id.free_more_tv) as TextView
-        var dy_tv = view.findViewById(R.id.dy_tv) as TextView
-        var ks_more_tv = view.findViewById(R.id.ks_more_tv) as TextView
+        var question_lv = view.findViewById<OnlyMeasureListView>(R.id.question_lv) as OnlyMeasureGridView
+        var main_sl = view.findViewById<TotalScrollView>(R.id.main_sl) as TotalScrollView
+        var tj_more_tv = view.findViewById<TextView>(R.id.tj_more_tv) as TextView
+        var free_more_tv = view.findViewById<TextView>(R.id.free_more_tv) as TextView
+        var dy_tv = view.findViewById<TextView>(R.id.dy_tv) as TextView
+        var ks_more_tv = view.findViewById<TextView>(R.id.ks_more_tv) as TextView
         zu_lv.adapter = zx_adapter
         text_lv.adapter = ks_adapter
         class_gv.adapter = tj_adapter

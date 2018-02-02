@@ -73,13 +73,13 @@ class JYFragment : BaseFragment() {
     internal var main_srl: SwipeRefreshLayout? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.frag_job, container, false)
-        val jy_btn = view.findViewById(R.id.jy_btn) as TextView
-        val cy_btn = view.findViewById(R.id.cy_btn) as TextView
-        main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
-        val have_project_ll = view.findViewById(R.id.have_project_ll) as LinearLayout
-        main_lv = view.findViewById(R.id.main_lv) as LoadListView
-        val input_btn = view.findViewById(R.id.input_btn) as Button
-        main_sl = view.findViewById(R.id.main_sl) as ScrollView
+        val jy_btn = view.findViewById<TextView>(R.id.jy_btn) as TextView
+        val cy_btn = view.findViewById<TextView>(R.id.cy_btn) as TextView
+        main_srl = view.findViewById<SwipeRefreshLayout>(R.id.main_srl) as SwipeRefreshLayout
+        val have_project_ll = view.findViewById<LinearLayout>(R.id.have_project_ll) as LinearLayout
+        main_lv = view.findViewById<LoadListView>(R.id.main_lv) as LoadListView
+        val input_btn = view.findViewById<Button>(R.id.input_btn) as Button
+        main_sl = view.findViewById<ScrollView>(R.id.main_sl) as ScrollView
         jy_btn.setOnClickListener {
             jy_btn.setBackgroundResource(R.drawable.title_tg_click)
             jy_btn.setTextColor(resources.getColor(R.color.white))

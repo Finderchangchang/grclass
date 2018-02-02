@@ -65,8 +65,8 @@ class ZhiFuPopuWindowActivity
         this.cid = cid
         val inflater = cons.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         myView = inflater.inflate(R.layout.zhifu_popuwindow, null)
-        var gbline = myView!!.findViewById(R.id.tv_linejifen) as TextView
-        var gb = myView!!.findViewById(R.id.zhifu_ll_gb) as LinearLayout
+        var gbline = myView!!.findViewById<TextView>(R.id.tv_linejifen) as TextView
+        var gb = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_gb) as LinearLayout
         conte = cons
         if (Type) {//是否允许冠币支付（允许）
             gbline.visibility = View.VISIBLE
@@ -176,24 +176,24 @@ class ZhiFuPopuWindowActivity
      * 页面初始化页面赋值
      * */
     fun setButtonListeners() {
-        val ivClose = myView!!.findViewById(R.id.zhifu_iv_close) as ImageView
-        val btnSave = myView!!.findViewById(R.id.zhifu_btn_save) as Button
-        val llwei = myView!!.findViewById(R.id.zhifu_ll_weixin) as LinearLayout
-        val llzhifubao = myView!!.findViewById(R.id.zhifu_ll_bao) as LinearLayout
-        val ivwei = myView!!.findViewById(R.id.zhifu_iv_wei) as ImageView
-        val llgb = myView!!.findViewById(R.id.zhifu_ll_gb) as LinearLayout
-        val ivgb = myView!!.findViewById(R.id.zhifu_iv_gb) as ImageView
-        val ivbao = myView!!.findViewById(R.id.zhifu_iv_bao) as ImageView
-        val llleft = myView!!.findViewById(R.id.zhifu_ll_left) as LinearLayout
-        val tvlefttop = myView!!.findViewById(R.id.left_tv_top) as TextView
-        val tvleftbottom = myView!!.findViewById(R.id.left_tv_botton) as TextView
-        val llcenter = myView!!.findViewById(R.id.zhifu_ll_center) as LinearLayout
-        val tv_center_top = myView!!.findViewById(R.id.tv_center_top) as TextView
-        val tv_center_bottom = myView!!.findViewById(R.id.tv_center_bottom) as TextView
-        val tv_right_top = myView!!.findViewById(R.id.tv_right_top) as TextView
-        val tv_right_bottom = myView!!.findViewById(R.id.tv_right_bottom) as TextView
-        val price_ll = myView!!.findViewById(R.id.price_ll) as LinearLayout
-        val zhifu_ll_right = myView!!.findViewById(R.id.zhifu_ll_right) as LinearLayout
+        val ivClose = myView!!.findViewById<ImageView>(R.id.zhifu_iv_close) as ImageView
+        val btnSave = myView!!.findViewById<Button>(R.id.zhifu_btn_save) as Button
+        val llwei = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_weixin) as LinearLayout
+        val llzhifubao = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_bao) as LinearLayout
+        val ivwei = myView!!.findViewById<ImageView>(R.id.zhifu_iv_wei) as ImageView
+        val llgb = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_gb) as LinearLayout
+        val ivgb = myView!!.findViewById<ImageView>(R.id.zhifu_iv_gb) as ImageView
+        val ivbao = myView!!.findViewById<ImageView>(R.id.zhifu_iv_bao) as ImageView
+        val llleft = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_left) as LinearLayout
+        val tvlefttop = myView!!.findViewById<TextView>(R.id.left_tv_top) as TextView
+        val tvleftbottom = myView!!.findViewById<TextView>(R.id.left_tv_botton) as TextView
+        val llcenter = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_center) as LinearLayout
+        val tv_center_top = myView!!.findViewById<TextView>(R.id.tv_center_top) as TextView
+        val tv_center_bottom = myView!!.findViewById<TextView>(R.id.tv_center_bottom) as TextView
+        val tv_right_top = myView!!.findViewById<TextView>(R.id.tv_right_top) as TextView
+        val tv_right_bottom = myView!!.findViewById<TextView>(R.id.tv_right_bottom) as TextView
+        val price_ll = myView!!.findViewById<LinearLayout>(R.id.price_ll) as LinearLayout
+        val zhifu_ll_right = myView!!.findViewById<LinearLayout>(R.id.zhifu_ll_right) as LinearLayout
 
         /**
          * 关闭按钮点击事件

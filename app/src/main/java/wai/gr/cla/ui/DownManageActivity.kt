@@ -159,15 +159,15 @@ class DownManageActivity : AppCompatActivity(), ExecutorWithListener.OnAllTaskEn
         val restart: Button
 
         init {
-            icon = convertView.findViewById(R.id.icon) as ImageView
-            name = convertView.findViewById(R.id.name) as TextView
-            downloadSize = convertView.findViewById(R.id.downloadSize) as TextView
-            tvProgress = convertView.findViewById(R.id.tvProgress) as TextView
-            netSpeed = convertView.findViewById(R.id.netSpeed) as TextView
-            pbProgress = convertView.findViewById(R.id.pbProgress) as NumberProgressBar
-            download = convertView.findViewById(R.id.start) as ImageView
-            remove = convertView.findViewById(R.id.remove) as ImageView
-            restart = convertView.findViewById(R.id.restart) as Button
+            icon = convertView.findViewById<ImageView>(R.id.icon) as ImageView
+            name = convertView.findViewById<TextView>(R.id.name) as TextView
+            downloadSize = convertView.findViewById<TextView>(R.id.downloadSize) as TextView
+            tvProgress = convertView.findViewById<TextView>(R.id.tvProgress) as TextView
+            netSpeed = convertView.findViewById<TextView>(R.id.netSpeed) as TextView
+            pbProgress = convertView.findViewById<NumberProgressBar>(R.id.pbProgress) as NumberProgressBar
+            download = convertView.findViewById<ImageView>(R.id.start) as ImageView
+            remove = convertView.findViewById<ImageView>(R.id.remove) as ImageView
+            restart = convertView.findViewById<Button>(R.id.restart) as Button
         }
 
         fun refresh(downloadInfo: DownloadInfo) {

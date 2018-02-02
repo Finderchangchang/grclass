@@ -247,11 +247,11 @@ class SharedPopuWindowActivity//view可随便传
 
     //给界面添加点击事件
     fun setButtonListeners() {
-        val ivqq = myView.findViewById(R.id.share_iv_qq) as ImageView
-        val ivqqkong = myView.findViewById(R.id.share_iv_qqkong) as ImageView
-        val ivwei = myView.findViewById(R.id.share_iv_weixin) as ImageView
-        val ivpeng = myView.findViewById(R.id.share_iv_peng) as ImageView
-        val cancel = myView.findViewById(R.id.share_btn_cancel) as TextView
+        val ivqq = myView.findViewById<ImageView>(R.id.share_iv_qq) as ImageView
+        val ivqqkong = myView.findViewById<ImageView>(R.id.share_iv_qqkong) as ImageView
+        val ivwei = myView.findViewById<ImageView>(R.id.share_iv_weixin) as ImageView
+        val ivpeng = myView.findViewById<ImageView>(R.id.share_iv_peng) as ImageView
+        val cancel = myView.findViewById<TextView>(R.id.share_btn_cancel) as TextView
         /**
          * 分享到qq聊天
          * */

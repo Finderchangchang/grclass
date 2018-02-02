@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.LinkedList;
 
-import tv.buka.sdk.demo.show.R;
+import wai.gr.cla.R;
 
 public class ContentAdapter extends BaseAdapter {
 	private LayoutInflater mLayoutInflater = null;

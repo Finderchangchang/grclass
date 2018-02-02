@@ -22,9 +22,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.json.JSONObject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import wai.gr.cla.R;
 import wai.gr.cla.base.App;
 import wai.gr.cla.base.BaseActivity;
@@ -32,13 +29,9 @@ import wai.gr.cla.wxapi.WXEntryActivity;
 
 public class QQ_WXActivity extends BaseActivity {
 
-    @Bind(R.id.qq_login_btn)
     Button qqLoginBtn;
-    @Bind(R.id.qq_share_btn)
     Button qqShareBtn;
-    @Bind(R.id.wx_login_btn)
     Button wxLoginBtn;
-    @Bind(R.id.wx_share_btn)
     Button wxShareBtn;
     /******QQ*****/
     private static final String APPID = "1105736392";
@@ -57,6 +50,11 @@ public class QQ_WXActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        qqLoginBtn= (Button) findViewById(R.id.qq_login_btn);
+        qqShareBtn= (Button) findViewById(R.id.qq_share_btn);
+        wxLoginBtn= (Button) findViewById(R.id.wx_login_btn);
+        wxShareBtn= (Button) findViewById(R.id.wx_share_btn);
+
         initQQ();
         qqShareBtn.setOnClickListener(v -> {
 //                qq_share();

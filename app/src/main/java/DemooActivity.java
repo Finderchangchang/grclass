@@ -1,3 +1,5 @@
+package wai.gr.cla;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,15 +31,39 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bkrtc_sdk.StreamBandwidth;
+import com.bkrtc_sdk.bkrtc_impl;
+import com.geekbean.android.utils.GB_DeviceUtils;
+import com.geekbean.android.utils.GB_JsonUtils;
+import com.geekbean.android.utils.GB_SecurityUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.webrtc.SurfaceViewRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
+import tv.buka.sdk.BukaSDK;
+import tv.buka.sdk.BukaSDKManager;
+import tv.buka.sdk.BukaSDKVersion;
+import tv.buka.sdk.entity.Chat;
+import tv.buka.sdk.entity.Num;
+import tv.buka.sdk.entity.Room;
+import tv.buka.sdk.entity.Rpc;
+import tv.buka.sdk.entity.Status;
+import tv.buka.sdk.entity.Stream;
+import tv.buka.sdk.entity.User;
+import tv.buka.sdk.listener.ChatListener;
+import tv.buka.sdk.listener.ConnectListener;
+import tv.buka.sdk.listener.ReceiptListener;
+import tv.buka.sdk.listener.RpcListener;
+import tv.buka.sdk.listener.StatusListener;
+import tv.buka.sdk.listener.UserListener;
+import wai.gr.cla.R;
 import wai.gr.cla.online.adapter.ContentAdapter;
 import wai.gr.cla.online.adapter.UserAdapter;
+import wai.gr.cla.online.entity.UserBean;
 
 public class DemooActivity extends Activity implements OnClickListener {
     private final String KEY_ROOM = "KEY_ROOM";
@@ -464,7 +490,7 @@ public class DemooActivity extends Activity implements OnClickListener {
      * UI BEGIN
      **/
     private void initFrame() {
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
         login = (TextView) findViewById(R.id.login);
         login.setOnClickListener(this);
         mStreamLayout = (LinearLayout) findViewById(R.id.stream_layout);
@@ -637,7 +663,6 @@ public class DemooActivity extends Activity implements OnClickListener {
     private void login() {
 
 
-
         final EditText edit = new EditText(this);
         edit.setGravity(Gravity.CENTER);
         final LinearLayout l = new LinearLayout(this);
@@ -677,7 +702,7 @@ public class DemooActivity extends Activity implements OnClickListener {
             ipSpinner.setSelection(index);
         }
 
-        AlertDialog alerdialog = new AlertDialog.Builder(MainActivity.this)
+        AlertDialog alerdialog = new AlertDialog.Builder(DemooActivity.this)
                 .setTitle(getString(R.string.login_alert_title))
                 .setPositiveButton(getString(R.string.login_alert_go),
                         new DialogInterface.OnClickListener() {
@@ -773,7 +798,7 @@ public class DemooActivity extends Activity implements OnClickListener {
 
         }
 
-        AlertDialog alerdialog = new AlertDialog.Builder(MainActivity.this)
+        AlertDialog alerdialog = new AlertDialog.Builder(DemooActivity.this)
                 .setTitle(getString(R.string.nickname_alert_title))
                 .setPositiveButton(getString(R.string.nickname_alert_update),
                         new DialogInterface.OnClickListener() {
@@ -822,7 +847,7 @@ public class DemooActivity extends Activity implements OnClickListener {
         edit.setHint(getString(R.string.chat_alert_hint));
         edit.setText("测试消息：" + GB_SecurityUtils.getRandomNumber(10));
 
-        AlertDialog alerdialog = new AlertDialog.Builder(MainActivity.this)
+        AlertDialog alerdialog = new AlertDialog.Builder(DemooActivity.this)
                 .setTitle(
                         getString(sessionId == null ? R.string.chat_alert_title
                                 : R.string.chat_session_alert_title))
@@ -931,7 +956,7 @@ public class DemooActivity extends Activity implements OnClickListener {
         edit.setHint(getString(R.string.rpc_alert_hint));
         edit.setText("测试RPC：" + GB_SecurityUtils.getRandomNumber(10));
 
-        AlertDialog alerdialog = new AlertDialog.Builder(MainActivity.this)
+        AlertDialog alerdialog = new AlertDialog.Builder(DemooActivity.this)
                 .setTitle(
                         getString(sessionId == null ? R.string.rpc_alert_title
                                 : R.string.rpc_session_alert_title))
@@ -988,7 +1013,7 @@ public class DemooActivity extends Activity implements OnClickListener {
     private void switchCamera(long aid, long vid) {
         mCameraId = mCameraId == 0 ? 1 : 0;
         BukaSDKManager.getMediaManager().switchCamera(
-                MainActivity.this, aid, vid, mCameraId, mCameraId,
+                DemooActivity.this, aid, vid, mCameraId, mCameraId,
                 320, 180, 10, mPublishStreamStatus.getSvr());
 
 //        setVolume(mCameraId == 0 ? 10 : 0);

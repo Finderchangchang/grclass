@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 
-import butterknife.ButterKnife
+//import butterknife.ButterKnife
 import wai.gr.cla.method.AndroidBug5497Workaround
 
 /**
@@ -30,7 +30,7 @@ abstract class BaseActivity : AppCompatActivity() {
             setContentView(layoutid)
             AndroidBug5497Workaround.assistActivity(this);
         }
-        ButterKnife.bind(this)
+        //ButterKnife.bind(this)
         initViews()
         initEvents()
     }

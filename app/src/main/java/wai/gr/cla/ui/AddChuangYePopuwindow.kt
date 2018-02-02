@@ -130,12 +130,12 @@ class AddChuangYePopuwindow(val context: Activity, private val canView: View) : 
 
     //给界面添加点击事件
     private fun setButtonListeners() {
-        val etname = myView.findViewById(R.id.add_chuang_name) as EditText
-        val etmobile = myView.findViewById(R.id.chuang_et_mobile) as EditText
-        val etprojectname = myView.findViewById(R.id.chaung_et_pname) as EditText
-        val etremark = myView.findViewById(R.id.chuang_et_remark) as EditText
-        val btnSave = myView.findViewById(R.id.chuang_btn_save) as Button
-        var btnExit = myView.findViewById(R.id.chuang_btn_exit) as Button;
+        val etname = myView.findViewById<EditText>(R.id.add_chuang_name)
+        val etmobile = myView.findViewById<EditText>(R.id.chuang_et_mobile)
+        val etprojectname = myView.findViewById<EditText>(R.id.chaung_et_pname)
+        val etremark = myView.findViewById<EditText>(R.id.chuang_et_remark)
+        val btnSave = myView.findViewById<Button>(R.id.chuang_btn_save)
+        var btnExit = myView.findViewById<Button>(R.id.chuang_btn_exit)
         btnExit.setOnClickListener {
             if (this@AddChuangYePopuwindow.isShowing) {
                 this@AddChuangYePopuwindow.dismiss()

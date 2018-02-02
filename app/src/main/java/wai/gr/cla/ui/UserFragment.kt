@@ -63,23 +63,23 @@ class UserFragment : BaseFragment() {
      * 加载页面数据以及处理点击事件
      * */
     fun initEvent(view: View) {
-        val mvjifen = view.findViewById(R.id.user_mv_jifen) as MenuView
-        val user_mv_kecheng = view.findViewById(R.id.user_mv_kecheng) as MenuView
-        val user_mv_huancun = view.findViewById(R.id.user_mv_huancun) as MenuView
-        val user_mv_dingdan = view.findViewById(R.id.user_mv_dd) as MenuView
-        val gb_mv = view.findViewById(R.id.gb_mv) as MenuView
-        val user_mv_sc = view.findViewById(R.id.user_mv_sc) as MenuView
-        val user_mv_dy = view.findViewById(R.id.user_mv_dy) as MenuView//我的留言
-        val user_mv_youxi = view.findViewById(R.id.user_mv_youxi) as MenuView
-        val user_yijian = view.findViewById(R.id.user_mv_yijian) as MenuView;
-        val user_mv_quan = view.findViewById(R.id.user_mv_quan) as MenuView
-        val iv_set = view.findViewById(R.id.iv_set) as ImageView//设置按钮
-        val user_ll = view.findViewById(R.id.user_ll) as LinearLayout
-        val user_mv_fk = view.findViewById(R.id.user_mv_fk) as MenuView
-        lv_iv = view.findViewById(R.id.lv_iv) as ImageView
-        user_iv_header = view.findViewById(R.id.user_iv_header) as ImageView
-        main_srl = view.findViewById(R.id.main_srl) as SwipeRefreshLayout
-        user_mv_che = view.findViewById(R.id.user_mv_che) as MenuView
+        val mvjifen = view.findViewById<MenuView>(R.id.user_mv_jifen) as MenuView
+        val user_mv_kecheng = view.findViewById<MenuView>(R.id.user_mv_kecheng) as MenuView
+        val user_mv_huancun = view.findViewById<MenuView>(R.id.user_mv_huancun) as MenuView
+        val user_mv_dingdan = view.findViewById<MenuView>(R.id.user_mv_dd) as MenuView
+        val gb_mv = view.findViewById<MenuView>(R.id.gb_mv) as MenuView
+        val user_mv_sc = view.findViewById<MenuView>(R.id.user_mv_sc) as MenuView
+        val user_mv_dy = view.findViewById<MenuView>(R.id.user_mv_dy) as MenuView//我的留言
+        val user_mv_youxi = view.findViewById<MenuView>(R.id.user_mv_youxi) as MenuView
+        val user_yijian = view.findViewById<MenuView>(R.id.user_mv_yijian) as MenuView;
+        val user_mv_quan = view.findViewById<MenuView>(R.id.user_mv_quan) as MenuView
+        val iv_set = view.findViewById<ImageView>(R.id.iv_set) as ImageView//设置按钮
+        val user_ll = view.findViewById<LinearLayout>(R.id.user_ll) as LinearLayout
+        val user_mv_fk = view.findViewById<MenuView>(R.id.user_mv_fk) as MenuView
+        lv_iv = view.findViewById<ImageView>(R.id.lv_iv) as ImageView
+        user_iv_header = view.findViewById<ImageView>(R.id.user_iv_header) as ImageView
+        main_srl = view.findViewById<MenuView>(R.id.main_srl) as SwipeRefreshLayout
+        user_mv_che = view.findViewById<MenuView>(R.id.user_mv_che) as MenuView
         main_srl!!.setOnRefreshListener {
             loadUser()
         }
@@ -88,7 +88,7 @@ class UserFragment : BaseFragment() {
                 startActivity(Intent(MainActivity.main, CarListActivity::class.java))
             }
         }
-        user_tv_name = view.findViewById(R.id.user_tv_name) as TextView
+        user_tv_name = view.findViewById<TextView>(R.id.user_tv_name) as TextView
         //个人中心
         user_iv_header!!.setOnClickListener {
             if (checkLogin()) {

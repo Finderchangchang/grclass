@@ -271,18 +271,37 @@ class UserFragment : BaseFragment() {
                         }
                         Log.i("--!!-------", common().toast_error(e!!) + "***" + Utils.getCache(key.KEY_USERID))
 
-                        Utils.putCache(key.KEY_SCHOOLID, "")
-                        //Utils.putCache(key.KEY_Tel, "")
-                        Utils.putCache("tel", "")
-                        Utils.putCache(key.KEY_PWd, "")
-                        Utils.putCache(key.KEY_WX, "")
-                        Utils.putCache(key.KEY_QQ, "")
-                        Utils.putCache(key.KEY_USERID, "")
-                        GlideImgManager.glideLoader(MainActivity.main, "", R.mipmap.defult_user, R.mipmap.defult_user, user_iv_header, 0)
-                        user_tv_name!!.text = "未登录"
+//                        Utils.putCache(key.KEY_SCHOOLID, "")
+//                        //Utils.putCache(key.KEY_Tel, "")
+//                        Utils.putCache("tel", "")
+//                        Utils.putCache(key.KEY_PWd, "")
+//                        Utils.putCache(key.KEY_WX, "")
+//                        Utils.putCache(key.KEY_QQ, "")
+//                        Utils.putCache(key.KEY_USERID, "")
+//                        GlideImgManager.glideLoader(MainActivity.main, "", R.mipmap.defult_user, R.mipmap.defult_user, user_iv_header, 0)
+//                        user_tv_name!!.text = "未登录"
                         //MainActivity.main!!.toast(common().toast_error(e!!))
 
                     }
                 })
+    }
+
+    fun login() {
+        var tel = Utils.getCache(key.KEY_Tel)
+        var pwd = Utils.getCache(key.KEY_PWd)
+        var wx = Utils.getCache(key.KEY_WX)
+        var qq = Utils.getCache(key.KEY_QQ)
+        if (!TextUtils.isEmpty(tel) && !TextUtils.isEmpty(pwd)) {
+            OkGo.post(url().public_api + "login")
+                    .params("username", tel)// 请求方式和请求url
+                    .params("password", pwd)// 请求方式和请求url
+                    .execute(object : JsonCallback<LzyResponse<UserModel>>() {
+                        override fun onSuccess(t: LzyResponse<UserModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+
+                        }
+                    })
+        }else if(!TextUtils.isEmpty(wx)){
+
+        }
     }
 }

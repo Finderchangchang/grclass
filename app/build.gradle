@@ -6,6 +6,11 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     useLibrary 'org.apache.http.legacy'
+    //解决jar包冲突的问题
+    packagingOptions {
+        exclude 'com.tencent.mm.opensdk'
+        exclude 'META-INF/LICENSE'
+    }
     defaultConfig {
         applicationId "wai.gr.cla"
         minSdkVersion 16
@@ -145,7 +150,7 @@ dependencies {
     compile 'liji.library.dev:citypickerview:2.0.1'
     compile 'com.github.chihane:JDAddressSelector:1.1.3'
     compile 'liji.library.dev:citypickerview:2.0.1'
-    compile (name:'bukasdk-release-2018-01-24', ext:'aar')
+    compile(name: 'bukasdk-release-2018-01-24', ext: 'aar')
 }
 repositories {
     flatDir {

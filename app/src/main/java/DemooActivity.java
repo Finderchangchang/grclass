@@ -491,7 +491,7 @@ public class DemooActivity extends Activity implements OnClickListener {
      **/
     private void initFrame() {
         setContentView(R.layout.activity_main1);
-        login = (TextView) findViewById(R.id.login);
+        login = findViewById(R.id.login);
         login.setOnClickListener(this);
         mStreamLayout = (LinearLayout) findViewById(R.id.stream_layout);
         mStreamLayout2 = (LinearLayout) findViewById(R.id.stream_layout_2);

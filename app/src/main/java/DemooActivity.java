@@ -24,9 +24,11 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,7 +99,6 @@ public class DemooActivity extends Activity implements OnClickListener {
 
                     @Override
                     public void onSuccess(Object o) {
-                        // TODO Auto-generated method stub
 
                     }
 
@@ -107,8 +108,7 @@ public class DemooActivity extends Activity implements OnClickListener {
 
                     }
                 });
-
-
+        logins();
     }
 
     @Override
@@ -219,8 +219,8 @@ public class DemooActivity extends Activity implements OnClickListener {
 //            play2();
 //        }
 
-        publish();
-        publish2();
+        //publish();
+        //publish2();
 
     }
 
@@ -257,7 +257,7 @@ public class DemooActivity extends Activity implements OnClickListener {
             @Override
             public void onSessionPackageLost() {
                 // TODO Auto-generated method stub
-                addLog("丢包，正在离线补包（暂未实现）", "#ff0000");
+                //addLog("丢包，正在离线补包（暂未实现）", "#ff0000");
             }
 
             @Override
@@ -485,6 +485,12 @@ public class DemooActivity extends Activity implements OnClickListener {
     }
 
     boolean isFirst = true;
+    TextView room_name_tv;
+    RelativeLayout room_name_rl;
+    RelativeLayout media_layout;
+    ImageView exit_iv;
+    ImageView message_iv;
+    TextView online_tv;//连麦操作
 
     /**
      * UI BEGIN
@@ -493,9 +499,15 @@ public class DemooActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main1);
         login = findViewById(R.id.login);
         login.setOnClickListener(this);
+        online_tv = findViewById(R.id.online_tv);//
+        message_iv = findViewById(R.id.message_iv);
+        exit_iv = findViewById(R.id.exit_iv);
+        media_layout = findViewById(R.id.media_layout);
+        room_name_rl = findViewById(R.id.room_name_rl);
+        room_name_tv = findViewById(R.id.room_name_tv);
         mStreamLayout = (LinearLayout) findViewById(R.id.stream_layout);
         mStreamLayout2 = (LinearLayout) findViewById(R.id.stream_layout_2);
-        mPlayLayout = (LinearLayout) findViewById(R.id.play_layout);
+        mPlayLayout = (LinearLayout) findViewById(R.id.play_layout);//老师推过来的流信息
         mPlayLayout2 = (LinearLayout) findViewById(R.id.play_layout_2);
         findViewById(R.id.logout).setOnClickListener(this);
         findViewById(R.id.chat).setOnClickListener(this);
@@ -532,7 +544,40 @@ public class DemooActivity extends Activity implements OnClickListener {
                 R.layout.simple_spinner_item);
         ipSpinnerAdapter
                 .setDropDownViewResource(R.layout.simple_spinner_textview);
+        room_name_rl.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String s="";
+                //right_is_open = !right_is_open;
+                //media_layout.setVisibility(right_is_open ? View.VISIBLE : View.GONE);
+            }
+        });
+        online_tv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (("上麦").equals(online_tv.getText())) {
+                    online_tv.setText("下麦");
+                } else {
+                    online_tv.setText("下麦");
+                }
+            }
+        });
+        exit_iv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+                finish();
+            }
+        });
+        message_iv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chat(null);
+            }
+        });
     }
+
+    boolean right_is_open = true;//true--右侧打开
 
     private void initAve() {
         bkrtc_impl.GetInstance().register(this);
@@ -541,21 +586,8 @@ public class DemooActivity extends Activity implements OnClickListener {
     }
 
     private void refreshFrame() {
-        if (BukaSDKManager.getUserManager().isLogin()) {
-            findViewById(R.id.login).setVisibility(View.GONE);
-            findViewById(R.id.tool_layout).setVisibility(View.VISIBLE);
-            findViewById(R.id.stream_tool).setVisibility(View.VISIBLE);
-            findViewById(R.id.media_layout).setVisibility(View.VISIBLE);
-            findViewById(R.id.content_list).setVisibility(View.VISIBLE);
-            findViewById(R.id.bg).setVisibility(View.GONE);
-        } else {
-            findViewById(R.id.login).setVisibility(View.VISIBLE);
-            findViewById(R.id.tool_layout).setVisibility(View.GONE);
-            findViewById(R.id.stream_tool).setVisibility(View.GONE);
-            findViewById(R.id.media_layout).setVisibility(View.GONE);
-            findViewById(R.id.content_list).setVisibility(View.GONE);
-            findViewById(R.id.bg).setVisibility(View.VISIBLE);
-        }
+        //logins();
+
     }
 
     /**
@@ -712,64 +744,85 @@ public class DemooActivity extends Activity implements OnClickListener {
                                     alert(getString(R.string.login_alert_hint));
                                     return;
                                 }
-                                show();
-                                setString(KEY_ROOM, edit.getText().toString());
-                                UserBean userBean = new UserBean();
-                                userBean.setUser_nickname(getStringForKey(
-                                        KEY_NICKNAME,
-                                        GB_SecurityUtils.getRandomNumber(10)));
-                                BukaSDKManager.getUserManager().login(
-                                        edit.getText().toString(),
-                                        GB_JsonUtils.toJson(userBean),
-                                        new ReceiptListener() {
 
-                                            @Override
-                                            public void onSuccess(Object o) {
-                                                // TODO Auto-generated method
-                                                // stub
-                                                refreshFrame();
-                                                userTitleText
-                                                        .setText(getString(
-                                                                R.string.user_title,
-                                                                BukaSDKManager
-                                                                        .getUserManager()
-                                                                        .getUserArr()
-                                                                        .size()));
-                                                addLog("当前房间人数"
-                                                        + BukaSDKManager
-                                                        .getUserManager()
-                                                        .getUserArr()
-                                                        .size());
-                                                dismiss();
-
-                                                List<Status> statusList = BukaSDKManager.getStatusManager().getStatusArr("stream");
-                                                if (statusList != null && statusList.size() > 0) {
-                                                    for (int i = 0; i < statusList.size(); i++) {
-                                                        if (isflag) {
-                                                            play(statusList.get(i));
-                                                        } else {
-                                                            play2(statusList.get(i));
-                                                        }
-                                                        isflag = !isflag;
-                                                    }
-                                                }
-
-                                                initTest();
-                                            }
-
-                                            @Override
-                                            public void onError() {
-                                                // TODO Auto-generated method
-                                                // stub
-                                                dismiss();
-                                                alert(getString(R.string.alert_exe_error));
-                                            }
-                                        });
                             }
                         }).create();
 
         alerdialog.setView(l);
         alerdialog.show();
+    }
+
+    //账号登录操作
+    void logins() {
+        show();
+        String room = "test";
+        setString(KEY_ROOM, room);
+        UserBean userBean = new UserBean();
+        userBean.setUser_nickname(getStringForKey(
+                KEY_NICKNAME,
+                GB_SecurityUtils.getRandomNumber(10)));
+        BukaSDKManager.getUserManager().login(
+                room,
+                GB_JsonUtils.toJson(userBean),
+                new ReceiptListener() {
+
+                    @Override
+                    public void onSuccess(Object o) {
+                        // TODO Auto-generated method
+                        // stub
+                        refreshFrame();
+                        userTitleText
+                                .setText(getString(
+                                        R.string.user_title,
+                                        BukaSDKManager
+                                                .getUserManager()
+                                                .getUserArr()
+                                                .size()));
+                        addLog("当前房间人数"
+                                + BukaSDKManager
+                                .getUserManager()
+                                .getUserArr()
+                                .size());
+                        dismiss();
+
+                        List<Status> statusList = BukaSDKManager.getStatusManager().getStatusArr("stream");
+                        if (statusList != null && statusList.size() > 0) {
+                            for (int i = 0; i < statusList.size(); i++) {
+                                if (isflag) {
+                                    play(statusList.get(i));
+                                } else {
+                                    play2(statusList.get(i));
+                                }
+                                isflag = !isflag;
+                            }
+                        }
+
+                        initTest();
+                        if (BukaSDKManager.getUserManager().isLogin()) {
+                            findViewById(R.id.login).setVisibility(View.GONE);
+                            //findViewById(R.id.tool_layout).setVisibility(View.VISIBLE);
+                            //findViewById(R.id.stream_tool).setVisibility(View.VISIBLE);
+                            findViewById(R.id.media_layout).setVisibility(View.VISIBLE);
+                            findViewById(R.id.content_list).setVisibility(View.VISIBLE);
+                            findViewById(R.id.bg).setVisibility(View.GONE);
+                        } else {
+                            findViewById(R.id.login).setVisibility(View.VISIBLE);
+                            findViewById(R.id.tool_layout).setVisibility(View.GONE);
+                            findViewById(R.id.stream_tool).setVisibility(View.GONE);
+                            findViewById(R.id.media_layout).setVisibility(View.GONE);
+                            findViewById(R.id.content_list).setVisibility(View.GONE);
+                            findViewById(R.id.bg).setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+                        // TODO Auto-generated method
+                        // stub
+                        dismiss();
+                        alert(getString(R.string.alert_exe_error));
+                    }
+                });
     }
 
     boolean isflag = true;

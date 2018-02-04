@@ -200,7 +200,10 @@
         <activity android:name=".ui.StartActivity">
 
         </activity>
-        <activity android:name=".DemooActivity">
+        <activity android:name=".DemooActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

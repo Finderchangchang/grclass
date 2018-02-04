@@ -43,14 +43,20 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/play_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible" />
+
     <RelativeLayout
         android:id="@+id/media_layout"
         android:layout_width="120dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/user_title"
@@ -83,23 +89,82 @@
             android:background="@color/app_red_color"
             android:gravity="center"
             android:textColor="@color/app_white_color"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <ListView
             android:id="@+id/user_list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_above="@id/server_base"
             android:layout_below="@id/user_title"
-            android:background="@color/app_bg_text_color"
             android:cacheColorHint="@null"
             android:clickable="true"
-            android:divider="@color/app_divider_color"
-            android:dividerHeight="1px"
+            android:divider="@null"
+            android:dividerHeight="0px"
             android:drawSelectorOnTop="false"
             android:fadingEdge="horizontal"
             android:listSelector="@null" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/online_tv"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="上麦"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/message_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:src="@mipmap/online_message"
+                android:padding="10dp" />
+
+            <ImageView
+                android:id="@+id/exit_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/online_exit"
+                android:padding="10dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/room_name_rl"
+            android:layout_width="120dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/room_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:text="房间一"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </LinearLayout>
     <!--
       <ListView
             android:id="@+id/content"
@@ -120,6 +185,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
         android:layout_toLeftOf="@id/media_layout"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
@@ -312,12 +378,6 @@
         android:orientation="horizontal"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/play_layout"
-        android:layout_width="160dp"
-        android:layout_height="90dp"
-        android:orientation="horizontal"
-        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/play_layout_2"

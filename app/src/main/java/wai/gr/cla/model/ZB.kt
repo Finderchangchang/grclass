@@ -9,5 +9,6 @@ class ZB {
     var info: ClassTag? = null
     var children: List<ZB>? = null
     var free_course: List<TuiJianModel>? = null
+    var zhibo_course: List<TuiJianModel>? = null
     var sale_course: PageModel<TuiJianModel>? = null
 }

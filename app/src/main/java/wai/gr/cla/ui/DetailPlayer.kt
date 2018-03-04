@@ -280,7 +280,7 @@ class DetailPlayer : BaseActivity() {
                                     play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
                                 }
                             } else {
-                                play(videos!![0].url!!, model!!.videos!![0].thumbnail!!, model!!.videos!![0].name!!)
+                                play(videos?.get(0)?.url!!, model?.videos?.get(0)?.thumbnail!!, model?.videos?.get(0)?.name!!)
                             }
 
                             //}

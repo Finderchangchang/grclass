@@ -10,6 +10,7 @@ class PJModel {
     var course_id: Int = 0
     var uid: Int = 0
     var content: String? = null
+    var reply_content: String? = null
     var cdate: String? = null
     var user: UserModel? = null
 }

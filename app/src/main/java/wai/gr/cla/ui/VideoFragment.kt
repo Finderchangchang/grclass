@@ -63,6 +63,7 @@ class VideoFragment() : Fragment() {
                     holder.setText(R.id.user_name_tv, model.user!!.nick)
                     holder.setText(R.id.time_tv, model.cdate)
                     holder.setText(R.id.count_tv, model.content)
+                    holder.setText(R.id.reply_tv, "回复：" + model.reply_content)
                 }
             }
         }

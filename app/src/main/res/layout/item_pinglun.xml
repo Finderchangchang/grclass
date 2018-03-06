@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     android:padding="10dp">
 
     <LinearLayout
@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:textSize="16sp"
             android:text="kcd232431234ks"
-            android:textColor="@color/hei" />
+            android:textColor="@color/hei"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/time_tv"
@@ -44,8 +44,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="55dp"
+        android:text="12"
+        android:textColor="@color/bottom_normal"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/reply_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dp"
         android:layout_marginTop="5dp"
         android:text="12"
+        android:textColor="@color/bottom_normal"
         android:textSize="12sp"
-        android:textColor="@color/bottom_normal" />
+        android:visibility="gone" />
 </LinearLayout>

@@ -33,7 +33,13 @@ class ZiXunDetailActivity : BaseActivity() {
     override fun initViews() {
         toolbar.setCentertv(intent.getStringExtra("title"))
         toolbar.setLeftClick { finish() }
+        is_tui = intent.getBooleanExtra("is_tui", false)
+        if (is_tui) {
+            pl_rl.visibility = View.GONE
+            zixun_tv_zuozhe.visibility = View.GONE
+            zixun_tv_ctime.visibility = View.GONE
 
+        }
         /*  handler = object : Handler() {
               override fun handleMessage(msg: Message) {
                   if (msg.what == 0x101) {
@@ -147,7 +153,11 @@ class ZiXunDetailActivity : BaseActivity() {
             bottom_ll.visibility = View.GONE
             //line_tv.visibility = View.GONE
         } else {
-            bottom_ll.visibility = View.VISIBLE
+            if (is_tui) {
+                bottom_ll.visibility = View.GONE
+            } else {
+                bottom_ll.visibility = View.VISIBLE
+            }
         }
         /*val t = Thread(object : Runnable {
             internal var msg = Message.obtain()
@@ -212,6 +222,7 @@ class ZiXunDetailActivity : BaseActivity() {
         OkGo.getInstance().cancelAll()//取消所有网络请求
     }
 
+    var is_tui = false
     fun refresh() {
         val cid = intent.getStringExtra("cid")
         is_dy = intent.getBooleanExtra("is_dy", false)

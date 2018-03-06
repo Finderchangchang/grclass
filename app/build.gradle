@@ -12,7 +12,7 @@ android {
         exclude 'META-INF/LICENSE'
     }
     defaultConfig {
-        applicationId "wai.gr.cla"
+        applicationId "wai.gr.cla1"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 9
@@ -31,8 +31,10 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME: "wai.gr.cla",
-                JPUSH_APPKEY : "716427c76ac2440224761648", //JPush上注册的包名对应的appkey.
+                JPUSH_PKGNAME: "wai.gr.cla1",
+                JPUSH_APPKEY : "9654bdb3d8cfc48542ed571f",//测试版ID
+//                JPUSH_PKGNAME: "wai.gr.cla",
+//                JPUSH_APPKEY : "716427c76ac2440224761648", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }

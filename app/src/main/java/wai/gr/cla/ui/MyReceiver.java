@@ -80,15 +80,4 @@ public class MyReceiver extends BroadcastReceiver {
         cid = gson.getNews_id();
     }
 
-    private void openNotification(Context context, Bundle bundle) {
-        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        String myValue = "";
-        try {
-            JSONObject extrasJson = new JSONObject(extras);
-            myValue = extrasJson.optString("myKey");
-        } catch (Exception e) {
-//            Logger.w(TAG, "Unexpected: extras is not a valid json", e);
-            return;
-        }
-    }
 }
